@@ -2,9 +2,11 @@
 import React from "react";
 import { Editor } from "slate-react";
 import { Value } from "slate";
-import hotKey from './hotKey';
 import serializer from './serializer'
 import initialValue from './initialValue.json'
+
+import hotKey from './plugins/hotKey';
+import markdownShortcut from './plugins/markdownShortcut';
 
 const CodeBlockNode = (props) => (
   <pre {...props.attributes}>
@@ -30,6 +32,7 @@ export default class EditorApp extends React.Component {
     hotKey({ key: '~', mark: true, type: 'strikethrough' }),
     hotKey({ key: 'u', mark: true, type: 'underline' }),
     hotKey({ key: '1', node: true, type: 'code' }),
+    markdownShortcut()
   ]
  
   onChange = ({ value }) => {
