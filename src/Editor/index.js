@@ -27,8 +27,18 @@ export default class EditorApp extends React.Component {
     hotKey({ key: '1', node: true, type: 'code-block' }),
     markdownShortcut(),
     softBreak(),
-    link()
+    // link()
   ]
+
+  hasMark = type => {
+    const { value } = this.state
+    return value.activeMarks.some(mark => mark.type == type)
+  }
+
+  hasBlock = type => {
+    const { value } = this.state
+    return value.blocks.some(node => node.type == type)
+  }
    
   onChange = ({ value }) => {
     this.setState({ value })
@@ -46,8 +56,8 @@ export default class EditorApp extends React.Component {
     console.log(serializer.serialize(this.state.value))
   }
 
-  onClickLink = event => {
-    event.preventDefault()
+  onClickLink = e => {
+    e.preventDefault()
     const { value } = this.state
     const hasLinks = value.inlines.some(inline => inline.type == "link");
     const change = value.change()
@@ -58,13 +68,13 @@ export default class EditorApp extends React.Component {
       const href = window.prompt('Enter the URL of the link:')
       change.wrapInline({ type: "link", data: { href } });
       change.collapseToEnd();
-    } else {
-      const href = window.prompt('Enter the URL of the link:')
-      const text = window.prompt('Enter the text for the link:')
-      change
-        .insertText(text)
-        .extend(0 - text.length)
-        .wrapInline({ type: "link", data: { href } });
+    // } else {
+    //   const href = window.prompt('Enter the URL of the link:')
+    //   const text = window.prompt('Enter the text for the link:')
+    //   change
+    //     .insertText(text)
+    //     .extend(0 - text.length)
+    //     .wrapInline({ type: "link", data: { href } });
     }
 
     this.onChange(change)
@@ -120,17 +130,44 @@ export default class EditorApp extends React.Component {
         return <u>{props.children}</u>;
     }
   }
+
+  renderToolbar = () => {
+    return (
+      <div>
+        <button
+          className={this.hasMark('bold') ? 'active' : ''}
+          onMouseDown={e => this.onClickMark(e, "bold")}>
+          <b>B</b>
+        </button>
+        <button
+          className={this.hasMark('italic') ? 'active' : ''}
+          onMouseDown={e => this.onClickMark(e, "italic")}>
+          <i>i</i>
+        </button>
+        <button
+          className={this.hasMark('underline') ? 'active' : ''}
+          onMouseDown={e => this.onClickMark(e, "underline")}>
+          <u>u</u>
+        </button>
+        <button
+          className={this.hasMark('code') ? 'active' : ''}
+          onMouseDown={e => this.onClickMark(e, "code")}>
+          <code>code</code>
+        </button>
+        <button
+          onMouseDown={this.onClickLink}>
+          link
+        </button>
+        <br />
+        <button onMouseDown={this.onSerialize}>serialize</button>
+      </div>
+    )
+  }
  
   render() {
     return (
       <div>
-        <button onMouseDown={(e) => this.onClickMark(e, 'bold')}><b>B</b></button>
-        <button onMouseDown={(e) => this.onClickMark(e, 'italic')}><i>i</i></button>
-        <button onMouseDown={(e) => this.onClickMark(e, 'underline')}><u>u</u></button>
-        <button onMouseDown={(e) => this.onClickMark(e, 'code')}>code</button>
-        <button onMouseDown={this.onClickLink}>link</button>
-        <br />
-        <button onMouseDown={this.onSerialize}>serialize</button>
+        { this.renderToolbar() }
         <Editor
           plugins={this.plugins}
           value={this.state.value}

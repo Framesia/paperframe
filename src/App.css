@@ -40,3 +40,29 @@ blockquote {
   font-weight: 300;
   color: #777;
 }
+
+button {
+  padding: 10px 15px;
+  /* height: 30px; */
+  font-size: 14px;
+  border-radius: 2px;
+  /* background: #222;
+  color: #eee; */
+  outline: none;
+  border: none;
+  margin: 0 5px 5px 0;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+button code {
+  padding: 0;
+  font-size: inherit;
+  background: none;
+  color: inherit;
+}
+
+button.active {
+  background: tomato;
+  /* color: #eee; */
+}
