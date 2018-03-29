@@ -1,9 +1,10 @@
 
-@import url('https://fonts.googleapis.com/css?family=Alegreya');
+/* @import url('https://fonts.googleapis.com/css?family=Alegreya'); */
+@import url('https://fonts.googleapis.com/css?family=Muli|Crimson+Text|Josefin+Slab');
 
 body {
-  font-size: 20px;
-  /* font-family: 'Alegreya', serif; */
+  font-size: 16px;
+  font-family: 'Muli', sans-serif;
 }
 
 .wrapper {
@@ -13,8 +14,12 @@ body {
 }
 
 p, li {
-  font-family: 'Alegreya', serif;
+  font-size: 20px;
+  font-family: 'Crimson Text', serif;
   line-height: 1.6;
+  margin: 5px 0;
+  font-weight: 300;
+  /* letter-spacing: -.02em; */
 }
 
 strong, b {
@@ -36,9 +41,10 @@ pre {
 }
 
 blockquote {
-  font-size: 1.2em;
+  font-size: 28px;
   font-weight: 300;
   color: #777;
+  font-family: 'Josefin Slab', serif;
 }
 
 button {
@@ -65,4 +71,14 @@ button code {
 button.active {
   background: tomato;
   /* color: #eee; */
+}
+
+h1, h2 {
+  font-size: 30px;
+  margin-bottom: 0;
+}
+h3, h4 {
+  font-weight: normal;
+  font-size: 24px;
+  margin-bottom: 0;
 }
