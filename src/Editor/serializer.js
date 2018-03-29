@@ -93,6 +93,8 @@ const serializeMark = (obj, children) => {
         return <u>{children}</u>;
       case "code":
         return <code>{children}</code>;
+      case "strikethrough":
+        return <del>{children}</del>;
     }
   }
 }
