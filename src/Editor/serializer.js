@@ -3,7 +3,17 @@ import Html from "slate-html-serializer";
 
 const BLOCK_TAGS = {
   p: "paragraph",
-  pre: "codeBlock"
+  pre: "code-block",
+  h1: "heading-one",
+  h2: "heading-two",
+  h3: "heading-three",
+  h4: "heading-four",
+  h5: "heading-five",
+  h6: "heading-six",
+  blockquote: "block-quote",
+  ol: "numbered-list",
+  ul: "bulleted-list",
+  li: "bulleted-item",
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
@@ -27,14 +37,36 @@ const deserializeNode = (el, next) => {
 const serializeNode = (obj, children) => {
   if (obj.object == "block") {
     switch (obj.type) {
-      case "code":
+      case "paragraph":
+        return <p>{children}</p>;
+      case "code-block":
         return (
           <pre>
             <code>{children}</code>
           </pre>
         );
-      case "paragraph":
-        return <p>{children}</p>;
+      case "heading-one":
+        return <h1>{children}</h1>;
+      case "heading-two":
+        return <h2>{children}</h2>;
+      case "heading-three":
+        return <h3>{children}</h3>;
+      case "heading-four":
+        return <h4>{children}</h4>;
+      case "heading-five":
+        return <h5>{children}</h5>;
+      case "heading-six":
+        return <h6>{children}</h6>;
+      case "block-quote":
+        return <blockquote>{children}</blockquote>;
+      case "numbered-list":
+        return <ol>{children}</ol>;
+      case "bulleted-list":
+        return <ul>{children}</ul>;
+      case "bulleted-item":
+        return <li>{children}</li>;
+      case "numbered-item":
+        return <li>{children}</li>;
     }
   }
 }

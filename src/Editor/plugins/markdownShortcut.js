@@ -4,21 +4,19 @@ const markdownShortcut = () => {
       case "*":
       case "-":
       case "+":
-        return "list-item";
-      // case ">":
-      //   return "block-quote";
-      // case "#":
-      //   return "heading-one";
-      // case "##":
-      //   return "heading-two";
-      // case "###":
-      //   return "heading-three";
-      // case "####":
-      //   return "heading-four";
-      // case "#####":
-      //   return "heading-five";
-      // case "######":
-      //   return "heading-six";
+        return "bulleted-item";
+      case "1.":
+        return "numbered-item";
+      case ">":
+        return "block-quote";
+      case "#":
+        return "heading-one";
+      case "##":
+        return "heading-two";
+      case "###":
+        return "heading-three";
+      // case "```":
+      //   return "code-block";
       default:
         return null;
     }
@@ -33,13 +31,18 @@ const markdownShortcut = () => {
     const type = getType(chars)
 
     if (!type) return
-    if (type == 'list-item' && startBlock.type == 'list-item') return
+    if (
+      (type == 'bulleted-item' && startBlock.type == 'bulleted-item') ||
+      (type == 'numbered-item' && startBlock.type == 'numbered-item')
+    ) return
     event.preventDefault()
 
     change.setBlocks(type)
 
-    if (type == 'list-item') {
+    if (type == 'bulleted-item') {
       change.wrapBlock('bulleted-list')
+    } else if (type == 'numbered-item') {
+      change.wrapBlock('numbered-list')
     }
 
     change.extendToStartOf(startBlock).delete()
@@ -58,8 +61,10 @@ const markdownShortcut = () => {
     event.preventDefault()
     change.setBlocks('paragraph')
 
-    if (startBlock.type == 'list-item') {
-      change.unwrapBlock('bulleted-list')
+    if (startBlock.type == "bulleted-item") {
+      change.unwrapBlock("bulleted-list");
+    } else if (startBlock.type == "numbered-item") {
+      change.unwrapBlock("numbered-list");
     }
 
     return true

@@ -2,8 +2,8 @@
 @import url('https://fonts.googleapis.com/css?family=Alegreya');
 
 body {
-  font-family: 'Alegreya', serif;
   font-size: 20px;
+  /* font-family: 'Alegreya', serif; */
 }
 
 .wrapper {
@@ -12,7 +12,8 @@ body {
   padding: 15px;
 }
 
-p {
+p, li {
+  font-family: 'Alegreya', serif;
   line-height: 1.6;
 }
 
@@ -21,7 +22,7 @@ strong, b {
 }
 
 code {
-  font-size: 14px;
+  font-size: 15px;
   padding: 3px 5px;
   background: #eee;
 }
@@ -29,5 +30,13 @@ code {
 pre {
   background: #eee;
   padding: 20px;
-  overflow-x: scroll;
+  font-size: 16px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+blockquote {
+  font-size: 1.2em;
+  font-weight: 300;
+  color: #777;
 }

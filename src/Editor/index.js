@@ -8,18 +8,7 @@ import initialValue from './initialValue.json'
 import hotKey from './plugins/hotKey';
 import markdownShortcut from './plugins/markdownShortcut';
 
-const CodeBlockNode = (props) => (
-  <pre {...props.attributes}>
-    <code>{props.children}</code>
-  </pre>
-)
-
-const ParagraphNode = (props) => (
-  <p {...props.attributes}>{props.children}</p>
-)
-
 export default class EditorApp extends React.Component {
-  
   
   state = {
     value: Value.fromJSON(initialValue),
@@ -31,12 +20,19 @@ export default class EditorApp extends React.Component {
     hotKey({ key: 'i', mark: true, type: 'italic' }),
     hotKey({ key: '~', mark: true, type: 'strikethrough' }),
     hotKey({ key: 'u', mark: true, type: 'underline' }),
-    hotKey({ key: '1', node: true, type: 'code' }),
+    hotKey({ key: '1', node: true, type: 'code-block' }),
     markdownShortcut()
   ]
  
   onChange = ({ value }) => {
     this.setState({ value })
+  }
+
+  onClickMark = (e, type) => {
+    e.preventDefault()
+    const { value } = this.state
+    const change = value.change().toggleMark(type)
+    this.onChange(change)
   }
 
   onSerialize = () => {
@@ -46,10 +42,32 @@ export default class EditorApp extends React.Component {
 
   renderNode = (props) => {
     switch (props.node.type) {
-      case 'code':
-        return <CodeBlockNode {...props} />
-      case 'paragraph':
-        return <ParagraphNode {...props} />
+      case "code-block":
+        return <pre {...props.attributes}>{props.children}</pre>;
+      case "paragraph":
+        return <p {...props.attributes}>{props.children}</p>;
+      case "bulleted-list":
+        return <ul {...props.attributes}>{props.children}</ul>;
+      case "numbered-list":
+        return <ol {...props.attributes}>{props.children}</ol>;
+      case "bulleted-item":
+        return <li {...props.attributes}>{props.children}</li>;
+      case "numbered-item":
+        return <li {...props.attributes}>{props.children}</li>;
+      case "heading-one":
+        return <h1 {...props.attributes}>{props.children}</h1>;
+      case "heading-two":
+        return <h2 {...props.attributes}>{props.children}</h2>;
+      case "heading-three":
+        return <h3 {...props.attributes}>{props.children}</h3>;
+      case "heading-four":
+        return <h4 {...props.attributes}>{props.children}</h4>;
+      case "heading-five":
+        return <h5 {...props.attributes}>{props.children}</h5>;
+      case "heading-six":
+        return <h6 {...props.attributes}>{props.children}</h6>;
+      case "block-quote":
+        return <blockquote {...props.attributes}>{props.children}</blockquote>;
     }
   }
 
@@ -65,13 +83,21 @@ export default class EditorApp extends React.Component {
         return <del>{props.children}</del>;
       case "underline":
         return <u>{props.children}</u>;
+      case "link":
+        return <a href="test">{props.children}</a>;
     }
   }
  
   render() {
     return (
       <div>
-        <button onClick={this.onSerialize}>Serialize</button>
+        <button onMouseDown={(e) => this.onClickMark(e, 'bold')}>B</button>
+        <button onMouseDown={(e) => this.onClickMark(e, 'italic')}>i</button>
+        <button onMouseDown={(e) => this.onClickMark(e, 'underline')}>u</button>
+        <button onMouseDown={(e) => this.onClickMark(e, 'code')}>`</button>
+        <button onMouseDown={(e) => this.onClickMark(e, 'link')}>`</button>
+        <br />
+        <button onMouseDown={this.onSerialize}>serialize</button>
         <Editor
           plugins={this.plugins}
           value={this.state.value}
