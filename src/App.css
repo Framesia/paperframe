@@ -1,10 +1,18 @@
 
 /* @import url('https://fonts.googleapis.com/css?family=Alegreya'); */
-@import url('https://fonts.googleapis.com/css?family=Muli|Crimson+Text|Josefin+Slab');
+/* @import url('https://fonts.googleapis.com/css?family=Muli|Crimson+Text:400,400i|Josefin+Slab'); */
 
 body {
   font-size: 16px;
   font-family: 'Muli', sans-serif;
+}
+
+.wf-loading * {
+  color: rgba(22,22,22,0);
+}
+
+.wf-active * {
+  color: rgba(22,22,22,1);
 }
 
 .wrapper {
@@ -12,7 +20,9 @@ body {
   max-width: 600px;
   padding: 15px;
 }
-
+button {
+  font-family: 'Muli', sans-serif;
+}
 p, li {
   font-size: 20px;
   font-family: 'Crimson Text', serif;
@@ -41,9 +51,9 @@ pre {
 }
 
 blockquote {
-  font-size: 28px;
+  font-size: 30px;
   font-weight: 300;
-  color: #777;
+  opacity: .7;
   font-family: 'Josefin Slab', serif;
 }
 
