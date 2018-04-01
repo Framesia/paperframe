@@ -32,16 +32,20 @@ export default class EditorApp extends React.Component {
       transform: (transform, e, matches) => transform.setBlocks({ type: 'block-quote' })
     }),
     AutoReplace({
-      trigger: 'space', before: /^(#)$/,
-      transform: (transform, e, matches) => transform.setBlocks({ type: 'heading-one' })
+      trigger: 'space', before: /^(#{1,3})$/,
+      transform: (transform, e, matches) => {
+        const { length } = matches.before[0]
+        let type = 'heading-one'
+        if (length === 2) { type = 'heading-two' }
+        else if (length === 3) { type = 'heading-three' }
+        return transform.setBlocks({ type })
+      }
     }),
     AutoReplace({
       trigger: 'space', before: /^(-|\*|\+)$/,
-      transform: (transform, e, matches) => {
-        console.log(transform)
+      transform: (transform, e, matches) => {        
         return transform
           .setBlocks({ type: 'bulleted-item' })
-          // .wrapBlock({ type: 'bulleted-item' })
           .wrapBlock({ type: 'bulleted-list' })
       }
     }),
@@ -54,8 +58,12 @@ export default class EditorApp extends React.Component {
       }
     }),
     AutoReplace({
-      trigger: 'enter', before: /^()$/,
-      transform: (transform, e, matches) => transform.setBlock({ type: 'paragraph' })
+      trigger: 'enter', before: /^(---)$/,
+      transform: (transform, e, matches) => {
+        return transform
+          .setBlock({ type: 'divider', isVoid: true })
+          .insertBlock({ type: 'paragraph' })
+      }
     })
     // markdownShortcut(),
     // softBreak(),
@@ -190,6 +198,8 @@ export default class EditorApp extends React.Component {
         const href = data.get("href");
         return <a {...props.attributes} href={href}>{props.children}</a>;
       }
+      case "divider":
+        return <hr />;
     }
   }
 
