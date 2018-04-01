@@ -1,12 +1,13 @@
 // Import React!
 import React from "react";
 import { Editor } from "slate-react";
+import AutoReplace from "slate-auto-replace";
 import { Value } from "slate";
 import serializer from './serializer'
 import initialValue from './initialValue.json'
 
 import hotKey from './plugins/hotKey';
-import markdownShortcut from './plugins/markdownShortcut';
+import normalize from './plugins/normalize';
 import softBreak from './plugins/softBreak';
 import link from './plugins/link';
 
@@ -19,14 +20,45 @@ export default class EditorApp extends React.Component {
   }
 
   plugins = [
+    normalize(this.state.value),
     hotKey({ key: 'b', mark: true, type: 'bold' }),
     hotKey({ key: '`', mark: true, type: 'code' }),
     hotKey({ key: 'i', mark: true, type: 'italic' }),
     hotKey({ key: '~', mark: true, type: 'strikethrough' }),
     hotKey({ key: 'u', mark: true, type: 'underline' }),
     hotKey({ key: '1', node: true, type: 'code-block' }),
-    markdownShortcut(),
-    softBreak(),
+    AutoReplace({
+      trigger: 'space', before: /^(>)$/,
+      transform: (transform, e, matches) => transform.setBlocks({ type: 'block-quote' })
+    }),
+    AutoReplace({
+      trigger: 'space', before: /^(#)$/,
+      transform: (transform, e, matches) => transform.setBlocks({ type: 'heading-one' })
+    }),
+    AutoReplace({
+      trigger: 'space', before: /^(-|\*|\+)$/,
+      transform: (transform, e, matches) => {
+        console.log(transform)
+        return transform
+          .setBlocks({ type: 'bulleted-item' })
+          // .wrapBlock({ type: 'bulleted-item' })
+          .wrapBlock({ type: 'bulleted-list' })
+      }
+    }),
+    AutoReplace({
+      trigger: 'space', before: /^(1.)$/,
+      transform: (transform, e, matches) => {
+        return transform
+          .setBlock({ type: 'numbered-item' })
+          .wrapBlock({ type: 'numbered-list' })
+      }
+    }),
+    AutoReplace({
+      trigger: 'enter', before: /^()$/,
+      transform: (transform, e, matches) => transform.setBlock({ type: 'paragraph' })
+    })
+    // markdownShortcut(),
+    // softBreak(),
     // link()
   ]
 
@@ -48,6 +80,51 @@ export default class EditorApp extends React.Component {
     e.preventDefault()
     const { value } = this.state
     const change = value.change().toggleMark(type)
+    this.onChange(change)
+  }
+
+  onClickBlock = (event, type) => {
+    event.preventDefault()
+    const { value } = this.state
+    const change = value.change()
+    const { document } = value
+
+    // Handle everything but list buttons.
+    if (type != 'bulleted-list' && type != 'numbered-list') {
+      const isActive = this.hasBlock(type)
+      const isList = this.hasBlock('list-item')
+
+      if (isList) {
+        change
+          .setBlocks(isActive ? 'paragraph' : type)
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list')
+      } else {
+        change.setBlocks(isActive ? 'paragraph' : type)
+      }
+    } else {
+      // Handle the extra wrapping required for list buttons.
+      const isList = this.hasBlock('list-item')
+      const isType = value.blocks.some(block => {
+        return !!document.getClosest(block.key, parent => parent.type == type)
+      })
+
+      if (isList && isType) {
+        change
+          .setBlocks('paragraph')
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list')
+      } else if (isList) {
+        change
+          .unwrapBlock(
+            type == 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
+          )
+          .wrapBlock(type)
+      } else {
+        change.setBlocks('list-item').wrapBlock(type)
+      }
+    }
+
     this.onChange(change)
   }
 
@@ -155,11 +232,43 @@ export default class EditorApp extends React.Component {
           <code>code</code>
         </button>
         <button
+          className={
+            this.state.value.inlines.some(
+              inline => inline.type == 'link'
+            ) ? 'active' : ''
+          }
           onMouseDown={this.onClickLink}>
           link
         </button>
-        <br />
-        <button onMouseDown={this.onSerialize}>serialize</button>
+        <button
+          className={this.hasBlock('heading-one') ? 'active' : ''}
+          onMouseDown={e => this.onClickBlock(e, "heading-one")}>
+          H1
+        </button>
+        <button
+          className={this.hasBlock('heading-two') ? 'active' : ''}
+          onMouseDown={e => this.onClickBlock(e, "heading-two")}>
+          H2
+        </button>
+        <button
+          className={(
+            this.hasBlock('heading-three') ||
+            this.hasBlock('heading-four') ||
+            this.hasBlock('heading-five') ||
+            this.hasBlock('heading-six')
+          ) ? 'active' : ''}
+          onMouseDown={e => this.onClickBlock(e, "heading-three")}>
+          H3
+        </button>
+        <button
+          className={this.hasBlock('block-quote') ? 'active' : ''}
+          onMouseDown={e => this.onClickBlock(e, "block-quote")}>
+          quote
+        </button>
+        <button
+          onMouseDown={this.onSerialize}>
+          serialize
+        </button>
       </div>
     )
   }

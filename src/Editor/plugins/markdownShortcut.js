@@ -15,6 +15,14 @@ const markdownShortcut = () => {
         return "heading-two";
       case "###":
         return "heading-three";
+      case "---":
+        return "separator";
+      // case "####":
+      //   return "heading-four";
+      // case "#####":
+      //   return "heading-five";
+      // case "######":
+      //   return "heading-six";
       // case "```":
       //   return "code-block";
       default:
@@ -56,7 +64,7 @@ const markdownShortcut = () => {
     if (value.startOffset != 0) return
 
     const { startBlock } = value
-    if (startBlock.type == 'paragraph') return
+    // if (startBlock.type == 'paragraph') return
 
     event.preventDefault()
     change.setBlocks('paragraph')
@@ -65,6 +73,8 @@ const markdownShortcut = () => {
       change.unwrapBlock("bulleted-list");
     } else if (startBlock.type == "numbered-item") {
       change.unwrapBlock("numbered-list");
+    } else {
+      // startBlock.
     }
 
     return true
