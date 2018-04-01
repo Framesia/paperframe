@@ -1,15 +1,18 @@
 // Import React!
 import React from "react";
-import { Editor } from "slate-react";
-import AutoReplace from "slate-auto-replace";
 import { Value } from "slate";
+import { Editor } from "slate-react";
+
+import AutoReplace from "slate-auto-replace";
+import SoftBreak from "slate-soft-break"
+
 import serializer from './serializer'
 import initialValue from './initialValue.json'
 
 import hotKey from './plugins/hotKey';
 import normalize from './plugins/normalize';
-import softBreak from './plugins/softBreak';
-import link from './plugins/link';
+// import softBreak from './plugins/softBreak';
+// import link from './plugins/link';
 
 // import isUrl from 'is-url'
 
@@ -45,36 +48,44 @@ export default class EditorApp extends React.Component {
       trigger: 'space', before: /^(-|\*|\+)$/,
       transform: (transform, e, matches) => {        
         return transform
-          .setBlocks({ type: 'bulleted-item' })
-          .wrapBlock({ type: 'bulleted-list' })
+        .setBlocks({ type: 'bulleted-item' })
+        .wrapBlock({ type: 'bulleted-list' })
       }
     }),
     AutoReplace({
       trigger: 'space', before: /^(1.)$/,
       transform: (transform, e, matches) => {
         return transform
-          .setBlock({ type: 'numbered-item' })
-          .wrapBlock({ type: 'numbered-list' })
+        .setBlock({ type: 'numbered-item' })
+        .wrapBlock({ type: 'numbered-list' })
       }
     }),
     AutoReplace({
       trigger: 'enter', before: /^(---)$/,
       transform: (transform, e, matches) => {
         return transform
-          .setBlock({ type: 'divider', isVoid: true })
-          .insertBlock({ type: 'paragraph' })
+        .setBlock({ type: 'divider', isVoid: true })
+        .insertBlock({ type: 'paragraph' })
       }
-    })
+    }),
+    AutoReplace({
+      trigger: 'enter', before: /^(```)$/,
+      transform: (transform, e, matches) => {
+        return transform
+        .setBlock({ type: 'code-block' })
+      }
+    }),
     // markdownShortcut(),
     // softBreak(),
     // link()
+    SoftBreak({ shift: true }),
   ]
-
+  
   hasMark = type => {
     const { value } = this.state
     return value.activeMarks.some(mark => mark.type == type)
   }
-
+  
   hasBlock = type => {
     const { value } = this.state
     return value.blocks.some(node => node.type == type)
@@ -83,7 +94,7 @@ export default class EditorApp extends React.Component {
   onChange = ({ value }) => {
     this.setState({ value })
   }
-
+  
   onClickMark = (e, type) => {
     e.preventDefault()
     const { value } = this.state

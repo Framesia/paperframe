@@ -6268,6 +6268,10 @@ slate-schema-violations@^0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/slate-schema-violations/-/slate-schema-violations-0.1.7.tgz#cf2c6156eaf545f4d1985d3d1b94c50d6d273a08"
 
+slate-soft-break@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/slate-soft-break/-/slate-soft-break-0.6.0.tgz#1e44815b7ff4ddada055bba14cd0d2d4ef0fd463"
+
 slate@^0.33.3:
   version "0.33.3"
   resolved "https://registry.yarnpkg.com/slate/-/slate-0.33.3.tgz#e9eb2f7c2740a46d45eb7b60c1f4da6699285878"
