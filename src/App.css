@@ -17,7 +17,7 @@ body {
 .wrapper {
   margin: 0 auto;
   max-width: 600px;
-  padding: 15px;
+  padding: 10px;
 }
 button {
   font-family: "Muli", sans-serif;
@@ -38,6 +38,10 @@ p {
 strong,
 b {
   /* font-size: 18.5px; */
+}
+u {
+  text-decoration: none;
+  border-bottom: solid 1px #999;
 }
 
 code {
@@ -65,7 +69,7 @@ blockquote code {
 pre {
   background: #eee;
   padding: 20px;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
   white-space: pre-wrap;
 }
@@ -123,9 +127,34 @@ h6 {
   margin-bottom: 0;
 }
 
+hr {
+  overflow: visible;
+  padding: 0;
+  border: none;
+  border-top: solid 1px #eee;
+  color: #eee;
+  text-align: center;
+  max-width: 300px;
+  margin: 30px auto;
+}
+hr:after {
+  content: "❦";
+  color: #444;
+  display: inline-block;
+  position: relative;
+  top: -0.7em;
+  font-size: 1.4em;
+  padding: 0 0.5em;
+  background: white;
+}
 a {
-  opacity: 0.6;
+  opacity: 0.8;
   text-decoration: none;
+  border-bottom: dotted 1px #999;
+}
+
+.editor {
+  padding: 20px 10px;
 }
 
 .toolbar {

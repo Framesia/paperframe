@@ -14,29 +14,70 @@ import normalize from "./plugins/normalize";
 // import softBreak from './plugins/softBreak';
 // import link from './plugins/link';
 
-import BoldIcon from "../Icons/BoldIcon";
-import ItalicIcon from "../Icons/ItalicIcon";
+import Icons from "./Icons";
 
 // import isUrl from 'is-url'
 
 export default class EditorApp extends React.Component {
-  state = {
-    value: Value.fromJSON(initialValue)
-  };
+  state = { value: Value.fromJSON(initialValue) };
 
   plugins = [
     normalize(this.state.value),
-    hotKey({ key: "b", mark: true, type: "bold" }),
-    hotKey({ key: "`", mark: true, type: "code" }),
-    hotKey({ key: "i", mark: true, type: "italic" }),
-    hotKey({ key: "~", mark: true, type: "strikethrough" }),
-    hotKey({ key: "u", mark: true, type: "underline" }),
-    hotKey({ key: "1", node: true, type: "code-block" }),
+    hotKey({
+      key: "b",
+      mark: true,
+      type: "bold"
+    }),
+    hotKey({
+      key: "`",
+      mark: true,
+      type: "code"
+    }),
+    hotKey({
+      key: "i",
+      mark: true,
+      type: "italic"
+    }),
+    hotKey({
+      key: "~",
+      mark: true
+    }),
+    hotKey({
+      key: "u",
+      mark: true,
+      type: "underline"
+    }),
+    hotKey({
+      key: "1",
+      alt: true,
+      node: true,
+      type: "heading-one"
+    }),
+    hotKey({
+      key: "2",
+      alt: true,
+      node: true,
+      type: "heading-two"
+    }),
+    hotKey({
+      key: "3",
+      alt: true,
+      node: true,
+      type: "heading-three"
+    }),
+    hotKey({
+      key: "4",
+      alt: true,
+      node: true,
+      type: "block-quote"
+    }),
     AutoReplace({
       trigger: "space",
       before: /^(>)$/,
       transform: (transform, e, matches) =>
-        transform.setBlocks({ type: "block-quote" })
+        transform.setBlocks({
+          type: "block-quote"
+        })
     }),
     AutoReplace({
       trigger: "space",
@@ -75,7 +116,10 @@ export default class EditorApp extends React.Component {
       before: /^(---)$/,
       transform: (transform, e, matches) => {
         return transform
-          .setBlock({ type: "divider", isVoid: true })
+          .setBlock({
+            type: "divider",
+            isVoid: true
+          })
           .insertBlock({ type: "paragraph" });
       }
     }),
@@ -83,10 +127,11 @@ export default class EditorApp extends React.Component {
       trigger: "enter",
       before: /^(```)$/,
       transform: (transform, e, matches) => {
-        return transform.setBlock({ type: "code-block" });
+        return transform.setBlock({
+          type: "code-block"
+        });
       }
-    }),
-    // markdownShortcut(),
+    }), // markdownShortcut(),
     // softBreak(),
     // link()
     SoftBreak({ shift: true })
@@ -172,7 +217,10 @@ export default class EditorApp extends React.Component {
       change.unwrapInline("link");
     } else if (value.isExpanded) {
       const href = window.prompt("Enter the URL of the link:");
-      change.wrapInline({ type: "link", data: { href } });
+      change.wrapInline({
+        type: "link",
+        data: { href }
+      });
       change.collapseToEnd();
       // } else {
       //   const href = window.prompt('Enter the URL of the link:')
@@ -244,35 +292,54 @@ export default class EditorApp extends React.Component {
   };
 
   renderToolbar = () => {
+    const Mark = type => (
+      <button
+        className={this.hasMark(type) ? "active" : ""}
+        onMouseDown={e => this.onClickMark(e, type)}
+      >
+        <Icons type={type} />
+      </button>
+    );
+    let block = "paragraph";
+    if (this.hasBlock("heading-one")) {
+      block = "heading-one";
+    } else if (this.hasBlock("heading-two")) {
+      block = "heading-two";
+    } else if (
+      this.hasBlock("heading-three") ||
+      this.hasBlock("heading-four") ||
+      this.hasBlock("heading-five") ||
+      this.hasBlock("heading-six")
+    ) {
+      block = "heading-three";
+    } else if (this.hasBlock("block-quote")) {
+      block = "block-quote";
+    }
     return (
       <div className="toolbar">
         <div className="toolbar-group">
-          <button
-            className={this.hasMark("bold") ? "active" : ""}
-            onMouseDown={e => this.onClickMark(e, "bold")}
+          <select
+            value={block}
+            onChange={e => this.onClickBlock(e, e.target.value)}
           >
-            <BoldIcon />
-          </button>
-          <button
-            className={this.hasMark("italic") ? "active" : ""}
-            onMouseDown={e => this.onClickMark(e, "italic")}
-          >
-            <ItalicIcon />
-          </button>
-          <button
-            className={this.hasMark("underline") ? "active" : ""}
-            onMouseDown={e => this.onClickMark(e, "underline")}
-          >
-            <u>u</u>
-          </button>
+            <option value="paragraph">
+              <p>Paragraph</p>
+            </option>
+            <option value="heading-one">
+              <h1>Big Header</h1>
+            </option>
+            <option value="heading-two">Medium Header</option>
+            <option value="heading-three">Small Header</option>
+            <option value="block-quote">Quote</option>
+          </select>
         </div>
         <div className="toolbar-group">
-          <button
-            className={this.hasMark("code") ? "active" : ""}
-            onMouseDown={e => this.onClickMark(e, "code")}
-          >
-            <code>code</code>
-          </button>
+          {Mark("bold")}
+          {Mark("italic")}
+          {Mark("underline")}
+        </div>
+        <div className="toolbar-group">
+          {Mark("code")}
           <button
             className={
               this.state.value.inlines.some(inline => inline.type == "link")
@@ -284,37 +351,6 @@ export default class EditorApp extends React.Component {
             link
           </button>
         </div>
-        <button
-          className={this.hasBlock("heading-one") ? "active" : ""}
-          onMouseDown={e => this.onClickBlock(e, "heading-one")}
-        >
-          H1
-        </button>
-        <button
-          className={this.hasBlock("heading-two") ? "active" : ""}
-          onMouseDown={e => this.onClickBlock(e, "heading-two")}
-        >
-          H2
-        </button>
-        <button
-          className={
-            this.hasBlock("heading-three") ||
-            this.hasBlock("heading-four") ||
-            this.hasBlock("heading-five") ||
-            this.hasBlock("heading-six")
-              ? "active"
-              : ""
-          }
-          onMouseDown={e => this.onClickBlock(e, "heading-three")}
-        >
-          H3
-        </button>
-        <button
-          className={this.hasBlock("block-quote") ? "active" : ""}
-          onMouseDown={e => this.onClickBlock(e, "block-quote")}
-        >
-          quote
-        </button>
         <button onMouseDown={this.onSerialize}>serialize</button>
       </div>
     );
@@ -324,6 +360,9 @@ export default class EditorApp extends React.Component {
       <div>
         {this.renderToolbar()}
         <Editor
+          spellCdheck={false}
+          className="editor"
+          placeholder="Write your thought..."
           plugins={this.plugins}
           value={this.state.value}
           onChange={this.onChange}
