@@ -1,18 +1,17 @@
-
 /* @import url('https://fonts.googleapis.com/css?family=Alegreya'); */
 /* @import url('https://fonts.googleapis.com/css?family=Muli|Crimson+Text:400,400i|Josefin+Slab'); */
 
 body {
   font-size: 16px;
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
 }
 
 .wf-loading * {
-  color: rgba(22,22,22,0);
+  color: rgba(22, 22, 22, 0);
 }
 
 .wf-active * {
-  color: rgba(22,22,22,1);
+  color: rgba(22, 22, 22, 1);
 }
 
 .wrapper {
@@ -21,11 +20,12 @@ body {
   padding: 15px;
 }
 button {
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
 }
-p, li {
+p,
+li {
   font-size: 20px;
-  font-family: 'Crimson Text', serif;
+  font-family: "Crimson Text", serif;
   line-height: 1.5;
   font-weight: 300;
   /* letter-spacing: -.02em; */
@@ -35,7 +35,8 @@ p {
   margin-top: 3px;
 }
 
-strong, b {
+strong,
+b {
   /* font-size: 18.5px; */
 }
 
@@ -51,7 +52,10 @@ h1 code {
 h2 code {
   font-size: 24px;
 }
-h3 code, h4 code, h5 code, h6 code {
+h3 code,
+h4 code,
+h5 code,
+h6 code {
   font-size: 20px;
 }
 blockquote code {
@@ -69,12 +73,14 @@ pre {
 blockquote {
   font-size: 30px;
   font-weight: 300;
-  opacity: .7;
-  font-family: 'Josefin Slab', serif;
+  opacity: 0.7;
+  font-family: "Josefin Slab", serif;
 }
 
-button, select, option {
-  padding: 10px 15px;
+button,
+select,
+option {
+  /* padding: 10px 15px; */
   /* height: 30px; */
   font-size: 14px;
   border-radius: 2px;
@@ -107,14 +113,42 @@ h2 {
   font-weight: normal;
   font-size: 30px;
   margin-bottom: 0;
-  opacity: .7;
+  opacity: 0.7;
 }
-h3, h4, h5, h6 {
+h3,
+h4,
+h5,
+h6 {
   font-size: 24px;
   margin-bottom: 0;
 }
 
 a {
-  opacity: .6;
+  opacity: 0.6;
   text-decoration: none;
+}
+
+.toolbar {
+  display: flex;
+  /* background: #eee; */
+  border-bottom: solid 1px #eee;
+  align-items: center;
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar button {
+  display: flex;
+  align-items: center;
+  background: none;
+  margin: 0;
+  opacity: 0.3;
+  padding: 5px 8px;
+}
+
+.toolbar button.active {
+  opacity: 0.9;
 }
