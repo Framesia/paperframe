@@ -3,6 +3,8 @@ import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
 
+import Dropdown from "rc-dropdown";
+import "rc-dropdown/assets/index.css";
 import AutoReplace from "slate-auto-replace";
 import SoftBreak from "slate-soft-break";
 
@@ -11,8 +13,6 @@ import initialValue from "./initialValue.json";
 
 import hotKey from "./plugins/hotKey";
 import normalize from "./plugins/normalize";
-// import softBreak from './plugins/softBreak';
-// import link from './plugins/link';
 
 import Icons from "./Icons";
 
@@ -300,11 +300,20 @@ export default class EditorApp extends React.Component {
         <Icons type={type} />
       </button>
     );
+
+    const Node = (type, text) => (
+      <div className={type} onMouseDown={e => this.onClickBlock(e, { type })}>
+        {text}
+      </div>
+    );
+    let textBlock = "Paragraph";
     let block = "paragraph";
     if (this.hasBlock("heading-one")) {
       block = "heading-one";
+      textBlock = "Big header";
     } else if (this.hasBlock("heading-two")) {
       block = "heading-two";
+      textBlock = "Medium header";
     } else if (
       this.hasBlock("heading-three") ||
       this.hasBlock("heading-four") ||
@@ -312,26 +321,38 @@ export default class EditorApp extends React.Component {
       this.hasBlock("heading-six")
     ) {
       block = "heading-three";
+      textBlock = "Small header";
     } else if (this.hasBlock("block-quote")) {
       block = "block-quote";
+      textBlock = "Quote";
+    } else if (this.hasBlock("code-block")) {
+      block = "code-block";
+      textBlock = "Code block";
     }
     return (
       <div className="toolbar">
         <div className="toolbar-group">
-          <select
-            value={block}
-            onChange={e => this.onClickBlock(e, e.target.value)}
+          <Dropdown
+            trigger={["click"]}
+            overlay={
+              <div className="dropdown">
+                {Node("paragraph", "Paragraph")}
+                {Node("heading-one", "Big header")}
+                {Node("heading-two", "Medium header")}
+                {Node("heading-three", "Small header")}
+                {Node("block-quote", "Quote")}
+                {Node("code-block", "Code block")}
+              </div>
+            }
+            animation="slide-up"
+            onVisibleChange={e => console.log(e)}
           >
-            <option value="paragraph">
-              <p>Paragraph</p>
-            </option>
-            <option value="heading-one">
-              <h1>Big Header</h1>
-            </option>
-            <option value="heading-two">Medium Header</option>
-            <option value="heading-three">Small Header</option>
-            <option value="block-quote">Quote</option>
-          </select>
+            <div className="dropdown">
+              <div className={block} style={{ width: 160 }}>
+                {textBlock}
+              </div>
+            </div>
+          </Dropdown>
         </div>
         <div className="toolbar-group">
           {Mark("bold")}

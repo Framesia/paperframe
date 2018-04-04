@@ -164,6 +164,50 @@ a {
   align-items: center;
 }
 
+.dropdown {
+  background: #fff;
+  font-size: 18px;
+  border: solid 1px #eee;
+  cursor: pointer;
+}
+
+.dropdown div {
+  padding: 4px 8px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown div:hover {
+  background: #eee;
+}
+
+.dropdown .paragraph {
+  font-family: "Crimson Text", serif;
+}
+.dropdown .heading-one {
+  font-size: 22px;
+  font-weight: bold;
+}
+.dropdown .heading-two {
+  font-size: 22px;
+  opacity: 0.7;
+}
+.dropdown .heading-three {
+  font-size: 18px;
+  font-weight: bold;
+}
+.dropdown .block-quote {
+  font-size: 18px;
+  opacity: 0.7;
+  font-family: "Josefin Slab", serif;
+}
+.dropdown .code-block {
+  font-size: 14px;
+  font-family: monospace;
+  background: #eee;
+}
+
 .toolbar-group {
   display: flex;
   align-items: center;
