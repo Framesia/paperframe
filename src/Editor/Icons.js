@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const Icons = ({ size = 24, color = "#444444", type }) => {
+const Icons = ({ size = 20, color = "#444444", type }) => {
   let Path = (
     <React.Fragment>
       <path d="M0 0h24v24H0z" fill="none" />

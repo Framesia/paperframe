@@ -3,9 +3,15 @@ import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
 
+import TextareaAutosize from "react-textarea-autosize";
+
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
-import TextareaAutosize from "react-textarea-autosize";
+
+import Dialog from "rc-dialog";
+import "rc-dialog/assets/index.css";
+
+import isUrl from "is-url";
 
 import AutoReplace from "slate-auto-replace";
 import SoftBreak from "slate-soft-break";
@@ -21,7 +27,15 @@ import Icons from "./Icons";
 // import isUrl from 'is-url'
 
 export default class EditorApp extends React.Component {
-  state = { value: Value.fromJSON(initialValue) };
+  state = {
+    value: Value.fromJSON(initialValue),
+    linkDialongShow: false,
+    mousePosition: {
+      x: 0,
+      y: 0
+    },
+    linkValue: ""
+  };
 
   plugins = [
     normalize(this.state.value),
@@ -218,12 +232,20 @@ export default class EditorApp extends React.Component {
     if (hasLinks) {
       change.unwrapInline("link");
     } else if (value.isExpanded) {
-      const href = window.prompt("Enter the URL of the link:");
-      change.wrapInline({
-        type: "link",
-        data: { href }
+      // const href = window.prompt("Enter the URL of the link:");
+
+      this.setState({
+        mousePosition: {
+          x: e.pageX,
+          y: e.pageY
+        },
+        linkDialongShow: true
       });
-      change.collapseToEnd();
+      // change.wrapInline({
+      //   type: "link",
+      //   data: { href }
+      // });
+      // change.collapseToEnd();
       // } else {
       //   const href = window.prompt('Enter the URL of the link:')
       //   const text = window.prompt('Enter the text for the link:')
@@ -234,6 +256,24 @@ export default class EditorApp extends React.Component {
     }
 
     this.onChange(change);
+  };
+
+  onSubmitLink = e => {
+    e.preventDefault();
+    const change = this.state.value.change();
+    const href = this.state.linkValue;
+    if (isUrl(href)) {
+      change.wrapInline({
+        type: "link",
+        data: { href }
+      });
+      change.collapseToEnd();
+      this.setState({
+        linkValue: "",
+        linkDialongShow: false
+      });
+      this.onChange(change);
+    }
   };
 
   renderNode = props => {
@@ -397,6 +437,27 @@ export default class EditorApp extends React.Component {
           renderNode={this.renderNode}
           renderMark={this.renderMark}
         />
+        <Dialog
+          visible={this.state.linkDialongShow}
+          animation="zoom"
+          maskAnimation="fade"
+          onClose={() =>
+            this.setState({
+              linkDialongShow: false
+            })
+          }
+          style={{ width: 400 }}
+          mousePosition={this.state.mousePosition}
+          destroyOnClose={true}
+        >
+          <form onSubmit={this.onSubmitLink}>
+            <input
+              value={this.state.linkValue}
+              onChange={e => this.setState({ linkValue: e.target.value })}
+            />
+            <input type="submit" />
+          </form>
+        </Dialog>
       </div>
     );
   }
