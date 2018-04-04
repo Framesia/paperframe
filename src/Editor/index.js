@@ -371,7 +371,7 @@ export default class EditorApp extends React.Component {
             }
             onMouseDown={this.onClickLink}
           >
-            link
+            <Icons type="link" />
           </button>
         </div>
         <button onMouseDown={this.onSerialize}>serialize</button>
