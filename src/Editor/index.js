@@ -24,8 +24,6 @@ import normalize from "./plugins/normalize";
 
 import Icons from "./Icons";
 
-// import isUrl from 'is-url'
-
 export default class EditorApp extends React.Component {
   state = {
     value: Value.fromJSON(initialValue),
@@ -56,7 +54,8 @@ export default class EditorApp extends React.Component {
     }),
     hotKey({
       key: "~",
-      mark: true
+      mark: true,
+      type: "striketrough"
     }),
     hotKey({
       key: "u",
@@ -263,11 +262,12 @@ export default class EditorApp extends React.Component {
     const change = this.state.value.change();
     const href = this.state.linkValue;
     if (isUrl(href)) {
-      change.wrapInline({
-        type: "link",
-        data: { href }
-      });
-      change.collapseToEnd();
+      change
+        .wrapInline({
+          type: "link",
+          data: { href }
+        })
+        .blur();
       this.setState({
         linkValue: "",
         linkDialongShow: false
@@ -450,6 +450,7 @@ export default class EditorApp extends React.Component {
           mousePosition={this.state.mousePosition}
           destroyOnClose={true}
         >
+          <h3>Input link</h3>
           <form onSubmit={this.onSubmitLink}>
             <input
               value={this.state.linkValue}
