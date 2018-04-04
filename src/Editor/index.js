@@ -5,6 +5,8 @@ import { Editor } from "slate-react";
 
 import Dropdown from "rc-dropdown";
 import "rc-dropdown/assets/index.css";
+import TextareaAutosize from "react-textarea-autosize";
+
 import AutoReplace from "slate-auto-replace";
 import SoftBreak from "slate-soft-break";
 
@@ -380,8 +382,13 @@ export default class EditorApp extends React.Component {
     return (
       <div>
         {this.renderToolbar()}
+        <TextareaAutosize
+          className="title"
+          placeholder="Title"
+          spellCheck={false}
+        />
         <Editor
-          spellCdheck={false}
+          spellCheck={false}
           className="editor"
           placeholder="Write your thought..."
           plugins={this.plugins}

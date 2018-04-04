@@ -6,6 +6,16 @@ body {
   font-family: "Muli", sans-serif;
 }
 
+.title {
+  font-family: "Muli", sans-serif;
+  padding: 10px;
+  font-size: 32px;
+  font-weight: bold;
+  width: 100%;
+  border: none;
+  outline: none;
+}
+
 .wf-loading * {
   color: rgba(22, 22, 22, 0);
 }
