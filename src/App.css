@@ -8,12 +8,13 @@ body {
 
 .title {
   font-family: "Muli", sans-serif;
-  padding: 10px;
+  padding: 40px 10px 0;
   font-size: 32px;
   font-weight: bold;
   width: 100%;
   border: none;
   outline: none;
+  resize: none;
 }
 
 .wf-loading * {
@@ -164,7 +165,7 @@ a {
 }
 
 .editor {
-  padding: 20px 10px;
+  padding: 10px;
 }
 
 .toolbar {
