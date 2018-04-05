@@ -8,7 +8,7 @@ body {
 
 .title {
   font-family: "Muli", sans-serif;
-  padding: 40px 10px 0;
+  padding: 60px 10px 0;
   font-size: 32px;
   font-weight: bold;
   width: 100%;
@@ -31,7 +31,7 @@ body {
 .wrapper {
   margin: 0 auto;
   max-width: 600px;
-  padding: 10px;
+  padding: 0 10px;
 }
 button {
   font-family: "Muli", sans-serif;
@@ -189,6 +189,9 @@ a {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  position: fixed;
+  max-width: 600px;
+  background: rgba(250, 250, 250, 0.95);
 }
 
 .dropdown {
@@ -248,13 +251,53 @@ a {
   background: none;
   margin: 0;
   opacity: 0.3;
-  padding: 5px;
+  padding: 8px;
+  border-radius: 20px;
 }
-
 .toolbar button.active {
+  background: #f6f6f6;
   opacity: 0.9;
+}
+.toolbar button:hover {
+  background: #eee;
 }
 
 .rc-dialog-mask {
-  background: rgba(255, 255, 255, 0.4) !important;
+  background: rgba(250, 250, 250, 0.7) !important;
+}
+.rc-dialog-content {
+  border: solid 1px #f6f6f6;
+  border-radius: 2px;
+  text-align: center;
+}
+.rc-dialog-content h3 {
+  font-weight: normal;
+  margin: 20px 5px;
+}
+.rc-dialog-content .input {
+  padding: 5px 8px;
+  outline: none;
+  border: solid 1px #999;
+  border-right: none;
+  font-family: "Alegreya", serif;
+}
+.rc-dialog-content .submit {
+  padding: 5px 8px;
+  background: #fff;
+  border: solid 1px #999;
+  font-family: "Alegreya SC", serif;
+  text-transform: lowercase;
+}
+.rc-dialog-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+  margin: 0;
+}
+.rc-dialog-close:hover {
+  background: #f6f6f6;
+}
+ol,
+ul {
+  padding-left: 22px;
 }

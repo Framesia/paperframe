@@ -6,10 +6,7 @@ import { Editor } from "slate-react";
 import TextareaAutosize from "react-textarea-autosize";
 
 import Dropdown from "rc-dropdown";
-import "rc-dropdown/assets/index.css";
-
 import Dialog from "rc-dialog";
-import "rc-dialog/assets/index.css";
 
 import isUrl from "is-url";
 
@@ -29,7 +26,9 @@ export default class EditorApp extends React.Component {
     value: Value.fromJSON(initialValue),
     linkDialongShow: false,
     mousePosition: { x: 0, y: 0 },
-    linkValue: ""
+    linkValue: "",
+    title: "",
+    errorLink: ""
   };
 
   plugins = [
@@ -116,7 +115,7 @@ export default class EditorApp extends React.Component {
     }),
     AutoReplace({
       trigger: "space",
-      before: /^(1.)$/,
+      before: /^(1\.)$/,
       transform: (transform, e, matches) => {
         return transform
           .setBlock({ type: "numbered-item" })
@@ -165,7 +164,6 @@ export default class EditorApp extends React.Component {
       transform: (transform, e, matches) => {
         const textCaps = matches.before[0];
         let triggerChar = e.key;
-        // console.log(matches.before);
 
         if (this.hasMark("small-caps")) {
           transform = transform
@@ -278,8 +276,6 @@ export default class EditorApp extends React.Component {
     if (hasLinks) {
       change.unwrapInline("link");
     } else if (value.isExpanded) {
-      // const href = window.prompt("Enter the URL of the link:");
-
       this.setState({
         mousePosition: {
           x: e.pageX,
@@ -287,18 +283,6 @@ export default class EditorApp extends React.Component {
         },
         linkDialongShow: true
       });
-      // change.wrapInline({
-      //   type: "link",
-      //   data: { href }
-      // });
-      change.collapseToEnd();
-      // } else {
-      //   const href = window.prompt('Enter the URL of the link:')
-      //   const text = window.prompt('Enter the text for the link:')
-      //   change
-      //     .insertText(text)
-      //     .extend(0 - text.length)
-      //     .wrapInline({ type: "link", data: { href } });
     }
 
     this.onChange(change);
@@ -314,12 +298,19 @@ export default class EditorApp extends React.Component {
           type: "link",
           data: { href }
         })
-        .blur();
+        .focus()
+        .collapseToEnd();
+      // .blur();
       this.setState({
         linkValue: "",
-        linkDialongShow: false
+        linkDialongShow: false,
+        errorLink: ""
       });
       this.onChange(change);
+    } else {
+      this.setState({
+        errorLink: "<em>The <abbr>URL</abbr> is not valid.</em>"
+      });
     }
   };
 
@@ -475,6 +466,11 @@ export default class EditorApp extends React.Component {
           className="title"
           placeholder="Title"
           spellCheck={false}
+          value={this.state.title}
+          onChange={e => {
+            const title = e.target.value.replace(/\n/g, "");
+            this.setState({ title });
+          }}
         />
         <Editor
           spellCheck={false}
@@ -499,14 +495,21 @@ export default class EditorApp extends React.Component {
           mousePosition={this.state.mousePosition}
           destroyOnClose={true}
         >
-          <h3>Input link</h3>
+          <h3>Enter link:</h3>
           <form onSubmit={this.onSubmitLink}>
             <input
+              className="input"
               value={this.state.linkValue}
+              placeholder="eg: https://framesia.com/"
               onChange={e => this.setState({ linkValue: e.target.value })}
             />
-            <input type="submit" />
+            <input type="submit" className="submit" />
           </form>
+          <p
+            className="error"
+            dangerouslySetInnerHTML={{ __html: this.state.errorLink }}
+          />
+          <hr />
         </Dialog>
       </div>
     );
