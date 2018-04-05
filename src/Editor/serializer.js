@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import Html from "slate-html-serializer";
 
 const BLOCK_TAGS = {
@@ -13,14 +13,15 @@ const BLOCK_TAGS = {
   blockquote: "block-quote",
   ol: "numbered-list",
   ul: "bulleted-list",
-  li: "bulleted-item",
+  li: "bulleted-item"
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
   em: "italic",
   strong: "bold",
   u: "underline",
-  code: "code"
+  code: "code",
+  abbr: "small-caps"
 };
 
 const deserializeNode = (el, next) => {
@@ -32,7 +33,7 @@ const deserializeNode = (el, next) => {
       nodes: next(el.childNodes)
     };
   }
-}
+};
 
 const serializeNode = (obj, children) => {
   if (obj.object == "block") {
@@ -69,7 +70,7 @@ const serializeNode = (obj, children) => {
         return <li>{children}</li>;
     }
   }
-}
+};
 
 const deserializeMark = (el, next) => {
   const type = MARK_TAGS[el.tagName.toLowerCase()];
@@ -80,7 +81,7 @@ const deserializeMark = (el, next) => {
       nodes: next(el.childNodes)
     };
   }
-}
+};
 
 const serializeMark = (obj, children) => {
   if (obj.object == "mark") {
@@ -95,10 +96,11 @@ const serializeMark = (obj, children) => {
         return <code>{children}</code>;
       case "strikethrough":
         return <del>{children}</del>;
+      case "small-caps":
+        return <abbr>{children}</abbr>;
     }
   }
-}
-
+};
 
 const rules = [
   // Rule that handles nodes...
@@ -114,4 +116,4 @@ const rules = [
 ];
 
 const serializer = new Html({ rules });
-export default serializer
+export default serializer;

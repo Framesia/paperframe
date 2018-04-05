@@ -44,8 +44,15 @@ li {
   font-weight: 300;
   /* letter-spacing: -.02em; */
 }
+p abbr,
+li abbr {
+  font-family: "Alegreya SC", serif;
+  text-transform: lowercase;
+  letter-spacing: 0.05em;
+  /* margin: 0 2px; */
+}
 p {
-  margin: 10px 0;
+  margin: 20px 0;
   margin-top: 3px;
 }
 
@@ -63,6 +70,7 @@ code {
   font-size: 15px;
   padding: 3px 5px;
   background: #eee;
+  font-family: monospace !important;
 }
 
 h1 code {

@@ -28,10 +28,7 @@ export default class EditorApp extends React.Component {
   state = {
     value: Value.fromJSON(initialValue),
     linkDialongShow: false,
-    mousePosition: {
-      x: 0,
-      y: 0
-    },
+    mousePosition: { x: 0, y: 0 },
     linkValue: ""
   };
 
@@ -159,6 +156,44 @@ export default class EditorApp extends React.Component {
       before: /[\s]{0,}$/,
       transform: (transform, e, matches) => {
         return transform.insertText("“");
+      }
+    }),
+    AutoReplace({
+      trigger: /[^A-Z]/,
+      before: /([A-Z]{2,})$/,
+      // after: /[^A-Z]{0,}/,
+      transform: (transform, e, matches) => {
+        const textCaps = matches.before[0];
+        let triggerChar = e.key;
+        // console.log(matches.before);
+
+        if (this.hasMark("small-caps")) {
+          transform = transform
+            .addMark("small-caps")
+            .insertText(textCaps)
+            .collapseToEnd();
+          if (triggerChar === "Backspace") {
+            transform = transform.deleteBackward();
+          } else if (triggerChar.length === 1) {
+            transform = transform.insertText(triggerChar);
+          } else if (triggerChar === "ArrowRight") {
+            transform.move(1);
+          } else if (triggerChar === "ArrowLeft") {
+            transform.move(-1);
+          }
+          return transform;
+        }
+        if (triggerChar.length > 1) {
+          triggerChar = " ";
+        }
+
+        return transform
+          .addMark("small-caps")
+          .insertText(textCaps)
+          .removeMark("small-caps")
+          .insertText(triggerChar)
+          .collapseToEnd();
+        // .removeMark("small-caps")
       }
     }),
     SoftBreak({ shift: true })
@@ -342,6 +377,8 @@ export default class EditorApp extends React.Component {
         return <del>{props.children}</del>;
       case "underline":
         return <u>{props.children}</u>;
+      case "small-caps":
+        return <abbr>{props.children}</abbr>;
     }
   };
 
