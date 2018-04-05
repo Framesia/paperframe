@@ -315,11 +315,21 @@ export default class EditorApp extends React.Component {
   };
 
   renderNode = props => {
+    const firstChar = props.node.text[0];
+    let HangingDouble = null;
+    if (firstChar === "“") {
+      HangingDouble = <span className="hanging-double" />;
+    }
     switch (props.node.type) {
       case "code-block":
         return <pre {...props.attributes}>{props.children}</pre>;
       case "paragraph":
-        return <p {...props.attributes}>{props.children}</p>;
+        return (
+          <p {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </p>
+        );
       case "bulleted-list":
         return <ul {...props.attributes}>{props.children}</ul>;
       case "numbered-list":
@@ -327,21 +337,61 @@ export default class EditorApp extends React.Component {
       case "bulleted-item":
         return <li {...props.attributes}>{props.children}</li>;
       case "numbered-item":
-        return <li {...props.attributes}>{props.children}</li>;
+        return (
+          <li {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </li>
+        );
       case "heading-one":
-        return <h1 {...props.attributes}>{props.children}</h1>;
+        return (
+          <h1 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h1>
+        );
       case "heading-two":
-        return <h2 {...props.attributes}>{props.children}</h2>;
+        return (
+          <h2 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h2>
+        );
       case "heading-three":
-        return <h3 {...props.attributes}>{props.children}</h3>;
+        return (
+          <h3 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h3>
+        );
       case "heading-four":
-        return <h4 {...props.attributes}>{props.children}</h4>;
+        return (
+          <h4 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h4>
+        );
       case "heading-five":
-        return <h5 {...props.attributes}>{props.children}</h5>;
+        return (
+          <h5 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h5>
+        );
       case "heading-six":
-        return <h6 {...props.attributes}>{props.children}</h6>;
+        return (
+          <h6 {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </h6>
+        );
       case "block-quote":
-        return <blockquote {...props.attributes}>{props.children}</blockquote>;
+        return (
+          <blockquote {...props.attributes}>
+            {HangingDouble}
+            {props.children}
+          </blockquote>
+        );
       case "link": {
         const { data } = props.node;
         const href = data.get("href");
@@ -370,6 +420,8 @@ export default class EditorApp extends React.Component {
         return <u>{props.children}</u>;
       case "small-caps":
         return <abbr>{props.children}</abbr>;
+      // case "hanging-double":
+      //   return <span className="hanging-double">{props.children}</span>;
     }
   };
 

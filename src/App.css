@@ -301,3 +301,18 @@ ol,
 ul {
   padding-left: 22px;
 }
+.hanging-double {
+  margin-left: -0.3em;
+}
+h1 .hanging-double,
+h2 .hanging-double,
+h3 .hanging-double,
+h4 .hanging-double,
+h5 .hanging-double,
+h6 .hanging-double {
+  margin-left: -0.38em;
+}
+
+blockquote .hanging-double {
+  margin-left: -0.25em;
+}
