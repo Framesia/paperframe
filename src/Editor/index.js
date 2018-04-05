@@ -146,9 +146,21 @@ export default class EditorApp extends React.Component {
           type: "code-block"
         });
       }
-    }), // markdownShortcut(),
-    // softBreak(),
-    // link()
+    }),
+    AutoReplace({
+      trigger: '"',
+      before: /[^\s]$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("”");
+      }
+    }),
+    AutoReplace({
+      trigger: '"',
+      before: /[\s]{0,}$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("“");
+      }
+    }),
     SoftBreak({ shift: true })
   ];
 

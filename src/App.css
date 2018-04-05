@@ -39,8 +39,8 @@ button {
 p,
 li {
   font-size: 20px;
-  font-family: "Crimson Text", serif;
-  line-height: 1.5;
+  font-family: "Alegreya", serif;
+  line-height: 1.35;
   font-weight: 300;
   /* letter-spacing: -.02em; */
 }
@@ -203,7 +203,7 @@ a {
 }
 
 .dropdown .paragraph {
-  font-family: "Crimson Text", serif;
+  font-family: "Alegreya", serif;
 }
 .dropdown .heading-one {
   font-size: 20px;
