@@ -291,7 +291,7 @@ export default class EditorApp extends React.Component {
       //   type: "link",
       //   data: { href }
       // });
-      // change.collapseToEnd();
+      change.collapseToEnd();
       // } else {
       //   const href = window.prompt('Enter the URL of the link:')
       //   const text = window.prompt('Enter the text for the link:')
