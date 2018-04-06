@@ -8,7 +8,8 @@ body {
 
 .title {
   font-family: "Muli", sans-serif;
-  padding: 60px 10px 0;
+  padding: 0 10px;
+  margin-top: 100px;
   font-size: 32px;
   font-weight: bold;
   width: 100%;
@@ -30,7 +31,7 @@ body {
 
 .wrapper {
   margin: 0 auto;
-  max-width: 600px;
+  max-width: 560px;
   padding: 0 10px;
 }
 button {

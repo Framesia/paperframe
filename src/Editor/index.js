@@ -223,8 +223,15 @@ export default class EditorApp extends React.Component {
     const change = value.change();
     const { document } = value;
 
-    // Handle everything but list buttons.
-    if (type != "bulleted-list" && type != "numbered-list") {
+    if (type == "center") {
+      const isActive = value.fragment.nodes.some(node => node.type == type);
+      if (isActive) {
+        change.unwrapBlock("center");
+      } else {
+        change.wrapBlock("center");
+      }
+    } else if (type != "bulleted-list" && type != "numbered-list") {
+      // Handle everything but list buttons. and center
       const isActive = this.hasBlock(type);
       const isList = this.hasBlock("list-item");
 
@@ -403,6 +410,8 @@ export default class EditorApp extends React.Component {
       }
       case "divider":
         return <hr />;
+      case "center":
+        return <center {...props.attributes}>{props.children}</center>;
     }
   };
 
@@ -507,6 +516,9 @@ export default class EditorApp extends React.Component {
           </button>
         </div>
         <button onMouseDown={this.onSerialize}>serialize</button>
+        <button onMouseDown={e => this.onClickBlock(e, "center")}>
+          center
+        </button>
       </div>
     );
   };

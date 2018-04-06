@@ -68,6 +68,8 @@ const serializeNode = (obj, children) => {
         return <li>{children}</li>;
       case "numbered-item":
         return <li>{children}</li>;
+      case "center":
+        return <center>{children}</center>;
     }
   }
 };
