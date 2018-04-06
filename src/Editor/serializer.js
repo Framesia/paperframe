@@ -13,7 +13,10 @@ const BLOCK_TAGS = {
   blockquote: "block-quote",
   ol: "numbered-list",
   ul: "bulleted-list",
-  li: "bulleted-item"
+  li: "bulleted-item",
+  figure: "figure",
+  img: "image",
+  figcaption: "figcaption"
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
@@ -70,6 +73,12 @@ const serializeNode = (obj, children) => {
         return <li>{children}</li>;
       case "center":
         return <center>{children}</center>;
+      case "image":
+        return <img src={obj.data.src} />;
+      case "figure":
+        return <figure>{children}</figure>;
+      case "figcaption":
+        return <figcaption>{children}</figcaption>;
     }
   }
 };

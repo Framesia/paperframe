@@ -124,7 +124,7 @@ export default class EditorApp extends React.Component {
     }),
     AutoReplace({
       trigger: "enter",
-      before: /^(---)$/,
+      before: /^(—-)$/,
       transform: (transform, e, matches) => {
         return transform
           .setBlock({
@@ -155,6 +155,35 @@ export default class EditorApp extends React.Component {
       before: /[\s]{0,}$/,
       transform: (transform, e, matches) => {
         return transform.insertText("“");
+      }
+    }),
+    AutoReplace({
+      trigger: "'",
+      before: /[^\s]$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("“");
+      }
+    }),
+    AutoReplace({
+      trigger: "'",
+      before: /[\s]{0,}$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("“");
+      }
+    }),
+    // mdash
+    AutoReplace({
+      trigger: "-",
+      before: /(\-)$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("—");
+      }
+    }),
+    AutoReplace({
+      trigger: ".",
+      before: /(\.\.)$/,
+      transform: (transform, e, matches) => {
+        return transform.insertText("…");
       }
     }),
     AutoReplace({
@@ -272,6 +301,27 @@ export default class EditorApp extends React.Component {
   onSerialize = () => {
     // const { nodes } = this.state.value.toJSON().document
     console.log(serializer.serialize(this.state.value));
+  };
+
+  onInsertImage = () => {
+    // e.preventDefault();
+    const { value } = this.state;
+    const change = value.change();
+    change
+      .insertBlock({
+        type: "image",
+        isVoid: true,
+        data: {
+          src:
+            "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
+        }
+      })
+      .wrapBlock("figure")
+      .insertBlock("figcaption")
+      .insertText("caption")
+      .collapseToEnd();
+    // .expand(4);
+    this.onChange(change);
   };
 
   onClickLink = e => {
@@ -408,6 +458,17 @@ export default class EditorApp extends React.Component {
           </a>
         );
       }
+      case "image": {
+        const { data } = props.node;
+        const src = data.get("src");
+        return <img {...props.attributes} src={src} />;
+      }
+      case "figure": {
+        return <figure {...props.attributes}>{props.children}</figure>;
+      }
+      case "figcaption": {
+        return <figcaption {...props.attributes}>{props.children}</figcaption>;
+      }
       case "divider":
         return <hr />;
       case "center":
@@ -519,6 +580,7 @@ export default class EditorApp extends React.Component {
         <button onMouseDown={e => this.onClickBlock(e, "center")}>
           center
         </button>
+        <button onMouseDown={e => this.onInsertImage()}>image</button>
       </div>
     );
   };
@@ -539,7 +601,7 @@ export default class EditorApp extends React.Component {
         <Editor
           spellCheck={false}
           className="editor"
-          placeholder="Write your thought..."
+          placeholder="Write your thought…"
           plugins={this.plugins}
           value={this.state.value}
           onChange={this.onChange}

@@ -51,6 +51,13 @@ const normalize = stateValue => {
         return;
       }
     }
+    if (startBlock.type === "figcaption") {
+      change
+        .splitBlock()
+        .setBlocks("paragraph")
+        .unwrapBlock("figure");
+      return true;
+    }
     if (
       startBlock.type !== "heading-one" &&
       startBlock.type !== "heading-two" &&
