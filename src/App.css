@@ -1,14 +1,14 @@
 body {
   font-size: 16px;
-  font-family: "Muli", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .title {
-  font-family: "Muli", sans-serif;
+  font-family: "Roboto", sans-serif;
   padding: 0 10px;
   margin-top: 100px;
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: bolder;
   width: 100%;
   border: none;
   outline: none;
@@ -32,7 +32,7 @@ body {
   padding: 0 10px;
 }
 button {
-  font-family: "Muli", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 p,
 li {
@@ -312,7 +312,7 @@ h3 .hanging-double,
 h4 .hanging-double,
 h5 .hanging-double,
 h6 .hanging-double {
-  margin-left: -0.38em;
+  margin-left: -0.36em;
 }
 
 blockquote .hanging-double {
@@ -330,5 +330,6 @@ img {
 
 figcaption {
   opacity: 0.7;
-  margin: 8px 0 20px;
+  font-size: 0.8em;
+  margin: 16px 0 32px;
 }

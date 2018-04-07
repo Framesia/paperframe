@@ -16,7 +16,8 @@ const BLOCK_TAGS = {
   li: "bulleted-item",
   figure: "figure",
   img: "image",
-  figcaption: "figcaption"
+  figcaption: "figcaption",
+  hr: "divider"
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
@@ -25,6 +26,10 @@ const MARK_TAGS = {
   u: "underline",
   code: "code",
   abbr: "small-caps"
+};
+
+const INLINE_TAGS = {
+  a: "link"
 };
 
 const deserializeNode = (el, next) => {
@@ -79,6 +84,8 @@ const serializeNode = (obj, children) => {
         return <figure>{children}</figure>;
       case "figcaption":
         return <figcaption>{children}</figcaption>;
+      case "divider":
+        return <hr />;
     }
   }
 };
@@ -113,6 +120,25 @@ const serializeMark = (obj, children) => {
   }
 };
 
+const deserializeInline = (el, next) => {
+  const type = INLINE_TAGS[el.tagName.toLowerCase()];
+  if (type) {
+    return {
+      object: "inline",
+      type: type,
+      nodes: next(el.childNodes)
+    };
+  }
+};
+const serializeInline = (obj, children) => {
+  if (obj.object == "inline") {
+    switch (obj.type) {
+      case "link":
+        return <a href={obj.data.get("href")}>{children}</a>;
+    }
+  }
+};
+
 const rules = [
   // Rule that handles nodes...
   {
@@ -123,6 +149,11 @@ const rules = [
   {
     deserialize: deserializeMark,
     serialize: serializeMark
+  },
+  // Rule that handles inlines...
+  {
+    deserialize: deserializeInline,
+    serialize: serializeInline
   }
 ];
 

@@ -161,14 +161,14 @@ export default class EditorApp extends React.Component {
       trigger: "'",
       before: /[^\s]$/,
       transform: (transform, e, matches) => {
-        return transform.insertText("“");
+        return transform.insertText("’");
       }
     }),
     AutoReplace({
       trigger: "'",
       before: /[\s]{0,}$/,
       transform: (transform, e, matches) => {
-        return transform.insertText("“");
+        return transform.insertText("‘");
       }
     }),
     // mdash
