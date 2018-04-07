@@ -461,10 +461,17 @@ export default class EditorApp extends React.Component {
       case "image": {
         const { data } = props.node;
         const src = data.get("src");
-        return <img {...props.attributes} src={src} />;
+        return <img draggable={false} {...props.attributes} src={src} />;
       }
       case "figure": {
-        return <figure {...props.attributes}>{props.children}</figure>;
+        return (
+          <figure
+            onMouseDown={() => console.log("figure")}
+            {...props.attributes}
+          >
+            {props.children}
+          </figure>
+        );
       }
       case "figcaption": {
         return <figcaption {...props.attributes}>{props.children}</figcaption>;

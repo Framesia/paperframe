@@ -79,7 +79,7 @@ const serializeNode = (obj, children) => {
       case "center":
         return <center>{children}</center>;
       case "image":
-        return <img src={obj.data.src} />;
+        return <img src={obj.data.get("src")} />;
       case "figure":
         return <figure>{children}</figure>;
       case "figcaption":

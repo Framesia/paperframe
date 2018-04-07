@@ -40,7 +40,7 @@ const normalize = stateValue => {
     const { startBlock, startOffset, endOffset } = value;
     if (startOffset == 0 && startBlock.text.length == 0)
       return onBackspace(event, change);
-    if (endOffset != startBlock.text.length) return;
+    // if (endOffset != startBlock.text.length) return;
     if (startBlock.type === "code-block") {
       console.log(true);
       if (!event.shiftKey) {
