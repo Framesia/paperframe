@@ -34,11 +34,19 @@ const INLINE_TAGS = {
 
 const deserializeNode = (el, next) => {
   const type = BLOCK_TAGS[el.tagName.toLowerCase()];
+  console.log(el);
   if (type) {
+    let data = {};
+    if (type === "image") {
+      data = {
+        src: el.src
+      };
+    }
     return {
       object: "block",
       type: type,
-      nodes: next(el.childNodes)
+      nodes: next(el.childNodes),
+      data
     };
   }
 };

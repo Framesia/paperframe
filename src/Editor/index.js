@@ -23,7 +23,9 @@ import Icons from "./Icons";
 
 export default class EditorApp extends React.Component {
   state = {
-    value: Value.fromJSON(initialValue),
+    value: serializer.deserialize(
+      `<p>ini adalah test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
+    ),
     linkDialongShow: false,
     mousePosition: { x: 0, y: 0 },
     linkValue: "",
@@ -303,8 +305,8 @@ export default class EditorApp extends React.Component {
     console.log(serializer.serialize(this.state.value));
   };
 
-  onInsertImage = () => {
-    // e.preventDefault();
+  onInsertImage = e => {
+    e.preventDefault();
     const { value } = this.state;
     const change = value.change();
     change
@@ -319,7 +321,8 @@ export default class EditorApp extends React.Component {
       .wrapBlock("figure")
       .insertBlock("figcaption")
       .insertText("caption")
-      .collapseToEnd();
+      .collapseToEnd()
+      .focus();
     // .expand(4);
     this.onChange(change);
   };
@@ -587,7 +590,7 @@ export default class EditorApp extends React.Component {
         <button onMouseDown={e => this.onClickBlock(e, "center")}>
           center
         </button>
-        <button onMouseDown={e => this.onInsertImage()}>image</button>
+        <button onMouseDown={e => this.onInsertImage(e)}>image</button>
       </div>
     );
   };
