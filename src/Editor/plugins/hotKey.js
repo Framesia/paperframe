@@ -26,4 +26,54 @@ const hotKey = options => {
   };
 };
 
-export default hotKey;
+export default [
+  hotKey({
+    key: "b",
+    mark: true,
+    type: "bold"
+  }),
+  hotKey({
+    key: "`",
+    mark: true,
+    type: "code"
+  }),
+  hotKey({
+    key: "i",
+    mark: true,
+    type: "italic"
+  }),
+  hotKey({
+    key: "~",
+    mark: true,
+    type: "striketrough"
+  }),
+  hotKey({
+    key: "u",
+    mark: true,
+    type: "underline"
+  }),
+  hotKey({
+    key: "1",
+    alt: true,
+    node: true,
+    type: "heading-one"
+  }),
+  hotKey({
+    key: "2",
+    alt: true,
+    node: true,
+    type: "heading-two"
+  }),
+  hotKey({
+    key: "3",
+    alt: true,
+    node: true,
+    type: "heading-three"
+  }),
+  hotKey({
+    key: "4",
+    alt: true,
+    node: true,
+    type: "block-quote"
+  })
+];

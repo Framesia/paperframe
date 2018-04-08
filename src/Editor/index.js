@@ -10,16 +10,16 @@ import Dialog from "rc-dialog";
 
 import isUrl from "is-url";
 
-import AutoReplace from "slate-auto-replace";
 import SoftBreak from "slate-soft-break";
 
 import serializer from "./serializer";
 import initialValue from "./initialValue.json";
 
-import hotKey from "./plugins/hotKey";
-import normalize from "./plugins/normalize";
-
 import Icons from "./Icons";
+
+import normalize from "./plugins/normalize";
+import hotKey from "./plugins/hotKey";
+import markdownShortcut from "./plugins/markdownShortcut";
 
 export default class EditorApp extends React.Component {
   state = {
@@ -33,205 +33,17 @@ export default class EditorApp extends React.Component {
     errorLink: ""
   };
 
-  plugins = [
-    normalize(this.state.value),
-    hotKey({
-      key: "b",
-      mark: true,
-      type: "bold"
-    }),
-    hotKey({
-      key: "`",
-      mark: true,
-      type: "code"
-    }),
-    hotKey({
-      key: "i",
-      mark: true,
-      type: "italic"
-    }),
-    hotKey({
-      key: "~",
-      mark: true,
-      type: "striketrough"
-    }),
-    hotKey({
-      key: "u",
-      mark: true,
-      type: "underline"
-    }),
-    hotKey({
-      key: "1",
-      alt: true,
-      node: true,
-      type: "heading-one"
-    }),
-    hotKey({
-      key: "2",
-      alt: true,
-      node: true,
-      type: "heading-two"
-    }),
-    hotKey({
-      key: "3",
-      alt: true,
-      node: true,
-      type: "heading-three"
-    }),
-    hotKey({
-      key: "4",
-      alt: true,
-      node: true,
-      type: "block-quote"
-    }),
-    AutoReplace({
-      trigger: "space",
-      before: /^(>)$/,
-      transform: (transform, e, matches) =>
-        transform.setBlocks({
-          type: "block-quote"
-        })
-    }),
-    AutoReplace({
-      trigger: "space",
-      before: /^(#{1,3})$/,
-      transform: (transform, e, matches) => {
-        const { length } = matches.before[0];
-        let type = "heading-one";
-        if (length === 2) {
-          type = "heading-two";
-        } else if (length === 3) {
-          type = "heading-three";
-        }
-        return transform.setBlocks({ type });
-      }
-    }),
-    AutoReplace({
-      trigger: "space",
-      before: /^(-|\*|\+)$/,
-      transform: (transform, e, matches) => {
-        return transform
-          .setBlocks({ type: "bulleted-item" })
-          .wrapBlock({ type: "bulleted-list" });
-      }
-    }),
-    AutoReplace({
-      trigger: "space",
-      before: /^(1\.)$/,
-      transform: (transform, e, matches) => {
-        return transform
-          .setBlock({ type: "numbered-item" })
-          .wrapBlock({ type: "numbered-list" });
-      }
-    }),
-    AutoReplace({
-      trigger: "enter",
-      before: /^(—-)$/,
-      transform: (transform, e, matches) => {
-        return transform
-          .setBlock({
-            type: "divider",
-            isVoid: true
-          })
-          .insertBlock({ type: "paragraph" });
-      }
-    }),
-    AutoReplace({
-      trigger: "enter",
-      before: /^(```)$/,
-      transform: (transform, e, matches) => {
-        return transform.setBlock({
-          type: "code-block"
-        });
-      }
-    }),
-    AutoReplace({
-      trigger: '"',
-      before: /[^\s]$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("”");
-      }
-    }),
-    AutoReplace({
-      trigger: '"',
-      before: /[\s]{0,}$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("“");
-      }
-    }),
-    AutoReplace({
-      trigger: "'",
-      before: /[^\s]$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("’");
-      }
-    }),
-    AutoReplace({
-      trigger: "'",
-      before: /[\s]{0,}$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("‘");
-      }
-    }),
-    // mdash
-    AutoReplace({
-      trigger: "-",
-      before: /(\-)$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("—");
-      }
-    }),
-    AutoReplace({
-      trigger: ".",
-      before: /(\.\.)$/,
-      transform: (transform, e, matches) => {
-        return transform.insertText("…");
-      }
-    }),
-    AutoReplace({
-      trigger: /[^A-Z]/,
-      before: /([A-Z]{2,})$/,
-      // after: /[^A-Z]{0,}/,
-      transform: (transform, e, matches) => {
-        const textCaps = matches.before[0];
-        let triggerChar = e.key;
-
-        if (this.hasMark("small-caps")) {
-          transform = transform
-            .addMark("small-caps")
-            .insertText(textCaps)
-            .collapseToEnd();
-          if (triggerChar === "Backspace") {
-            transform = transform.deleteBackward();
-          } else if (triggerChar.length === 1) {
-            transform = transform.insertText(triggerChar);
-          } else if (triggerChar === "ArrowRight") {
-            transform.move(1);
-          } else if (triggerChar === "ArrowLeft") {
-            transform.move(-1);
-          }
-          return transform;
-        }
-        if (triggerChar.length > 1) {
-          triggerChar = " ";
-        }
-
-        return transform
-          .addMark("small-caps")
-          .insertText(textCaps)
-          .removeMark("small-caps")
-          .insertText(triggerChar)
-          .collapseToEnd();
-        // .removeMark("small-caps")
-      }
-    }),
-    SoftBreak({ shift: true })
-  ];
-
   hasMark = type => {
     const { value } = this.state;
     return value.activeMarks.some(mark => mark.type == type);
   };
+
+  plugins = [
+    normalize(this.state.value),
+    ...hotKey,
+    ...markdownShortcut(this.hasMark),
+    SoftBreak({ shift: true })
+  ];
 
   hasBlock = type => {
     const { value } = this.state;
@@ -377,8 +189,12 @@ export default class EditorApp extends React.Component {
   renderNode = props => {
     const firstChar = props.node.text[0];
     let HangingDouble = null;
-    if (firstChar === "“") {
+    let HangingSingle = null;
+    if (firstChar === "“" || firstChar === '"') {
       HangingDouble = <span className="hanging-double" />;
+    }
+    if (firstChar === "'" || firstChar === "‘") {
+      HangingSingle = <span className="hanging-single" />;
     }
     switch (props.node.type) {
       case "code-block":
@@ -387,6 +203,7 @@ export default class EditorApp extends React.Component {
         return (
           <p {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </p>
         );
@@ -400,6 +217,7 @@ export default class EditorApp extends React.Component {
         return (
           <li {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </li>
         );
@@ -407,6 +225,7 @@ export default class EditorApp extends React.Component {
         return (
           <h1 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h1>
         );
@@ -414,6 +233,7 @@ export default class EditorApp extends React.Component {
         return (
           <h2 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h2>
         );
@@ -421,6 +241,7 @@ export default class EditorApp extends React.Component {
         return (
           <h3 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h3>
         );
@@ -428,6 +249,7 @@ export default class EditorApp extends React.Component {
         return (
           <h4 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h4>
         );
@@ -435,6 +257,7 @@ export default class EditorApp extends React.Component {
         return (
           <h5 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h5>
         );
@@ -442,6 +265,7 @@ export default class EditorApp extends React.Component {
         return (
           <h6 {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </h6>
         );
@@ -449,6 +273,7 @@ export default class EditorApp extends React.Component {
         return (
           <blockquote {...props.attributes}>
             {HangingDouble}
+            {HangingSingle}
             {props.children}
           </blockquote>
         );
@@ -464,14 +289,25 @@ export default class EditorApp extends React.Component {
       case "image": {
         const { data } = props.node;
         const src = data.get("src");
-        return <img draggable={false} {...props.attributes} src={src} />;
+        return (
+          <img
+            draggable={false}
+            style={{ cursor: "pointer" }}
+            {...props.attributes}
+            src={src}
+          />
+        );
       }
       case "figure": {
+        const firstChildType = props.node
+          .get("nodes")
+          .get("0")
+          .get("type");
+        if (firstChildType !== "image") {
+          return null;
+        }
         return (
-          <figure
-            onMouseDown={() => console.log("figure")}
-            {...props.attributes}
-          >
+          <figure onMouseDown={() => console.log(true)} {...props.attributes}>
             {props.children}
           </figure>
         );
@@ -500,8 +336,6 @@ export default class EditorApp extends React.Component {
         return <u>{props.children}</u>;
       case "small-caps":
         return <abbr>{props.children}</abbr>;
-      // case "hanging-double":
-      //   return <span className="hanging-double">{props.children}</span>;
     }
   };
 

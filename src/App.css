@@ -326,6 +326,22 @@ blockquote .hanging-double {
   margin-left: -0.25em;
 }
 
+.hanging-single {
+  margin-left: -0.15em;
+}
+h1 .hanging-single,
+h2 .hanging-single,
+h3 .hanging-single,
+h4 .hanging-single,
+h5 .hanging-single,
+h6 .hanging-single {
+  margin-left: -0.18em;
+}
+
+blockquote .hanging-single {
+  margin-left: -0.12em;
+}
+
 figure {
   margin: 0;
 }
