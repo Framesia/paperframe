@@ -320,10 +320,10 @@ export default class EditorApp extends React.Component {
       })
       .wrapBlock("figure")
       .insertBlock("figcaption")
-      .insertText("caption")
+      .insertText("image caption")
       .collapseToEnd()
-      .focus();
-    // .expand(4);
+      .focus()
+      .extend(-13);
     this.onChange(change);
   };
 

@@ -40,6 +40,12 @@ const normalize = stateValue => {
     return true;
   };
 
+  const onDelete = (event, change) => {
+    const { value } = change;
+    console.log(value.startBlock.get("type"));
+    return;
+  };
+
   const onEnter = (event, change) => {
     const { value } = change;
     if (value.isExpanded) return;
@@ -88,6 +94,8 @@ const normalize = stateValue => {
       switch (event.key) {
         case "Backspace":
           return onBackspace(event, change);
+        case "Delete":
+          return onDelete(event, change);
         case "Enter":
           return onEnter(event, change);
       }
