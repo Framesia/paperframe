@@ -11,6 +11,7 @@ import Dialog from "rc-dialog";
 import isUrl from "is-url";
 
 import SoftBreak from "slate-soft-break";
+import PluginEditTable from "slate-edit-table";
 
 import serializer from "./serializer";
 import initialValue from "./initialValue.json";
@@ -20,6 +21,11 @@ import Icons from "./Icons";
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
 import markdownShortcut from "./plugins/markdownShortcut";
+
+const tablePlugin = PluginEditTable({
+  typeRow: "table-row",
+  typeCell: "table-cell"
+});
 
 export default class EditorApp extends React.Component {
   state = {
@@ -42,7 +48,8 @@ export default class EditorApp extends React.Component {
     normalize(this.state.value),
     ...hotKey,
     ...markdownShortcut(this.hasMark),
-    SoftBreak({ shift: true })
+    SoftBreak({ shift: true }),
+    tablePlugin
   ];
 
   hasBlock = type => {
@@ -136,6 +143,12 @@ export default class EditorApp extends React.Component {
       .collapseToEnd()
       .focus()
       .extend(-13);
+    this.onChange(change);
+  };
+
+  onInsertTable = e => {
+    e.preventDefault();
+    const change = tablePlugin.changes.insertTable(this.state.value.change());
     this.onChange(change);
   };
 
@@ -319,6 +332,16 @@ export default class EditorApp extends React.Component {
         return <hr />;
       case "center":
         return <center {...props.attributes}>{props.children}</center>;
+      case "table":
+        return (
+          <table border={1} {...props.attributes}>
+            <tbody>{props.children}</tbody>
+          </table>
+        );
+      case "table-row":
+        return <tr {...props.attributes}>{props.children}</tr>;
+      case "table-cell":
+        return <td {...props.attributes}>{props.children}</td>;
     }
   };
 
@@ -425,6 +448,7 @@ export default class EditorApp extends React.Component {
           center
         </button>
         <button onMouseDown={e => this.onInsertImage(e)}>image</button>
+        <button onMouseDown={e => this.onInsertTable(e)}>table</button>
       </div>
     );
   };

@@ -17,7 +17,10 @@ const BLOCK_TAGS = {
   figure: "figure",
   img: "image",
   figcaption: "figcaption",
-  hr: "divider"
+  hr: "divider",
+  table: "table",
+  tr: "table-row",
+  td: "table-cell"
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
@@ -94,6 +97,16 @@ const serializeNode = (obj, children) => {
         return <figcaption>{children}</figcaption>;
       case "divider":
         return <hr />;
+      case "table":
+        return (
+          <table>
+            <tbody>{children}</tbody>
+          </table>
+        );
+      case "table-row":
+        return <tr>{children}</tr>;
+      case "table-cell":
+        return <td>{children}</td>;
     }
   }
 };

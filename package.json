@@ -13,6 +13,7 @@
     "react-textarea-autosize": "^6.1.0",
     "slate": "^0.33.3",
     "slate-auto-replace": "^0.9.0",
+    "slate-edit-table": "^0.15.0-alpha.4",
     "slate-html-serializer": "^0.6.0",
     "slate-react": "^0.12.3",
     "slate-soft-break": "^0.6.0"
