@@ -3,6 +3,8 @@ import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
 
+import { Client } from "dsteem";
+
 import TextareaAutosize from "react-textarea-autosize";
 
 import Dropdown from "rc-dropdown";
@@ -23,6 +25,9 @@ import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
 import markdownShortcut from "./plugins/markdownShortcut";
 
+import Remarkable from "remarkable";
+const client = new Client("https://api.steemit.com");
+
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
   typeCell: "table-cell",
@@ -32,7 +37,7 @@ const tablePlugin = PluginEditTable({
 export default class EditorApp extends React.Component {
   state = {
     value: serializer.deserialize(
-      `<p>ini adalah test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
+      `<p>ini <a href="http://google.com">adalah</a> test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
     ),
     linkDialongShow: false,
     mousePosition: { x: 0, y: 0 },
@@ -41,6 +46,27 @@ export default class EditorApp extends React.Component {
     errorLink: "",
     figureClicked: -1
   };
+
+  componentDidMount() {
+    const md = new Remarkable({
+      html: true,
+      breaks: false,
+      linkify: true, // linkify is done locally
+      typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
+      quotes: "“”‘’"
+    });
+    // client.database
+    //   .getDiscussions("trending", {
+    //     tag: "steemstem",
+    //     limit: 1
+    //   })
+    //   .then(data => {
+    //     console.log(md.render(data[0].body));
+    //     this.setState({
+    //       value: serializer.deserialize(md.render(data[0].body))
+    //     });
+    //   });
+  }
 
   hasMark = type => {
     const { value } = this.state;
@@ -318,7 +344,7 @@ export default class EditorApp extends React.Component {
             {...props.attributes}
             draggable={false}
             style={{ cursor: "pointer" }}
-            src={src}
+            src={`https://steemitimages.com/0x0/${src}`}
           />
         );
       }
@@ -452,7 +478,7 @@ export default class EditorApp extends React.Component {
             <Icons type="link" />
           </button>
         </div>
-        {/* <button onMouseDown={this.onSerialize}>serialize</button> */}
+        <button onMouseDown={this.onSerialize}>serialize</button>
         {!isInTable && (
           <React.Fragment>
             <button onMouseDown={e => this.onClickBlock(e, "center")}>
@@ -484,6 +510,7 @@ export default class EditorApp extends React.Component {
           }}
         />
         <Editor
+          readOnly
           spellCheck={false}
           className="editor"
           placeholder="Write your thought…"

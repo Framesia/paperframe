@@ -144,10 +144,15 @@ const serializeMark = (obj, children) => {
 const deserializeInline = (el, next) => {
   const type = INLINE_TAGS[el.tagName.toLowerCase()];
   if (type) {
+    let data = {};
+    if (type === "link") {
+      data = { href: el.href };
+    }
     return {
       object: "inline",
       type: type,
-      nodes: next(el.childNodes)
+      nodes: next(el.childNodes),
+      data
     };
   }
 };

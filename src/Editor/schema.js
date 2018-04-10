@@ -35,15 +35,16 @@ const schema = {
   },
   inlines: {
     link: {
-      // data: {
-      //   src: v => v && isUrl(v)
-      // },
-      // nodes: [{ objects: ["text"] }]
+      data: {
+        href: v => v && isUrl(v)
+      },
+      nodes: [{ objects: ["text"] }]
     }
   },
   blocks: {
-    link: {},
+    // link: {},
     paragraph: {
+      isVoid: false
       // nodes: [{ objects: ["text"] }]
     },
     figcaption: {
@@ -78,26 +79,26 @@ const schema = {
       // nodes: [{ types: ["image", "figcaption"] }]
     },
     center: {
-      nodes: [
-        {
-          types: [
-            "paragraph",
-            "heading-one",
-            "heading-two",
-            "heading-three",
-            "heading-four",
-            "heading-five",
-            "heading-six",
-            "block-quote"
-          ]
-        }
-      ]
+      // nodes: [
+      //   {
+      //     types: [
+      //       "paragraph",
+      //       "heading-one",
+      //       "heading-two",
+      //       "heading-three",
+      //       "heading-four",
+      //       "heading-five",
+      //       "heading-six",
+      //       "block-quote"
+      //     ]
+      //   }
+      // ]
     },
     image: {
-      isVoid: true,
-      data: {
-        src: v => v && isUrl(v)
-      }
+      // isVoid: true,
+      // data: {
+      //   src: v => v && isUrl(v)
+      // }
     },
     divider: { isVoid: true },
     table: {
