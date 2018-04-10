@@ -17,6 +17,7 @@ import serializer from "./serializer";
 import initialValue from "./initialValue.json";
 
 import Icons from "./Icons";
+import schema from "./schema";
 
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
@@ -131,6 +132,7 @@ export default class EditorApp extends React.Component {
     const { value } = this.state;
     const change = value.change();
     change
+      // .insertBlock({ type: figure})
       .insertBlock({
         type: "image",
         isVoid: true,
@@ -467,7 +469,7 @@ export default class EditorApp extends React.Component {
     );
   };
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <div>
         {this.renderToolbar()}
@@ -490,6 +492,7 @@ export default class EditorApp extends React.Component {
           onChange={this.onChange}
           renderNode={this.renderNode}
           renderMark={this.renderMark}
+          schema={schema}
         />
         <Dialog
           visible={this.state.linkDialongShow}
