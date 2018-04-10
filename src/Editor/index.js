@@ -24,7 +24,8 @@ import markdownShortcut from "./plugins/markdownShortcut";
 
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
-  typeCell: "table-cell"
+  typeCell: "table-cell",
+  exitBlockType: "enter"
 });
 
 export default class EditorApp extends React.Component {
@@ -36,7 +37,8 @@ export default class EditorApp extends React.Component {
     mousePosition: { x: 0, y: 0 },
     linkValue: "",
     title: "",
-    errorLink: ""
+    errorLink: "",
+    figureClicked: -1
   };
 
   hasMark = type => {
@@ -45,11 +47,11 @@ export default class EditorApp extends React.Component {
   };
 
   plugins = [
+    tablePlugin,
     normalize(this.state.value),
     ...hotKey,
     ...markdownShortcut(this.hasMark),
-    SoftBreak({ shift: true }),
-    tablePlugin
+    SoftBreak({ shift: true })
   ];
 
   hasBlock = type => {
@@ -150,6 +152,13 @@ export default class EditorApp extends React.Component {
     e.preventDefault();
     const change = tablePlugin.changes.insertTable(this.state.value.change());
     this.onChange(change);
+  };
+  onRemoveTable = e => {
+    e.preventDefault();
+    try {
+      const change = tablePlugin.changes.removeTable(this.state.value.change());
+      this.onChange(change.insertBlock("paragraph"));
+    } catch (e) {}
   };
 
   onClickLink = e => {
@@ -304,9 +313,9 @@ export default class EditorApp extends React.Component {
         const src = data.get("src");
         return (
           <img
+            {...props.attributes}
             draggable={false}
             style={{ cursor: "pointer" }}
-            {...props.attributes}
             src={src}
           />
         );
@@ -319,11 +328,7 @@ export default class EditorApp extends React.Component {
         if (firstChildType !== "image") {
           return null;
         }
-        return (
-          <figure onMouseDown={() => console.log(true)} {...props.attributes}>
-            {props.children}
-          </figure>
-        );
+        return <figure {...props.attributes}>{props.children}</figure>;
       }
       case "figcaption": {
         return <figcaption {...props.attributes}>{props.children}</figcaption>;
@@ -334,8 +339,8 @@ export default class EditorApp extends React.Component {
         return <center {...props.attributes}>{props.children}</center>;
       case "table":
         return (
-          <table border={1} {...props.attributes}>
-            <tbody>{props.children}</tbody>
+          <table border={1}>
+            <tbody {...props.attributes}>{props.children}</tbody>
           </table>
         );
       case "table-row":
@@ -400,6 +405,8 @@ export default class EditorApp extends React.Component {
       block = "code-block";
       textBlock = "Code block";
     }
+
+    const isInTable = tablePlugin.utils.isSelectionInTable(this.state.value);
     return (
       <div className="toolbar">
         <div className="toolbar-group">
@@ -443,16 +450,24 @@ export default class EditorApp extends React.Component {
             <Icons type="link" />
           </button>
         </div>
-        <button onMouseDown={this.onSerialize}>serialize</button>
-        <button onMouseDown={e => this.onClickBlock(e, "center")}>
-          center
-        </button>
-        <button onMouseDown={e => this.onInsertImage(e)}>image</button>
-        <button onMouseDown={e => this.onInsertTable(e)}>table</button>
+        {/* <button onMouseDown={this.onSerialize}>serialize</button> */}
+        {!isInTable && (
+          <React.Fragment>
+            <button onMouseDown={e => this.onClickBlock(e, "center")}>
+              center
+            </button>
+            <button onMouseDown={e => this.onInsertImage(e)}>image</button>
+            <button onMouseDown={e => this.onInsertTable(e)}>table</button>
+          </React.Fragment>
+        )}
+        {isInTable && (
+          <button onMouseDown={e => this.onRemoveTable(e)}>delete table</button>
+        )}
       </div>
     );
   };
   render() {
+    console.log(this.state);
     return (
       <div>
         {this.renderToolbar()}
