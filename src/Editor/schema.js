@@ -25,7 +25,8 @@ const schema = {
           "numbered-item",
           "bulleted-list",
           "bulleted-item",
-          "link"
+          "link",
+          "div"
         ]
       }
     ]
@@ -43,6 +44,7 @@ const schema = {
   },
   blocks: {
     // link: {},
+    div: {},
     paragraph: {
       isVoid: false
       // nodes: [{ objects: ["text"] }]

@@ -37,7 +37,8 @@ const tablePlugin = PluginEditTable({
 export default class EditorApp extends React.Component {
   state = {
     value: serializer.deserialize(
-      `<p>ini <a href="http://google.com">adalah</a> test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
+      ""
+      // `<p>ini <a href="http://google.com">adalah</a> test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
     ),
     linkDialongShow: false,
     mousePosition: { x: 0, y: 0 },
@@ -55,17 +56,17 @@ export default class EditorApp extends React.Component {
       typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
       quotes: "“”‘’"
     });
-    // client.database
-    //   .getDiscussions("trending", {
-    //     tag: "steemstem",
-    //     limit: 1
-    //   })
-    //   .then(data => {
-    //     console.log(md.render(data[0].body));
-    //     this.setState({
-    //       value: serializer.deserialize(md.render(data[0].body))
-    //     });
-    //   });
+    client.database
+      .getDiscussions("trending", {
+        tag: "steemstem",
+        limit: 1
+      })
+      .then(data => {
+        console.log(md.render(data[0].body));
+        this.setState({
+          value: serializer.deserialize(md.render(data[0].body))
+        });
+      });
   }
 
   hasMark = type => {
@@ -375,6 +376,14 @@ export default class EditorApp extends React.Component {
         return <tr {...props.attributes}>{props.children}</tr>;
       case "table-cell":
         return <td {...props.attributes}>{props.children}</td>;
+      case "div":
+        const pull = props.node.data.get("pull");
+        console.log(pull);
+        return (
+          <div className={pull && `pull-${pull}`} {...props.attributes}>
+            {props.children}
+          </div>
+        );
     }
   };
 
