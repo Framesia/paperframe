@@ -217,11 +217,14 @@ a {
 table {
   width: 100%;
   padding: 10px;
-  border: solid 1px #999;
+  /* border: none; */
   margin: 10px 0 20px;
 }
+tr {
+  border-bottom: solid 2px #999;
+}
 td {
-  border: solid 1px #999;
+  border: solid 1px #ddd;
   padding: 5px 8px;
 }
 table * {

@@ -376,7 +376,7 @@ export default class EditorApp extends React.Component {
         return <center {...props.attributes}>{props.children}</center>;
       case "table":
         return (
-          <table border={1}>
+          <table>
             <tbody {...props.attributes}>{props.children}</tbody>
           </table>
         );
@@ -526,7 +526,7 @@ export default class EditorApp extends React.Component {
           }}
         />
         <Editor
-          readOnly
+          // readOnly=false
           spellCheck={false}
           className="editor"
           placeholder="Write your thought…"
