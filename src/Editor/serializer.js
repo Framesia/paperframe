@@ -27,7 +27,9 @@ const BLOCK_TAGS = {
 // Add a dictionary of mark tags.
 const MARK_TAGS = {
   em: "italic",
+  i: "italic",
   strong: "bold",
+  b: "bold",
   u: "underline",
   code: "code",
   abbr: "small-caps"
@@ -121,8 +123,7 @@ const serializeNode = (obj, children) => {
         return <td>{children}</td>;
       case "div":
         const pull = obj.data.get("pull");
-        console.log(pull);
-        return <div>{children}</div>;
+        return <div className={pull && `pull-${pull}`}>{children}</div>;
     }
   }
 };

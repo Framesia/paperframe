@@ -46,7 +46,7 @@ const schema = {
     // link: {},
     div: {},
     paragraph: {
-      isVoid: false
+      // isVoid: false
       // nodes: [{ objects: ["text"] }]
     },
     figcaption: {
