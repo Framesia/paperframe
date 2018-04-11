@@ -21,7 +21,8 @@ const BLOCK_TAGS = {
   table: "table",
   tr: "table-row",
   td: "table-cell",
-  div: "div"
+  div: "div",
+  center: "center"
 };
 // Add a dictionary of mark tags.
 const MARK_TAGS = {

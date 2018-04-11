@@ -19,7 +19,7 @@ const schema = {
           "block-quote",
           "code-block",
           "center",
-          // "divider",
+          "divider",
           "table",
           "numbered-list",
           "numbered-item",

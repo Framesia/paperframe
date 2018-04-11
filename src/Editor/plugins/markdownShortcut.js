@@ -106,47 +106,47 @@ export default function shortcut(hasMark) {
       transform: (transform, e, matches) => {
         return transform.insertText("…");
       }
-    }),
-    AutoReplace({
-      trigger: /[^A-Z]/,
-      before: /([A-Z]{2,})$/,
-      // after: /[^A-Z]{0,}/,
-      transform: (transform, e, matches) => {
-        const textCaps = matches.before[0];
-        let triggerChar = e.key;
-        // const hasSmallCaps = transform.value.activeMarks.some(
-        //   mark => mark.type == "small-caps"
-        // );
-        console.log(hasMark);
-
-        if (hasMark("small-caps")) {
-          transform = transform
-            .addMark("small-caps")
-            .insertText(textCaps)
-            .collapseToEnd();
-          if (triggerChar === "Backspace") {
-            transform = transform.deleteBackward();
-          } else if (triggerChar.length === 1) {
-            transform = transform.insertText(triggerChar);
-          } else if (triggerChar === "ArrowRight") {
-            transform.move(1);
-          } else if (triggerChar === "ArrowLeft") {
-            transform.move(-1);
-          }
-          return transform;
-        }
-        if (triggerChar.length > 1) {
-          triggerChar = " ";
-        }
-
-        return transform
-          .addMark("small-caps")
-          .insertText(textCaps)
-          .removeMark("small-caps")
-          .insertText(triggerChar)
-          .collapseToEnd();
-        // .removeMark("small-caps")
-      }
     })
+    // AutoReplace({
+    //   trigger: /[^A-Z]/,
+    //   before: /([A-Z]{2,})$/,
+    //   // after: /[^A-Z]{0,}/,
+    //   transform: (transform, e, matches) => {
+    //     const textCaps = matches.before[0];
+    //     let triggerChar = e.key;
+    //     // const hasSmallCaps = transform.value.activeMarks.some(
+    //     //   mark => mark.type == "small-caps"
+    //     // );
+    //     console.log(hasMark);
+
+    //     if (hasMark("small-caps")) {
+    //       transform = transform
+    //         .addMark("small-caps")
+    //         .insertText(textCaps)
+    //         .collapseToEnd();
+    //       if (triggerChar === "Backspace") {
+    //         transform = transform.deleteBackward();
+    //       } else if (triggerChar.length === 1) {
+    //         transform = transform.insertText(triggerChar);
+    //       } else if (triggerChar === "ArrowRight") {
+    //         transform.move(1);
+    //       } else if (triggerChar === "ArrowLeft") {
+    //         transform.move(-1);
+    //       }
+    //       return transform;
+    //     }
+    //     if (triggerChar.length > 1) {
+    //       triggerChar = " ";
+    //     }
+
+    //     return transform
+    //       .addMark("small-caps")
+    //       .insertText(textCaps)
+    //       .removeMark("small-caps")
+    //       .insertText(triggerChar)
+    //       .collapseToEnd();
+    //     // .removeMark("small-caps")
+    //   }
+    // })
   ];
 }

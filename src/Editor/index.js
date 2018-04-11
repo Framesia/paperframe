@@ -62,9 +62,11 @@ export default class EditorApp extends React.Component {
         limit: 1
       })
       .then(data => {
-        console.log(md.render(data[0].body));
+        let value = md.render(data[0].body);
+        // value = value.replace(/<p>(<br ?\/>){0,}<\/p>/g, "");
+        // console.log(value);
         this.setState({
-          value: serializer.deserialize(md.render(data[0].body))
+          value: serializer.deserialize(value)
         });
       });
   }
@@ -251,6 +253,12 @@ export default class EditorApp extends React.Component {
       case "code-block":
         return <pre {...props.attributes}>{props.children}</pre>;
       case "paragraph":
+        let readOnly = true;
+        if (readOnly) {
+          if (/^\s+$/.test(props.node.text)) {
+            return null;
+          }
+        }
         return (
           <p {...props.attributes}>
             {HangingDouble}
@@ -378,7 +386,6 @@ export default class EditorApp extends React.Component {
         return <td {...props.attributes}>{props.children}</td>;
       case "div":
         const pull = props.node.data.get("pull");
-        console.log(pull);
         return (
           <div className={pull && `pull-${pull}`} {...props.attributes}>
             {props.children}
@@ -399,8 +406,8 @@ export default class EditorApp extends React.Component {
         return <del>{props.children}</del>;
       case "underline":
         return <u>{props.children}</u>;
-      case "small-caps":
-        return <abbr>{props.children}</abbr>;
+      // case "small-caps":
+      //   return <abbr>{props.children}</abbr>;
     }
   };
 

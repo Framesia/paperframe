@@ -37,14 +37,14 @@ button {
 p,
 li {
   font-size: 20px;
-  font-family: "Alegreya", serif;
+  font-family: "Crimson Text", serif;
   line-height: 1.35;
   font-weight: 300;
   /* letter-spacing: -.02em; */
 }
 p abbr,
 li abbr {
-  font-family: "Alegreya SC", serif;
+  /* font-family: "Alegreya SC", serif; */
   text-transform: lowercase;
   letter-spacing: 0.05em;
   /* margin: 0 2px; */
@@ -60,8 +60,8 @@ b {
   font-weight: bold;
 }
 u {
-  text-decoration: none;
-  border-bottom: solid 1px #999;
+  /* text-decoration: none;
+  border-bottom: solid 1px #999; */
 }
 
 code {
@@ -179,9 +179,11 @@ hr:after {
   background: white;
 }
 a {
-  opacity: 0.8;
-  text-decoration: none;
-  border-bottom: dotted 1px #999;
+  /* opacity: 0.8; */
+  /* text-decoration: underline; */
+  text-decoration-line: underline;
+  text-decoration-style: solid;
+  /* border-bottom: dotted 1px #999; */
 }
 
 .editor {
@@ -242,7 +244,7 @@ table p {
 }
 
 .dropdown .paragraph {
-  font-family: "Alegreya", serif;
+  font-family: "Crimson Text", serif;
 }
 .dropdown .heading-one {
   font-size: 20px;
@@ -308,13 +310,13 @@ table p {
   outline: none;
   border: solid 1px #999;
   border-right: none;
-  font-family: "Alegreya", serif;
+  font-family: "Crimson Text", serif;
 }
 .rc-dialog-content .submit {
   padding: 5px 8px;
   background: #fff;
   border: solid 1px #999;
-  font-family: "Alegreya SC", serif;
+  font-family: "Roboto", sans-serif;
   text-transform: lowercase;
 }
 .rc-dialog-close {
