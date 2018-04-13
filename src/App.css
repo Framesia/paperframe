@@ -110,15 +110,19 @@ pre {
 }
 
 blockquote {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.2;
   font-weight: 300;
   opacity: 0.7;
-  font-family: "Josefin Slab", serif;
+  font-style: italic;
   margin-left: 0;
   padding-left: 24px;
   border-left: solid 3px #ddd;
   width: 100%;
+}
+
+blockquote p {
+  font-family: "Josefin Slab", serif;
 }
 
 center blockquote {
@@ -189,7 +193,7 @@ hr:after {
   display: inline-block;
   position: relative;
   top: -0.7em;
-  font-size: 1.4em;
+  font-size: 1em;
   padding: 0 0.5em;
   background: white;
 }
@@ -274,7 +278,7 @@ table p {
 .dropdown .block-quote {
   font-size: 18px;
   opacity: 0.7;
-  font-family: "Josefin Slab", serif;
+  font-family: "Roboto Slab", serif;
 }
 .dropdown .code-block {
   font-size: 14px;
