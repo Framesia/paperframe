@@ -48,28 +48,7 @@ export default class EditorApp extends React.Component {
     figureClicked: -1
   };
 
-  componentDidMount() {
-    const md = new Remarkable({
-      html: true,
-      breaks: false,
-      linkify: true, // linkify is done locally
-      typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
-      quotes: "“”‘’"
-    });
-    client.database
-      .getDiscussions("trending", {
-        tag: "steemstem",
-        limit: 1
-      })
-      .then(data => {
-        let value = md.render(data[0].body);
-        // value = value.replace(/<p>(<br ?\/>){0,}<\/p>/g, "");
-        // console.log(value);
-        this.setState({
-          value: serializer.deserialize(value)
-        });
-      });
-  }
+  componentDidMount() {}
 
   hasMark = type => {
     const { value } = this.state;

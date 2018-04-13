@@ -15,6 +15,7 @@ h4,
 h5,
 h5 {
   font-family: "Roboto", sans-serif;
+  clear: both;
 }
 .title {
   font-family: "Roboto", sans-serif;
@@ -41,7 +42,7 @@ h5 {
 
 .wrapper {
   margin: 0 auto;
-  max-width: 560px;
+  max-width: 660px;
   padding: 0 10px;
 }
 button {
@@ -179,6 +180,7 @@ hr {
   color: #eee;
   text-align: center;
   max-width: 300px;
+  clear: both;
   margin: 30px auto;
 }
 hr:after {

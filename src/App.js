@@ -6,12 +6,14 @@ import "rc-dialog/assets/index.css";
 import "./App.css";
 
 import Editor from "./Editor/";
+import Renderer from "./Renderer/";
 
 class App extends Component {
   render() {
     return (
       <div className="wrapper">
-        <Editor />
+        {/* <Editor /> */}
+        <Renderer />
       </div>
     );
   }
