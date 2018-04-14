@@ -75,7 +75,7 @@ class Feed extends Component {
   componentDidMount() {
     client.database
       .getDiscussions("trending", {
-        tag: "science",
+        tag: "space",
         limit: 5,
         truncate_body: 1
       })

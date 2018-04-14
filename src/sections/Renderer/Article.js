@@ -18,7 +18,7 @@ class Renderer extends Component {
       quotes: "“”‘’"
     });
     client.database
-      .getDiscussions("trending", { tag: "art", limit: 1 })
+      .getDiscussions("trending", { tag: "science", limit: 1 })
       .then(data => {
         const post = data[0];
         let value = post.body;

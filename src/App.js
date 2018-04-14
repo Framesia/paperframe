@@ -7,6 +7,7 @@ import "./App.css";
 
 import HomePage from "./pages/HomePage";
 import EditorPage from "./pages/EditorPage";
+import ArticlePage from "./pages/ArticlePage";
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route path="/editor" component={EditorPage} />
+            <Route path="/article" component={ArticlePage} />
           </Switch>
         </BrowserRouter>
       </div>
