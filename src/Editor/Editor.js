@@ -26,6 +26,7 @@ import hotKey from "./plugins/hotKey";
 import markdownShortcut from "./plugins/markdownShortcut";
 
 import Remarkable from "remarkable";
+import Toolbar from "./Toolbar";
 const client = new Client("https://api.steemit.com");
 
 const tablePlugin = PluginEditTable({
@@ -390,111 +391,23 @@ export default class EditorApp extends React.Component {
     }
   };
 
-  renderToolbar = () => {
-    const Mark = type => (
-      <button
-        className={this.hasMark(type) ? "active" : ""}
-        onMouseDown={e => this.onClickMark(e, type)}
-      >
-        <Icons type={type} />
-      </button>
-    );
-
-    const Node = (type, text) => (
-      <div className={type} onMouseDown={e => this.onClickBlock(e, { type })}>
-        {text}
-      </div>
-    );
-    let textBlock = "Paragraph";
-    let block = "paragraph";
-    if (this.hasBlock("heading-one")) {
-      block = "heading-one";
-      textBlock = "Big header";
-    } else if (this.hasBlock("heading-two")) {
-      block = "heading-two";
-      textBlock = "Medium header";
-    } else if (
-      this.hasBlock("heading-three") ||
-      this.hasBlock("heading-four") ||
-      this.hasBlock("heading-five") ||
-      this.hasBlock("heading-six")
-    ) {
-      block = "heading-three";
-      textBlock = "Small header";
-    } else if (this.hasBlock("block-quote")) {
-      block = "block-quote";
-      textBlock = "Quote";
-    } else if (this.hasBlock("code-block")) {
-      block = "code-block";
-      textBlock = "Code block";
-    }
-
-    const isInTable = tablePlugin.utils.isSelectionInTable(this.state.value);
-    return (
-      <div className="toolbar">
-        <div className="toolbar-group">
-          <Dropdown
-            trigger={["click"]}
-            overlay={
-              <div className="dropdown">
-                {Node("paragraph", "Paragraph")}
-                {Node("heading-one", "Big header")}
-                {Node("heading-two", "Medium header")}
-                {Node("heading-three", "Small header")}
-                {Node("block-quote", "Quote")}
-                {Node("code-block", "Code block")}
-              </div>
-            }
-            overlayClassName="dropdown-items"
-            animation="slide-up"
-            // onVisibleChange={e => console.log(e)}
-          >
-            <div className="dropdown trigger">
-              <div className={block} style={{ width: 160 }}>
-                {textBlock}
-              </div>
-            </div>
-          </Dropdown>
-        </div>
-        <div className="toolbar-group">
-          {Mark("bold")}
-          {Mark("italic")}
-          {Mark("underline")}
-        </div>
-        <div className="toolbar-group">
-          {Mark("code")}
-          <button
-            className={
-              this.state.value.inlines.some(inline => inline.type == "link")
-                ? "active"
-                : ""
-            }
-            onMouseDown={this.onClickLink}
-          >
-            <Icons type="link" />
-          </button>
-        </div>
-        <button onMouseDown={this.onSerialize}>serialize</button>
-        {!isInTable && (
-          <React.Fragment>
-            <button onMouseDown={e => this.onClickBlock(e, "center")}>
-              center
-            </button>
-            <button onMouseDown={e => this.onInsertImage(e)}>image</button>
-            <button onMouseDown={e => this.onInsertTable(e)}>table</button>
-          </React.Fragment>
-        )}
-        {isInTable && (
-          <button onMouseDown={e => this.onRemoveTable(e)}>delete table</button>
-        )}
-      </div>
-    );
-  };
   render() {
     // console.log(this.state);
     return (
       <div>
-        {this.renderToolbar()}
+        <Toolbar
+          value={this.state.value}
+          hasMark={this.hasMark}
+          hasBlock={this.hasBlock}
+          onClickBlock={this.onClickBlock}
+          onClickLink={this.onClickLink}
+          onClickMark={this.onClickMark}
+          onInsertImage={this.onInsertImage}
+          onInsertTable={this.onInsertTable}
+          onSerialize={this.onSerialize}
+          onRemoveTable={this.onRemoveTable}
+          tablePlugin={tablePlugin}
+        />
         <TextareaAutosize
           className="title"
           placeholder="Title"
@@ -508,7 +421,7 @@ export default class EditorApp extends React.Component {
         <Editor
           // readOnly=false
           spellCheck={false}
-          className="editor"
+          className="article"
           placeholder="Write your thought…"
           plugins={this.plugins}
           value={this.state.value}

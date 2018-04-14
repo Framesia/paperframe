@@ -2,7 +2,7 @@ body {
   font-size: 16px;
   font-family: "Roboto", sans-serif;
 }
-.editor {
+.article {
   padding: 10px;
   cursor: text;
   font-size: 20px;
@@ -206,24 +206,6 @@ a {
   /* border-bottom: dotted 1px #999; */
 }
 
-.toolbar {
-  display: flex;
-  height: 50px;
-  padding: 10px;
-  background: #fff;
-  color: #eee;
-  border: solid 1px #eee;
-  border-top: none;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  position: fixed;
-  top: 0;
-  max-width: 600px;
-  /* background: rgba(255, 255, 255, 0.95); */
-  /* background: #fff; */
-}
-
 table {
   width: 100%;
   padding: 10px;
@@ -298,32 +280,6 @@ table p {
   font-size: 14px;
   font-family: monospace;
   /* background: #eee; */
-}
-
-.toolbar-group {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-}
-
-.toolbar button {
-  display: flex;
-  align-items: center;
-  background: none;
-  margin: 0;
-  opacity: 0.3;
-  padding: 6px;
-  margin: 2px;
-  border-radius: 20px;
-  /* color: #eee; */
-  /* background: #fff; */
-}
-.toolbar button.active {
-  background: #f6f6f6;
-  opacity: 1;
-}
-.toolbar button:hover {
-  background: #eee;
 }
 
 .rc-dialog-mask {

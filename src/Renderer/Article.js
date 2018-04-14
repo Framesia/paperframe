@@ -83,7 +83,7 @@ class Renderer extends Component {
 
   render() {
     return (
-      <div className="editor">
+      <div className="article">
         <div dangerouslySetInnerHTML={{ __html: this.state.value }} />
       </div>
     );

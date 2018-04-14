@@ -2,10 +2,11 @@ import React, { Component } from "react";
 
 import "rc-dropdown/assets/index.css";
 import "rc-dialog/assets/index.css";
+
 import "./App.css";
 
-import Editor from "./Editor/";
-import Renderer from "./Renderer/";
+import Editor from "./Editor/Editor";
+import Article from "./Renderer/Article";
 import Header from "./Header/Header";
 class App extends Component {
   render() {
@@ -14,7 +15,6 @@ class App extends Component {
         <Header />
         <div className="wrapper">
           <Editor />
-          {/* <Renderer /> */}
         </div>
       </div>
     );
