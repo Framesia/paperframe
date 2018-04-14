@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 
 import "rc-dropdown/assets/index.css";
 import "rc-dialog/assets/index.css";
@@ -7,13 +6,16 @@ import "./App.css";
 
 import Editor from "./Editor/";
 import Renderer from "./Renderer/";
-
+import Header from "./Header/Header";
 class App extends Component {
   render() {
     return (
-      <div className="wrapper">
-        {/* <Editor /> */}
-        <Renderer />
+      <div>
+        <Header />
+        <div className="wrapper">
+          <Editor />
+          {/* <Renderer /> */}
+        </div>
       </div>
     );
   }

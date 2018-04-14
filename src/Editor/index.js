@@ -448,7 +448,7 @@ export default class EditorApp extends React.Component {
             animation="slide-up"
             onVisibleChange={e => console.log(e)}
           >
-            <div className="dropdown">
+            <div className="dropdown trigger">
               <div className={block} style={{ width: 160 }}>
                 {textBlock}
               </div>

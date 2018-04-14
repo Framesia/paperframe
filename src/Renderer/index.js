@@ -17,7 +17,7 @@ class Renderer extends Component {
       quotes: "“”‘’"
     });
     client.database
-      .getDiscussions("trending", { tag: "steemstem", limit: 1 })
+      .getDiscussions("trending", { tag: "art", limit: 1 })
       .then(data => {
         const post = data[0];
         let value = post.body;
@@ -28,9 +28,9 @@ class Renderer extends Component {
         metadata = JSON.parse(post.json_metadata);
 
         let { image, links, users } = metadata;
-        image = image.reverse();
-        links = links.reverse();
-        users = users.reverse();
+        image = image ? image.reverse() : [];
+        links = links ? links.reverse() : [];
+        users = users ? users.reverse() : [];
 
         function escapeRegExp(str) {
           return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -61,7 +61,7 @@ class Renderer extends Component {
         image.forEach((img, i) => {
           value = value.replace(
             new RegExp(randomId + "-img-" + i + "-", "g"),
-            `<img src="${img}" />`
+            `<img src="https://steemitimages.com/640x2000/${img}" />`
           );
         });
         links.forEach((link, i) => {
