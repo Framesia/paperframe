@@ -1,6 +1,6 @@
 import AutoReplace from "slate-auto-replace";
 
-export default function shortcut(hasMark) {
+export default function shortcut({ hasMark, listPlugin }) {
   console.log(hasMark);
   return [
     AutoReplace({
@@ -29,18 +29,14 @@ export default function shortcut(hasMark) {
       trigger: "space",
       before: /^(-|\*|\+)$/,
       transform: (transform, e, matches) => {
-        return transform
-          .setBlocks({ type: "bulleted-item" })
-          .wrapBlock({ type: "bulleted-list" });
+        return listPlugin.changes.wrapInList(transform, "bulleted-list");
       }
     }),
     AutoReplace({
       trigger: "space",
       before: /^(1\.)$/,
       transform: (transform, e, matches) => {
-        return transform
-          .setBlock({ type: "numbered-item" })
-          .wrapBlock({ type: "numbered-list" });
+        return listPlugin.changes.wrapInList(transform, "numbered-list");
       }
     }),
     AutoReplace({

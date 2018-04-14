@@ -31,16 +31,14 @@ const renderNode = props => {
       return <ul {...props.attributes}>{props.children}</ul>;
     case "numbered-list":
       return <ol {...props.attributes}>{props.children}</ol>;
-    case "bulleted-item":
+    case "list-item":
       return <li {...props.attributes}>{props.children}</li>;
-    case "numbered-item":
-      return (
-        <li {...props.attributes}>
-          {HangingDouble}
-          {HangingSingle}
-          {props.children}
-        </li>
-      );
+    // case "numbered-item":
+    //   return (
+    //     <li {...props.attributes}>
+    //       {props.children}
+    //     </li>
+    //   );
     case "heading-one":
       return (
         <h1 {...props.attributes}>
@@ -112,25 +110,24 @@ const renderNode = props => {
       return (
         <img
           {...props.attributes}
-          draggable={false}
           style={{ cursor: "pointer" }}
           src={`https://steemitimages.com/0x0/${src}`}
         />
       );
     }
-    case "figure": {
-      const firstChildType = props.node
-        .get("nodes")
-        .get("0")
-        .get("type");
-      if (firstChildType !== "image") {
-        return null;
-      }
-      return <figure {...props.attributes}>{props.children}</figure>;
-    }
-    case "figcaption": {
-      return <figcaption {...props.attributes}>{props.children}</figcaption>;
-    }
+    // case "figure": {
+    //   const firstChildType = props.node
+    //     .get("nodes")
+    //     .get("0")
+    //     .get("type");
+    //   if (firstChildType !== "image") {
+    //     return null;
+    //   }
+    //   return <figure {...props.attributes}>{props.children}</figure>;
+    // }
+    // case "figcaption": {
+    //   return <figcaption {...props.attributes}>{props.children}</figcaption>;
+    // }
     case "divider":
       return <hr />;
     case "center":
@@ -145,7 +142,7 @@ const renderNode = props => {
       return <tr {...props.attributes}>{props.children}</tr>;
     case "table-cell":
       return <td {...props.attributes}>{props.children}</td>;
-    case "div":
+    case "pull-left":
       const pull = props.node.data.get("pull");
       return (
         <div className={pull && `pull-${pull}`} {...props.attributes}>

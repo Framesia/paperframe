@@ -72,6 +72,55 @@ const Icons = ({ size = 20, color = "#999999", type }) => {
         </React.Fragment>
       );
       break;
+    case "pull-left":
+      Path = (
+        <React.Fragment>
+          <path d="M3,7H9V13H3V7M3,3H21V5H3V3M21,7V9H11V7H21M21,11V13H11V11H21M3,15H17V17H3V15M3,19H21V21H3V19Z" />
+        </React.Fragment>
+      );
+      break;
+    case "pull-right":
+      Path = (
+        <React.Fragment>
+          <path d="M15,7H21V13H15V7M3,3H21V5H3V3M13,7V9H3V7H13M9,11V13H3V11H9M3,15H17V17H3V15M3,19H21V21H3V19Z" />
+        </React.Fragment>
+      );
+      break;
+    case "insert-column":
+      Path = (
+        <React.Fragment>
+          <path d="M11,2A2,2 0 0,1 13,4V20A2,2 0 0,1 11,22H2V2H11M4,10V14H11V10H4M4,16V20H11V16H4M4,4V8H11V4H4M15,11H18V8H20V11H23V13H20V16H18V13H15V11Z" />
+        </React.Fragment>
+      );
+      break;
+    case "insert-row":
+      Path = (
+        <React.Fragment>
+          <path d="M22,10A2,2 0 0,1 20,12H4A2,2 0 0,1 2,10V3H4V5H8V3H10V5H14V3H16V5H20V3H22V10M4,10H8V7H4V10M10,10H14V7H10V10M20,10V7H16V10H20M11,14H13V17H16V19H13V22H11V19H8V17H11V14Z" />
+        </React.Fragment>
+      );
+      break;
+    case "remove-column":
+      Path = (
+        <React.Fragment>
+          <path d="M4,2H11A2,2 0 0,1 13,4V20A2,2 0 0,1 11,22H4A2,2 0 0,1 2,20V4A2,2 0 0,1 4,2M4,10V14H11V10H4M4,16V20H11V16H4M4,4V8H11V4H4M17.59,12L15,9.41L16.41,8L19,10.59L21.59,8L23,9.41L20.41,12L23,14.59L21.59,16L19,13.41L16.41,16L15,14.59L17.59,12Z" />
+        </React.Fragment>
+      );
+      break;
+    case "remove-row":
+      Path = (
+        <React.Fragment>
+          <path d="M9.41,13L12,15.59L14.59,13L16,14.41L13.41,17L16,19.59L14.59,21L12,18.41L9.41,21L8,19.59L10.59,17L8,14.41L9.41,13M22,9A2,2 0 0,1 20,11H4A2,2 0 0,1 2,9V6A2,2 0 0,1 4,4H20A2,2 0 0,1 22,6V9M4,9H8V6H4V9M10,9H14V6H10V9M16,9H20V6H16V9Z" />
+        </React.Fragment>
+      );
+      break;
+    case "delete":
+      Path = (
+        <React.Fragment>
+          <path d="M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" />
+        </React.Fragment>
+      );
+      break;
 
     default:
       break;

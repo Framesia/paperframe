@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   position: fixed;
   top: 0;
-  width: 600px;
+  width: 640px;
 
   button {
     display: flex;
@@ -54,6 +54,10 @@ const Toolbar = ({
   value,
   onSerialize,
   onRemoveTable,
+  onRemoveRow,
+  onRemoveColumn,
+  onInsertRow,
+  onInsertColumn,
   tablePlugin
 }) => {
   const Mark = type => (
@@ -115,7 +119,7 @@ const Toolbar = ({
         >
           <div className="dropdown trigger">
             <div className={block} style={{ width: 160 }}>
-              {textBlock}
+              {!isInTable && textBlock}
             </div>
           </div>
         </Dropdown>
@@ -135,23 +139,39 @@ const Toolbar = ({
       </Group>
 
       <Group>
+        <button onMouseDown={e => onInsertImage(e)}>
+          <Icons type="image" />
+        </button>
         {!isInTable && (
           <React.Fragment>
             <button onMouseDown={e => onClickBlock(e, "center")}>
               <Icons type="center" />
-            </button>
-            <button onMouseDown={e => onInsertImage(e)}>
-              <Icons type="image" />
             </button>
             <button onMouseDown={e => onInsertTable(e)}>
               <Icons type="table" />
             </button>
           </React.Fragment>
         )}
-        {isInTable && (
-          <button onMouseDown={e => onRemoveTable(e)}>delete table</button>
-        )}
       </Group>
+      {isInTable && (
+        <Group>
+          <button onMouseDown={e => onInsertRow(e)}>
+            <Icons type="insert-row" />
+          </button>
+          <button onMouseDown={e => onInsertColumn(e)}>
+            <Icons type="insert-column" />
+          </button>
+          <button onMouseDown={e => onRemoveRow(e)}>
+            <Icons type="remove-row" />
+          </button>
+          <button onMouseDown={e => onRemoveColumn(e)}>
+            <Icons type="remove-column" />
+          </button>
+          <button onMouseDown={e => onRemoveTable(e)}>
+            <Icons type="delete" />
+          </button>
+        </Group>
+      )}
       <Group>
         <button>Publish</button>
       </Group>

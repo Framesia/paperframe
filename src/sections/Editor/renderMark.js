@@ -11,6 +11,10 @@ const renderMark = props => {
       return <del>{props.children}</del>;
     case "underline":
       return <u>{props.children}</u>;
+    case "sub":
+      return <sub>{props.children}</sub>;
+    case "sup":
+      return <sup>{props.children}</sup>;
     // case "small-caps":
     //   return <abbr>{props.children}</abbr>;
   }

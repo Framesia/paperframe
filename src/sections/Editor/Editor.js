@@ -12,14 +12,15 @@ import Dialog from "rc-dialog";
 
 import isUrl from "is-url";
 
-import SoftBreak from "slate-soft-break";
-import PluginEditTable from "slate-edit-table";
-
 import serializer from "./serializer";
 import initialValue from "./initialValue.json";
 
 import Icons from "./Icons";
 import schema from "./schema";
+
+import SoftBreak from "slate-soft-break";
+import PluginEditTable from "slate-edit-table";
+import PluginEditList from "slate-edit-list";
 
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
@@ -34,6 +35,11 @@ const tablePlugin = PluginEditTable({
   typeRow: "table-row",
   typeCell: "table-cell",
   exitBlockType: "enter"
+});
+
+const listPlugin = PluginEditList({
+  types: ["bulleted-list", "numbered-list"],
+  typeItem: "list-item"
 });
 
 export default class EditorApp extends React.Component {
@@ -56,9 +62,10 @@ export default class EditorApp extends React.Component {
 
   plugins = [
     tablePlugin,
-    normalize(this.state.value),
+    listPlugin,
+    // normalize(this.state.value),
     ...hotKey,
-    ...markdownShortcut(this.hasMark),
+    ...markdownShortcut({ hasMark: this.hasMark, listPlugin }),
     SoftBreak({ shift: true })
   ];
 
@@ -83,9 +90,11 @@ export default class EditorApp extends React.Component {
     const change = value.change();
     const { document } = value;
 
+    const isCenterActive = value.fragment.nodes.some(
+      node => node.type == "center"
+    );
     if (type == "center") {
-      const isActive = value.fragment.nodes.some(node => node.type == type);
-      if (isActive) {
+      if (isCenterActive) {
         change.unwrapBlock("center");
       } else {
         change.wrapBlock("center");
@@ -96,10 +105,10 @@ export default class EditorApp extends React.Component {
       const isList = this.hasBlock("list-item");
 
       if (isList) {
-        change
-          .setBlocks(isActive ? "paragraph" : type)
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
+        // change
+        //   .setBlocks(isActive ? "paragraph" : type)
+        //   .unwrapBlock("bulleted-list")
+        //   .unwrapBlock("numbered-list");
       } else {
         change.setBlocks(isActive ? "paragraph" : type);
       }
@@ -154,12 +163,30 @@ export default class EditorApp extends React.Component {
     const change = tablePlugin.changes.insertTable(this.state.value.change());
     this.onChange(change);
   };
+  onInsertRow = e => {
+    e.preventDefault();
+    const change = tablePlugin.changes.insertRow(this.state.value.change());
+    this.onChange(change);
+  };
+  onInsertColumn = e => {
+    e.preventDefault();
+    const change = tablePlugin.changes.insertColumn(this.state.value.change());
+    this.onChange(change);
+  };
   onRemoveTable = e => {
     e.preventDefault();
-    try {
-      const change = tablePlugin.changes.removeTable(this.state.value.change());
-      this.onChange(change.insertBlock("paragraph"));
-    } catch (e) {}
+    const change = tablePlugin.changes.removeTable(this.state.value.change());
+    this.onChange(change);
+  };
+  onRemoveRow = e => {
+    e.preventDefault();
+    const change = tablePlugin.changes.removeRow(this.state.value.change());
+    this.onChange(change);
+  };
+  onRemoveColumn = e => {
+    e.preventDefault();
+    const change = tablePlugin.changes.removeColumn(this.state.value.change());
+    this.onChange(change);
   };
 
   onClickLink = e => {
@@ -221,9 +248,15 @@ export default class EditorApp extends React.Component {
           onClickLink={this.onClickLink}
           onClickMark={this.onClickMark}
           onInsertImage={this.onInsertImage}
+          //
           onInsertTable={this.onInsertTable}
-          onSerialize={this.onSerialize}
+          onInsertRow={this.onInsertRow}
+          onInsertColumn={this.onInsertColumn}
           onRemoveTable={this.onRemoveTable}
+          onRemoveRow={this.onRemoveRow}
+          onRemoveColumn={this.onRemoveColumn}
+          //
+          onSerialize={this.onSerialize}
           tablePlugin={tablePlugin}
         />
         <TextareaAutosize
