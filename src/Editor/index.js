@@ -445,8 +445,9 @@ export default class EditorApp extends React.Component {
                 {Node("code-block", "Code block")}
               </div>
             }
+            overlayClassName="dropdown-items"
             animation="slide-up"
-            onVisibleChange={e => console.log(e)}
+            // onVisibleChange={e => console.log(e)}
           >
             <div className="dropdown trigger">
               <div className={block} style={{ width: 160 }}>

@@ -210,9 +210,10 @@ a {
   display: flex;
   height: 50px;
   padding: 10px;
-  background: #333;
+  background: #fff;
   color: #eee;
-  border: solid 1px #777;
+  border: solid 1px #eee;
+  border-top: none;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -251,6 +252,11 @@ table p {
   cursor: pointer;
   position: fixed;
   /* border-radius: 2px; */
+  /* top: 50px; */
+}
+
+.dropdown-items {
+  position: fixed;
 }
 
 .dropdown.trigger {
@@ -306,17 +312,18 @@ table p {
   background: none;
   margin: 0;
   opacity: 0.3;
-  padding: 8px;
+  padding: 6px;
+  margin: 2px;
   border-radius: 20px;
-  color: #eee;
+  /* color: #eee; */
   /* background: #fff; */
 }
 .toolbar button.active {
-  /* background: #f6f6f6; */
-  opacity: 0.9;
+  background: #f6f6f6;
+  opacity: 1;
 }
 .toolbar button:hover {
-  /* background: #eee; */
+  background: #eee;
 }
 
 .rc-dialog-mask {
@@ -334,16 +341,16 @@ table p {
 .rc-dialog-content .input {
   padding: 5px 8px;
   outline: none;
-  border: solid 1px #999;
+  border: solid 1px #ddd;
   border-right: none;
   font-family: "Crimson Text", serif;
 }
 .rc-dialog-content .submit {
   padding: 5px 8px;
   background: #fff;
-  border: solid 1px #999;
-  font-family: "Roboto", sans-serif;
-  text-transform: lowercase;
+  border: solid 1px #ddd;
+  font-family: "Crimson Text", sans-serif;
+  /* text-transform: lowercase; */
 }
 .rc-dialog-close {
   width: 32px;

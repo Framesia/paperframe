@@ -5,31 +5,40 @@ import Button from "../components/Button";
 
 import steemconnect from "../helpers/steemconnect";
 
+import { view } from "react-easy-state";
+import AuthStore from "../stores/Auth";
+
 const Wrapper = styled.div`
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: solid 1px #999;
-  border-bottom: solid 1px #999;
-  color: #eee;
+  color: #333;
   padding: 0 20px;
-  /* font-family: "Crimson Text", serif; */
-  background: #333;
+  background: #fff;
+  border-bottom: solid 1px #eee;
 `;
 
 class Header extends Component {
-  onLogin = () => {
-    console.log(steemconnect().getLoginURL());
-  };
+  componentDidMount() {
+    AuthStore.getLoginURL();
+    if (AuthStore.getAccessToken()) {
+      AuthStore.getMe();
+    }
+  }
+  renderWhenLogin() {
+    return <div>{AuthStore.me.name}</div>;
+  }
+  renderWhenNotLogin() {
+    return <a href={AuthStore.loginURL}>Sign in</a>;
+  }
   render() {
     return (
       <Wrapper>
-        Header
-        <Button onClick={this.onLogin}>Sign in</Button>
+        {AuthStore.isLogin ? this.renderWhenLogin() : this.renderWhenNotLogin()}
       </Wrapper>
     );
   }
 }
 
-export default Header;
+export default view(Header);
