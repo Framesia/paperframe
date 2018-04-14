@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Client } from "dsteem";
 
 import Remarkable from "remarkable";
+
+import { Client } from "dsteem";
 const client = new Client("https://api.steemit.com");
 
 class Renderer extends Component {
