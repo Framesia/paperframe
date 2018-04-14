@@ -17,14 +17,15 @@ const Wrapper = styled.div`
   flex-wrap: wrap;
   position: fixed;
   top: 0;
-  max-width: 600px;
+  width: 600px;
+
   button {
     display: flex;
     align-items: center;
     background: none;
     margin: 0;
     opacity: 0.3;
-    padding: 6px;
+    padding: 5px;
     margin: 2px;
     border-radius: 20px;
     &.active {
@@ -34,9 +35,6 @@ const Wrapper = styled.div`
     &:hover {
       background: #eee;
     }
-  }
-
-  .dropdown-items {
   }
 `;
 const Group = styled.div`
@@ -125,9 +123,6 @@ const Toolbar = ({
       <Group>
         {Mark("bold")}
         {Mark("italic")}
-        {Mark("underline")}
-      </Group>
-      <Group>
         {Mark("code")}
         <button
           className={
@@ -138,17 +133,28 @@ const Toolbar = ({
           <Icons type="link" />
         </button>
       </Group>
-      <button onMouseDown={onSerialize}>serialize</button>
-      {!isInTable && (
-        <React.Fragment>
-          <button onMouseDown={e => onClickBlock(e, "center")}>center</button>
-          <button onMouseDown={e => onInsertImage(e)}>image</button>
-          <button onMouseDown={e => onInsertTable(e)}>table</button>
-        </React.Fragment>
-      )}
-      {isInTable && (
-        <button onMouseDown={e => onRemoveTable(e)}>delete table</button>
-      )}
+
+      <Group>
+        {!isInTable && (
+          <React.Fragment>
+            <button onMouseDown={e => onClickBlock(e, "center")}>
+              <Icons type="center" />
+            </button>
+            <button onMouseDown={e => onInsertImage(e)}>
+              <Icons type="image" />
+            </button>
+            <button onMouseDown={e => onInsertTable(e)}>
+              <Icons type="table" />
+            </button>
+          </React.Fragment>
+        )}
+        {isInTable && (
+          <button onMouseDown={e => onRemoveTable(e)}>delete table</button>
+        )}
+      </Group>
+      <Group>
+        <button>Publish</button>
+      </Group>
     </Wrapper>
   );
 };

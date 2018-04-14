@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import Button from "../components/Button";
+import Button from "../../components/Button";
 
-import steemconnect from "../helpers/steemconnect";
+import steemconnect from "../../helpers/steemconnect";
 
 import { view } from "react-easy-state";
-import AuthStore from "../stores/Auth";
+import AuthStore from "../../stores/Auth";
 
 const Wrapper = styled.div`
   height: 50px;

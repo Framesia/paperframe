@@ -114,7 +114,6 @@ blockquote {
   line-height: 1.2;
   font-weight: 300;
   opacity: 0.7;
-  font-style: italic;
   margin-left: 0;
   padding-left: 24px;
   border-left: solid 3px #ddd;
@@ -274,7 +273,7 @@ table p {
 .dropdown .block-quote {
   font-size: 18px;
   opacity: 0.7;
-  font-family: "Roboto Slab", serif;
+  font-family: "Josefin Slab", serif;
 }
 .dropdown .code-block {
   font-size: 14px;

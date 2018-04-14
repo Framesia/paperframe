@@ -25,9 +25,10 @@ import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
 import markdownShortcut from "./plugins/markdownShortcut";
 
-import Remarkable from "remarkable";
+import renderNode from "./renderNode";
+import renderMark from "./renderMark";
+
 import Toolbar from "./Toolbar";
-const client = new Client("https://api.steemit.com");
 
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
@@ -37,10 +38,7 @@ const tablePlugin = PluginEditTable({
 
 export default class EditorApp extends React.Component {
   state = {
-    value: serializer.deserialize(
-      ""
-      // `<p>ini <a href="http://google.com">adalah</a> test</p><figure><img src="https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"/><figcaption>caption</figcaption></figure>`
-    ),
+    value: serializer.deserialize(""),
     linkDialongShow: false,
     mousePosition: { x: 0, y: 0 },
     linkValue: "",
@@ -140,22 +138,14 @@ export default class EditorApp extends React.Component {
     e.preventDefault();
     const { value } = this.state;
     const change = value.change();
-    change
-      // .insertBlock({ type: figure})
-      .insertBlock({
-        type: "image",
-        isVoid: true,
-        data: {
-          src:
-            "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
-        }
-      })
-      .wrapBlock("figure")
-      .insertBlock("figcaption")
-      .insertText("image caption")
-      .collapseToEnd()
-      .focus()
-      .extend(-13);
+    change.insertInline({
+      type: "image",
+      isVoid: true,
+      data: {
+        src:
+          "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
+      }
+    });
     this.onChange(change);
   };
 
@@ -219,178 +209,6 @@ export default class EditorApp extends React.Component {
     }
   };
 
-  renderNode = props => {
-    const firstChar = props.node.text[0];
-    let HangingDouble = null;
-    let HangingSingle = null;
-    if (firstChar === "“" || firstChar === '"') {
-      HangingDouble = <span className="hanging-double" />;
-    }
-    if (firstChar === "'" || firstChar === "‘") {
-      HangingSingle = <span className="hanging-single" />;
-    }
-    switch (props.node.type) {
-      case "code-block":
-        return <pre {...props.attributes}>{props.children}</pre>;
-      case "paragraph":
-        let readOnly = true;
-        if (readOnly) {
-          if (/^\s+$/.test(props.node.text)) {
-            return null;
-          }
-        }
-        return (
-          <p {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </p>
-        );
-      case "bulleted-list":
-        return <ul {...props.attributes}>{props.children}</ul>;
-      case "numbered-list":
-        return <ol {...props.attributes}>{props.children}</ol>;
-      case "bulleted-item":
-        return <li {...props.attributes}>{props.children}</li>;
-      case "numbered-item":
-        return (
-          <li {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </li>
-        );
-      case "heading-one":
-        return (
-          <h1 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h1>
-        );
-      case "heading-two":
-        return (
-          <h2 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h2>
-        );
-      case "heading-three":
-        return (
-          <h3 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h3>
-        );
-      case "heading-four":
-        return (
-          <h4 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h4>
-        );
-      case "heading-five":
-        return (
-          <h5 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h5>
-        );
-      case "heading-six":
-        return (
-          <h6 {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </h6>
-        );
-      case "block-quote":
-        return (
-          <blockquote {...props.attributes}>
-            {HangingDouble}
-            {HangingSingle}
-            {props.children}
-          </blockquote>
-        );
-      case "link": {
-        const { data } = props.node;
-        const href = data.get("href");
-        return (
-          <a {...props.attributes} href={href}>
-            {props.children}
-          </a>
-        );
-      }
-      case "image": {
-        const { data } = props.node;
-        const src = data.get("src");
-        return (
-          <img
-            {...props.attributes}
-            draggable={false}
-            style={{ cursor: "pointer" }}
-            src={`https://steemitimages.com/0x0/${src}`}
-          />
-        );
-      }
-      case "figure": {
-        const firstChildType = props.node
-          .get("nodes")
-          .get("0")
-          .get("type");
-        if (firstChildType !== "image") {
-          return null;
-        }
-        return <figure {...props.attributes}>{props.children}</figure>;
-      }
-      case "figcaption": {
-        return <figcaption {...props.attributes}>{props.children}</figcaption>;
-      }
-      case "divider":
-        return <hr />;
-      case "center":
-        return <center {...props.attributes}>{props.children}</center>;
-      case "table":
-        return (
-          <table>
-            <tbody {...props.attributes}>{props.children}</tbody>
-          </table>
-        );
-      case "table-row":
-        return <tr {...props.attributes}>{props.children}</tr>;
-      case "table-cell":
-        return <td {...props.attributes}>{props.children}</td>;
-      case "div":
-        const pull = props.node.data.get("pull");
-        return (
-          <div className={pull && `pull-${pull}`} {...props.attributes}>
-            {props.children}
-          </div>
-        );
-    }
-  };
-
-  renderMark = props => {
-    switch (props.mark.type) {
-      case "bold":
-        return <strong>{props.children}</strong>;
-      case "italic":
-        return <em>{props.children}</em>;
-      case "code":
-        return <code>{props.children}</code>;
-      case "strikethrough":
-        return <del>{props.children}</del>;
-      case "underline":
-        return <u>{props.children}</u>;
-      // case "small-caps":
-      //   return <abbr>{props.children}</abbr>;
-    }
-  };
-
   render() {
     // console.log(this.state);
     return (
@@ -426,8 +244,8 @@ export default class EditorApp extends React.Component {
           plugins={this.plugins}
           value={this.state.value}
           onChange={this.onChange}
-          renderNode={this.renderNode}
-          renderMark={this.renderMark}
+          renderNode={renderNode}
+          renderMark={renderMark}
           schema={schema}
         />
         <Dialog

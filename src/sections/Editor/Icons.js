@@ -48,6 +48,30 @@ const Icons = ({ size = 20, color = "#999999", type }) => {
         </React.Fragment>
       );
       break;
+    case "image":
+      Path = (
+        <React.Fragment>
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z" />
+        </React.Fragment>
+      );
+      break;
+    case "center":
+      Path = (
+        <React.Fragment>
+          <path d="M7 15v2h10v-2H7zm-4 6h18v-2H3v2zm0-8h18v-2H3v2zm4-6v2h10V7H7zM3 3v2h18V3H3z" />
+          <path d="M0 0h24v24H0z" fill="none" />
+        </React.Fragment>
+      );
+      break;
+    case "table":
+      Path = (
+        <React.Fragment>
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM8 20H4v-4h4v4zm0-6H4v-4h4v4zm0-6H4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4zm6 12h-4v-4h4v4zm0-6h-4v-4h4v4zm0-6h-4V4h4v4z" />
+        </React.Fragment>
+      );
+      break;
 
     default:
       break;
