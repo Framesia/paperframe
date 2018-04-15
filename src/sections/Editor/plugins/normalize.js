@@ -64,8 +64,8 @@ const normalize = stateValue => {
       switch (event.key) {
         // case "Backspace":
         //   return onBackspace(event, change);
-        case "Delete":
-          return onDelete(event, change);
+        // case "Delete":
+        //   return onDelete(event, change);
         case "Enter":
           return onEnter(event, change);
       }
