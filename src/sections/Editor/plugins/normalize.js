@@ -2,47 +2,24 @@ import { findDOMNode } from "slate-react";
 
 const normalize = stateValue => {
   const onBackspace = (event, change) => {
-    const { value } = change;
-    const { document } = stateValue;
-    if (value.isExpanded) return;
-    if (value.startOffset != 0) return;
-
-    const { startBlock } = value;
-
-    // console.log(document.getParent(startBlock.key))
-    const nodeName = findDOMNode(
-      startBlock
-    ).parentNode.parentNode.nodeName.toLowerCase();
-    if (startBlock.type === "paragraph") {
-      // if (nodeName === "div") {
-      change.unwrapBlock("figure");
-      // }
-      return;
-    }
-
-    event.preventDefault();
-    change.setBlocks("paragraph");
-
-    if (startBlock.type === "bulleted-item") {
-      change.unwrapBlock("bulleted-list");
-    } else if (startBlock.type === "numbered-item") {
-      change.unwrapBlock("numbered-list");
-    } else if (startBlock.type === "figcaption") {
-      change.unwrapBlock("figure");
-    }
-    if (nodeName === "ul") {
-      change.setBlocks("bulleted-item");
-    }
-    if (nodeName === "ol") {
-      change.setBlocks("numbered-item");
-    }
-
-    return true;
+    // const { value } = change;
+    // const { document } = stateValue;
+    // if (value.isExpanded) return;
+    // if (value.startOffset != 0) return;
+    // const { startBlock } = value;
+    // console.log(startBlock.type);
+    // if (startBlock.type == "list-item") {
+    //   return;
+    // }
+    // // console.log(document.getParent(startBlock.key))
+    // event.preventDefault();
+    // change.setBlocks("paragraph");
+    // return true;
   };
 
   const onDelete = (event, change) => {
     const { value } = change;
-    console.log(value.startBlock.get("type"));
+    // console.log(value.startBlock.get("type"));
     return;
   };
 
@@ -63,13 +40,6 @@ const normalize = stateValue => {
         return;
       }
     }
-    if (startBlock.type === "figcaption") {
-      change
-        .splitBlock()
-        .setBlocks("paragraph")
-        .unwrapBlock("figure");
-      return true;
-    }
     if (
       startBlock.type !== "heading-one" &&
       startBlock.type !== "heading-two" &&
@@ -77,9 +47,9 @@ const normalize = stateValue => {
       startBlock.type !== "heading-four" &&
       startBlock.type !== "heading-five" &&
       startBlock.type !== "heading-six" &&
-      startBlock.type !== "block-quote" &&
-      startBlock.type !== "numbered-list" &&
-      startBlock.type !== "bulleted-list"
+      startBlock.type !== "block-quote"
+      // startBlock.type !== "numbered-list" &&
+      // startBlock.type !== "bulleted-list"
     ) {
       return;
     }
@@ -92,8 +62,8 @@ const normalize = stateValue => {
   return {
     onKeyDown(event, change) {
       switch (event.key) {
-        case "Backspace":
-          return onBackspace(event, change);
+        // case "Backspace":
+        //   return onBackspace(event, change);
         case "Delete":
           return onDelete(event, change);
         case "Enter":

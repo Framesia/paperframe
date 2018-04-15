@@ -1,7 +1,6 @@
 import AutoReplace from "slate-auto-replace";
 
-export default function shortcut({ hasMark, listPlugin }) {
-  console.log(hasMark);
+export default function shortcut({ hasMark, listPlugin, codePlugin }) {
   return [
     AutoReplace({
       trigger: "space",
@@ -55,9 +54,7 @@ export default function shortcut({ hasMark, listPlugin }) {
       trigger: "enter",
       before: /^(```)$/,
       transform: (transform, e, matches) => {
-        return transform.setBlock({
-          type: "code-block"
-        });
+        return codePlugin.changes.wrapCodeBlock(transform).focus();
       }
     }),
     AutoReplace({

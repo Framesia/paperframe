@@ -21,6 +21,7 @@ import schema from "./schema";
 import SoftBreak from "slate-soft-break";
 import PluginEditTable from "slate-edit-table";
 import PluginEditList from "slate-edit-list";
+import PluginEditCode from "slate-edit-code";
 
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
@@ -40,6 +41,10 @@ const tablePlugin = PluginEditTable({
 const listPlugin = PluginEditList({
   types: ["bulleted-list", "numbered-list"],
   typeItem: "list-item"
+});
+const codePlugin = PluginEditCode({
+  containerType: "code-block",
+  lineType: "code-line"
 });
 
 export default class EditorApp extends React.Component {
@@ -61,12 +66,13 @@ export default class EditorApp extends React.Component {
   };
 
   plugins = [
+    codePlugin,
     tablePlugin,
     listPlugin,
-    // normalize(this.state.value),
     ...hotKey,
-    ...markdownShortcut({ hasMark: this.hasMark, listPlugin }),
-    SoftBreak({ shift: true })
+    ...markdownShortcut({ hasMark: this.hasMark, listPlugin, codePlugin }),
+    SoftBreak({ shift: true }),
+    normalize(this.state.value)
   ];
 
   hasBlock = type => {
@@ -87,7 +93,7 @@ export default class EditorApp extends React.Component {
   onClickBlock = (event, type) => {
     event.preventDefault();
     const { value } = this.state;
-    const change = value.change();
+    let change = value.change();
     const { document } = value;
 
     const isCenterActive = value.fragment.nodes.some(
@@ -99,41 +105,51 @@ export default class EditorApp extends React.Component {
       } else {
         change.wrapBlock("center");
       }
-    } else if (type != "bulleted-list" && type != "numbered-list") {
-      // Handle everything but list buttons. and center
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock("list-item");
-
-      if (isList) {
-        // change
-        //   .setBlocks(isActive ? "paragraph" : type)
-        //   .unwrapBlock("bulleted-list")
-        //   .unwrapBlock("numbered-list");
-      } else {
-        change.setBlocks(isActive ? "paragraph" : type);
-      }
+    } else if (type == "code-block") {
+      change = codePlugin.changes.toggleCodeBlock(change);
     } else {
-      // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock("list-item");
-      const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type == type);
-      });
-
-      if (isList && isType) {
-        change
-          .setBlocks("paragraph")
-          .unwrapBlock("bulleted-list")
-          .unwrapBlock("numbered-list");
-      } else if (isList) {
-        change
-          .unwrapBlock(
-            type == "bulleted-list" ? "numbered-list" : "bulleted-list"
-          )
-          .wrapBlock(type);
-      } else {
-        change.setBlocks("list-item").wrapBlock(type);
+      if (this.hasBlock("code-line")) {
+        change = codePlugin.changes.toggleCodeBlock(change);
       }
+      const isActive = this.hasBlock(type);
+      change.setBlocks(isActive ? "paragraph" : type);
+      // }
     }
+    // else if (type != "bulleted-list" && type != "numbered-list") {
+    //   // Handle everything but list buttons. and center
+    //   const isActive = this.hasBlock(type);
+    //   const isList = this.hasBlock("list-item");
+
+    //   if (isList) {
+    //     // change
+    //     //   .setBlocks(isActive ? "paragraph" : type)
+    //     //   .unwrapBlock("bulleted-list")
+    //     //   .unwrapBlock("numbered-list");
+    //   } else {
+    //     change.setBlocks(isActive ? "paragraph" : type);
+    //   }
+    // } else {
+    //   // Handle the extra wrapping required for list buttons.
+    //   const isList = this.hasBlock("list-item");
+    //   const isType = value.blocks.some(block => {
+    //     return !!document.getClosest(block.key, parent => parent.type == type);
+    //   });
+
+    //   if (isList && isType) {
+    //     change
+    //       .setBlocks("paragraph")
+    //       .unwrapBlock("bulleted-list")
+    //       .unwrapBlock("numbered-list");
+    //   } else if (isList) {
+    //     change
+    //       .unwrapBlock(
+    //         type == "bulleted-list" ? "numbered-list" : "bulleted-list"
+    //       )
+    //       .wrapBlock(type);
+    //   } else {
+    //     change.setBlocks("list-item").wrapBlock(type);
+    //   }
+    // }
 
     this.onChange(change);
   };

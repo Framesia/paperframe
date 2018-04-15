@@ -13,6 +13,8 @@ const renderNode = props => {
   switch (props.node.type) {
     case "code-block":
       return <pre {...props.attributes}>{props.children}</pre>;
+    case "code-line":
+      return <div {...props.attributes}>{props.children}</div>;
     case "paragraph":
       let readOnly = true;
       if (readOnly) {

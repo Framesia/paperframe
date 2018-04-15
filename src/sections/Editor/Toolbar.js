@@ -70,7 +70,7 @@ const Toolbar = ({
   );
 
   const Node = (type, text) => (
-    <div className={type} onMouseDown={e => onClickBlock(e, { type })}>
+    <div className={type} onMouseDown={e => onClickBlock(e, type)}>
       {text}
     </div>
   );
@@ -93,7 +93,7 @@ const Toolbar = ({
   } else if (hasBlock("block-quote")) {
     block = "block-quote";
     textBlock = "Quote";
-  } else if (hasBlock("code-block")) {
+  } else if (hasBlock("code-block") || hasBlock("code-line")) {
     block = "code-block";
     textBlock = "Code block";
   }

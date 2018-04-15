@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 
-import IllustSrc from "./illust.jpg";
+import IllustSrc from "./illust.png";
 
 const Wrapper = styled.div`
   background: #fff9ff;
