@@ -7,6 +7,7 @@ body {
   cursor: text;
   font-size: 20px;
   font-family: "Crimson Text", serif;
+  color: #222;
 }
 h1,
 h2,
@@ -63,8 +64,9 @@ p abbr,
 li abbr {
   /* font-family: "Alegreya SC", serif; */
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   font-size: 18px;
+  /* text-shadow: -0.05px 0 #222, 0 0.05px #222, 0.05px 0 #222, 0 -0.05px #222; */
   /* margin: 0 2px; */
 }
 p {
