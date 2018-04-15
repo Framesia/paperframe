@@ -15,8 +15,8 @@ const renderMark = props => {
       return <sub>{props.children}</sub>;
     case "sup":
       return <sup>{props.children}</sup>;
-    // case "small-caps":
-    //   return <abbr>{props.children}</abbr>;
+    case "small-caps":
+      return <abbr>{props.children}</abbr>;
   }
 };
 

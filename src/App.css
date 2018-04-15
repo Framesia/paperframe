@@ -62,8 +62,9 @@ li p {
 p abbr,
 li abbr {
   /* font-family: "Alegreya SC", serif; */
-  text-transform: lowercase;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
+  font-size: 18px;
   /* margin: 0 2px; */
 }
 p {
