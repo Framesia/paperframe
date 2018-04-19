@@ -18,10 +18,13 @@ import initialValue from "./initialValue.json";
 import Icons from "./Icons";
 import schema from "./schema";
 
+import detectLang from "lang-detector";
+
 import SoftBreak from "slate-soft-break";
 import PluginEditTable from "slate-edit-table";
 import PluginEditList from "slate-edit-list";
 import PluginEditCode from "slate-edit-code";
+import PluginPrism from "slate-prism";
 
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
@@ -46,6 +49,20 @@ const codePlugin = PluginEditCode({
   containerType: "code-block",
   lineType: "code-line"
 });
+const prismPlugin = PluginPrism({
+  onlyIn: node => node.type === "code-block",
+  getSyntax: node => {
+    const lang = detectLang(node.text).toLowerCase();
+    if (lang === "unknown") {
+      return "";
+    }
+    if (lang === "c++") {
+      return "cpp";
+    }
+    return lang;
+    // return "javascript";
+  }
+});
 
 export default class EditorApp extends React.Component {
   state = {
@@ -69,8 +86,11 @@ export default class EditorApp extends React.Component {
     codePlugin,
     tablePlugin,
     listPlugin,
+    prismPlugin,
+    //
     ...hotKey,
     ...markdownShortcut({ hasMark: this.hasMark, listPlugin, codePlugin }),
+    //
     SoftBreak({ shift: true }),
     normalize(this.state.value)
   ];
