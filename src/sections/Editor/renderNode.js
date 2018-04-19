@@ -16,12 +16,12 @@ const renderNode = props => {
     case "code-line":
       return <div {...props.attributes}>{props.children}</div>;
     case "paragraph":
-      let readOnly = true;
-      if (readOnly) {
-        if (/^\s+$/.test(props.node.text)) {
-          return null;
-        }
-      }
+      // let readOnly = true;
+      // if (readOnly) {
+      //   if (/^\s+$/.test(props.node.text)) {
+      //     return null;
+      //   }
+      // }
       return (
         <p {...props.attributes}>
           {HangingDouble}
