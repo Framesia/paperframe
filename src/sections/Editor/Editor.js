@@ -42,6 +42,7 @@ import renderNode from "./renderNode";
 import renderMark from "./renderMark";
 
 import Toolbar from "./Toolbar";
+import Axios from "axios";
 
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
@@ -80,7 +81,8 @@ export default class EditorApp extends React.Component {
     linkValue: "",
     title: "",
     errorLink: "",
-    figureClicked: -1
+    figureClicked: -1,
+    imgUnsplash: []
   };
 
   componentDidMount() {}
@@ -165,7 +167,7 @@ export default class EditorApp extends React.Component {
     );
     if (type == "center") {
       // if ()
-      console.log(value.fragment.nodes.toJSON);
+      // console.log(value.fragment.nodes.toJSON);
       if (isCenterActive) {
         change.unwrapBlock("center");
       } else {
@@ -227,16 +229,45 @@ export default class EditorApp extends React.Component {
 
   onInsertImage = e => {
     e.preventDefault();
+    this.setState({
+      mousePosition: {
+        x: e.pageX,
+        y: e.pageY
+      },
+      imgDialongShow: true
+    });
+
+    Axios.get(
+      "https://api.unsplash.com/search/photos?page=1&query=building&client_id=7fc8e95b1f9a8911972fd70d057e667f7a21882b820c4a7d9e495f04a349bac7"
+    ).then(val => {
+      // console.log(val.data.results);
+      this.setState({ imgUnsplash: val.data.results });
+    });
+
+    // const { value } = this.state;
+    // const change = value.change();
+    // change.insertInline({
+    //   type: "image",
+    //   isVoid: true,
+    //   data: {
+    //     src:
+    //       "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
+    //   }
+    // });
+    // this.onChange(change);
+  };
+
+  onSubmitImage = data => {
     const { value } = this.state;
     const change = value.change();
     change.insertInline({
       type: "image",
       isVoid: true,
       data: {
-        src:
-          "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
+        src: data.urls.small
       }
     });
+    this.setState({ imgDialongShow: false });
     this.onChange(change);
   };
 
@@ -304,7 +335,7 @@ export default class EditorApp extends React.Component {
         })
         .focus()
         .collapseToEnd();
-      // .blur();
+      // .blur();s
       this.setState({
         linkValue: "",
         linkDialongShow: false,
@@ -329,15 +360,13 @@ export default class EditorApp extends React.Component {
           onClickBlock={this.onClickBlock}
           onClickLink={this.onClickLink}
           onClickMark={this.onClickMark}
-          onInsertImage={this.onInsertImage}
-          //
+          onInsertImage={this.onInsertImage} //
           onInsertTable={this.onInsertTable}
           onInsertRow={this.onInsertRow}
           onInsertColumn={this.onInsertColumn}
           onRemoveTable={this.onRemoveTable}
           onRemoveRow={this.onRemoveRow}
-          onRemoveColumn={this.onRemoveColumn}
-          //
+          onRemoveColumn={this.onRemoveColumn} //
           onSerialize={this.onSerialize}
           tablePlugin={tablePlugin}
         />
@@ -351,8 +380,7 @@ export default class EditorApp extends React.Component {
             this.setState({ title });
           }}
         />
-        <Editor
-          // readOnly=false
+        <Editor // readOnly=false
           spellCheck={false}
           className="article"
           placeholder="Write your thought…"
@@ -390,6 +418,32 @@ export default class EditorApp extends React.Component {
             className="error"
             dangerouslySetInnerHTML={{ __html: this.state.errorLink }}
           />
+          <hr />
+        </Dialog>
+
+        <Dialog
+          visible={this.state.imgDialongShow}
+          animation="zoom"
+          maskAnimation="fade"
+          onClose={() =>
+            this.setState({
+              imgDialongShow: false
+            })
+          }
+          style={{ width: 740 }}
+          mousePosition={this.state.mousePosition}
+          destroyOnClose={true}
+        >
+          <h3>Enter img:</h3>
+          <div>
+            {this.state.imgUnsplash.map(item => (
+              <img
+                style={{ margin: 10 }}
+                src={item.urls.thumb}
+                onClick={() => this.onSubmitImage(item)}
+              />
+            ))}
+          </div>
           <hr />
         </Dialog>
       </div>

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Icons from "./Icons";
 
-import Dropdown from "rc-dropdown";
+import Dropdown from "../../components/Dropdown";
 
 const Wrapper = styled.div`
   display: flex;
@@ -105,8 +105,7 @@ const Toolbar = ({
     <Wrapper>
       <Group>
         <Dropdown
-          trigger={["click"]}
-          overlay={
+          dropdown={
             <div className="dropdown">
               {Node("paragraph", "Paragraph")}
               {Node("heading-one", "Big header")}
@@ -116,8 +115,6 @@ const Toolbar = ({
               {Node("code-block", "Code block")}
             </div>
           }
-          overlayClassName="dropdown-items"
-          animation="slide-up"
         >
           <div className="dropdown trigger">
             <div className={block} style={{ width: 160 }}>
