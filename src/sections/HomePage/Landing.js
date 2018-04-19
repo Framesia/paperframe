@@ -7,8 +7,8 @@ import Button from "../../components/Button";
 import IllustSrc from "./illust.png";
 
 const Wrapper = styled.div`
-  background: #fff9ff;
-  /* color: #eee; */
+  background: #333;
+  color: #eee;
   padding: 50px 20px;
 `;
 const Container = styled.div`
@@ -34,6 +34,8 @@ const Illust = styled.img`
   position: absolute;
   right: 0;
   top: -20px;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+  /* border: solid 1px rgba(0, 0, 0, 0.1); */
 `;
 
 class Landing extends Component {
@@ -53,9 +55,9 @@ class Landing extends Component {
               <br />
               <i>You might even get paid for it!</i>
             </p>
-            <Button type="green">Getting started</Button>
+            <Button type="red">Getting started</Button>
             <Link to="/editor">
-              <Button>Try out the editor!</Button>
+              <Button type="green">Try out the editor!</Button>
             </Link>
           </div>
           <Illust src={IllustSrc} />

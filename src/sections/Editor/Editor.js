@@ -26,6 +26,14 @@ import PluginEditList from "slate-edit-list";
 import PluginEditCode from "slate-edit-code";
 import PluginPrism from "slate-prism";
 
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-go";
+import "prismjs/components/prism-php";
+
 import normalize from "./plugins/normalize";
 import hotKey from "./plugins/hotKey";
 import markdownShortcut from "./plugins/markdownShortcut";
@@ -110,10 +118,10 @@ export default class EditorApp extends React.Component {
       const parts = text.split(regex);
       let offset = 0;
       const matches = text.match(regex);
-      console.log(matches);
+      // console.log(matches);
       if (matches) {
         parts.forEach((part, i) => {
-          console.log(parts, matches);
+          // console.log(parts, matches);
           if (i != 0) {
             decorations.push({
               anchorKey: key,
@@ -156,6 +164,8 @@ export default class EditorApp extends React.Component {
       node => node.type == "center"
     );
     if (type == "center") {
+      // if ()
+      console.log(value.fragment.nodes.toJSON);
       if (isCenterActive) {
         change.unwrapBlock("center");
       } else {

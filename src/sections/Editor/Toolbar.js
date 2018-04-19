@@ -8,8 +8,9 @@ const Wrapper = styled.div`
   display: flex;
   height: 50px;
   padding: 10px;
-  background: #fff9ff;
+  background: #ffebe5;
   /* color: #eee; */
+  border: solid 1px #ffbdad;
   border-top: none;
   align-items: center;
   justify-content: space-between;
@@ -23,16 +24,17 @@ const Wrapper = styled.div`
     align-items: center;
     background: none;
     margin: 0;
-    opacity: 0.3;
+    /* opacity: 0.3; */
+    color: #344563;
     padding: 5px;
     margin: 2px;
     border-radius: 20px;
     &:hover {
-      background: #fff;
+      /* background: #fff; */
       opacity: 0.6;
     }
     &.active {
-      background: #fff;
+      background: #79f2c0;
       opacity: 1;
     }
   }

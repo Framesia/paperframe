@@ -1,13 +1,15 @@
-body {
+body,
+html {
   font-size: 16px;
   font-family: "Roboto", sans-serif;
+  color: #172b4d;
 }
 .article {
   padding: 10px;
   cursor: text;
   font-size: 20px;
   font-family: "Crimson Text", serif;
-  color: #222;
+  color: #172b4d;
 }
 h1,
 h2,
@@ -29,16 +31,17 @@ h5 {
   outline: none;
   resize: none;
 }
-.title::placeholder {
-  color: #ccc;
+::placeholder {
+  color: #97a0af;
 }
 
 .wf-loading * {
-  color: rgba(22, 22, 22, 0);
+  /* color: #172b4d; */
+  color: rgba(0, 0, 0, 0);
 }
 
 .wf-active * {
-  /* color: rgba(22, 22, 22, 1); */
+  /* color: #172B4D; */
   color: inherit;
 }
 
@@ -115,6 +118,8 @@ pre {
   font-size: 14px;
   line-height: 1.5;
   white-space: pre-wrap;
+  border-radius: 2px;
+  border: solid 1px #c0b6f2;
 }
 
 blockquote {
@@ -220,7 +225,7 @@ table {
   margin: 10px 0 20px;
 }
 tr {
-  border-bottom: solid 2px #999;
+  /* border-bottom: solid 2px #999; */
 }
 td {
   border: solid 1px #ddd;
@@ -237,7 +242,7 @@ table p {
 .dropdown {
   background: #fff;
   font-size: 18px;
-  border: solid 1px #eee;
+  border: solid 1px #ffbdad;
   cursor: pointer;
   position: fixed;
   /* border-radius: 2px; */

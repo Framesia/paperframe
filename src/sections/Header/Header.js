@@ -21,6 +21,7 @@ const LogoText = styled(Link)`
   font-family: "Josefin Slab", serif;
   font-size: 28px;
   text-decoration: none;
+  /* color: #eae6ff; */
 `;
 const Container = styled.div`
   height: 50px;

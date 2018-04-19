@@ -10,15 +10,15 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 const Container = styled.div`
-  width: 960px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-`;
-const LeftSection = styled.div`
   width: 560px;
-  border-top: solid 2px #eee;
+  margin: 0 auto;
+  /* display: flex; */
+  /* justify-content: space-between; */
 `;
+// const LeftSection = styled.div`
+//   width: 540px;
+//   border-top: solid 2px #eee;
+// `;
 const Card = styled.div`
   padding: 20px 0;
   border-bottom: solid 1px #eee;
@@ -136,33 +136,32 @@ class Feed extends Component {
     return (
       <Wrapper>
         <Container>
-          <LeftSection>
-            <Header>
-              <Heading>Science</Heading>
-              <SortBy>Trending</SortBy>
-            </Header>
-            {[0, 1, 2, 3, 4].map(item => (
-              <Card>
-                <LeftCard>
-                  <Head>
-                    <Category>{item.category || "science"}</Category>
-                    <Time>{item.created || "13 april"}</Time>
-                  </Head>
-                  <Title>{item.title || "How to train your dragon"}</Title>
-                  <User>
-                    <Username>{item.author || "damaera"}</Username>
-                    <Earning>
-                      {/* <Icon type="coin" /> */}
-                      <Text>$520.50</Text>
-                    </Earning>
-                  </User>
-                  {/* <SubTitle>
+          <Header>
+            <Heading>Science</Heading>
+            <SortBy>Trending</SortBy>
+          </Header>
+          {[0, 1, 2, 3, 4].map(item => (
+            <Card>
+              <LeftCard>
+                <Head>
+                  <Category>{item.category || "science"}</Category>
+                  <Time>{item.created || "13 april"}</Time>
+                </Head>
+                <Title>{item.title || "How to train your dragon"}</Title>
+                <User>
+                  <Username>{item.author || "damaera"}</Username>
+                  <Earning>
+                    {/* <Icon type="coin" /> */}
+                    <Text>$520.50</Text>
+                  </Earning>
+                </User>
+                {/* <SubTitle>
                     Hiccup (Jay Baruchel) is a Norse teenager from the island of
                     Berk, where fighting dragons is a way of life.
                   </SubTitle> */}
-                </LeftCard>
-                <RightCard>
-                  {/* {JSON.parse(item.json_metadata).image && (
+              </LeftCard>
+              <RightCard>
+                {/* {JSON.parse(item.json_metadata).image && (
                     <Img
                       src={
                         "https://steemitimages.com/160x200/" +
@@ -170,10 +169,9 @@ class Feed extends Component {
                       }
                     />
                   )} */}
-                </RightCard>
-              </Card>
-            ))}
-          </LeftSection>
+              </RightCard>
+            </Card>
+          ))}
         </Container>
       </Wrapper>
     );

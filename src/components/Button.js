@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 const Button = styled.button`
   padding: 8px 12px;
-  border-radius: 3px;
+  border-radius: 2px;
   font-weight: bold;
-  color: #333;
+  color: #253858;
   background: ${({ type }) => {
     if (type === "yellow") {
       return "#FFFAE5";
@@ -18,6 +18,12 @@ const Button = styled.button`
       return "#EAE6FF";
     } else {
       return "none";
+    }
+  }};
+  border: solid 1px #eee;
+  border-color: ${({ type }) => {
+    if (type === "green") {
+      return "#ABF5D1";
     }
   }};
 `;
