@@ -110,7 +110,6 @@ export default class EditorApp extends React.Component {
       }
     });
 
-    console.log(decorations);
     const change = value
       .change()
       .setOperationFlag("save", false)
