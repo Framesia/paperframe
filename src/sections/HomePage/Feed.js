@@ -33,7 +33,8 @@ const RightCard = styled.div`
 `;
 const Title = styled.h3`
   margin: 10px 0;
-  font-size: 22px;
+  font-size: 20px;
+  /* font-weight: normal; */
 `;
 const SubTitle = styled.div`
   font-size: 14px;
@@ -90,9 +91,9 @@ const Text = styled.div`
 `;
 const Head = styled.div`
   display: flex;
-  font-size: 0.7em;
+  font-size: 0.8em;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
 `;
 const Category = styled.div`
   border-bottom: solid 1px #aaa;
@@ -124,12 +125,17 @@ class Feed extends Component {
     //     this.setState({ data });
     //   });
   }
+  getCover(metadata) {
+    if (metadata.image) {
+      return metadata.image[0];
+    }
+    return "";
+  }
   render() {
     const posts = PostStore.selectPosts({
       sortBy: "trending",
       tag: "productivity"
     });
-    console.log(posts);
     return (
       <Wrapper>
         <Container>
@@ -153,7 +159,7 @@ class Feed extends Component {
                     <Username>{item.author || "damaera"}</Username>
                     <Earning>
                       {/* <Icon type="coin" /> */}
-                      <Text>$520.50</Text>
+                      <Text>{item.pending_payout_value || "240"}</Text>
                     </Earning>
                   </User>
                   {/* <SubTitle>
@@ -162,14 +168,14 @@ class Feed extends Component {
                   </SubTitle> */}
                 </LeftCard>
                 <RightCard>
-                  {/* {JSON.parse(item.json_metadata).image && (
-                      <Img
-                        src={
-                          "https://steemitimages.com/160x200/" +
-                          JSON.parse(item.json_metadata).image[0]
-                        }
-                      />
-                    )} */}
+                  {this.getCover(item.json_metadata) && (
+                    <Img
+                      src={
+                        "https://steemitimages.com/160x200/" +
+                        this.getCover(item.json_metadata)
+                      }
+                    />
+                  )}
                 </RightCard>
               </Card>
             );

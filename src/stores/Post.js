@@ -5,15 +5,15 @@ import { Client } from "dsteem";
 const client = new Client("https://api.steemit.com");
 
 const PostStore = store({
-  posts: {},
+  ids: {},
   entities: {},
 
   getPost({ sortBy, query }) {
-    if (!PostStore.posts[sortBy]) {
-      PostStore.posts[sortBy] = {};
+    if (!PostStore.ids[sortBy]) {
+      PostStore.ids[sortBy] = {};
     }
-    if (!PostStore.posts[sortBy][query.tag]) {
-      PostStore.posts[sortBy][query.tag] = {};
+    if (!PostStore.ids[sortBy][query.tag]) {
+      PostStore.ids[sortBy][query.tag] = {};
     }
     client.database.getDiscussions(sortBy, query).then(discussions => {
       discussions.forEach(post => {
@@ -21,17 +21,17 @@ const PostStore = store({
           post.json_metadata = JSON.parse(post.json_metadata);
         } catch (e) {}
         const id = `${post.author}/${post.permlink}`;
-        PostStore.posts[sortBy][query.tag][id] = true;
+        PostStore.ids[sortBy][query.tag][id] = true;
         PostStore.entities[id] = post;
       });
     });
   },
 
   selectPosts({ sortBy, tag }) {
-    if (PostStore.posts[sortBy] && PostStore.posts[sortBy][tag]) {
-      return Object.keys(PostStore.posts[sortBy][tag]).map(
-        id => PostStore.entities[id]
-      );
+    if (PostStore.ids[sortBy] && PostStore.ids[sortBy][tag]) {
+      const { ids, entities } = PostStore;
+      const posts = Object.keys(ids[sortBy][tag]).map(id => entities[id]);
+      return posts;
     } else {
       return [];
     }
