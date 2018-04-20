@@ -7,7 +7,7 @@ const AuthStore = store({
   isLogin: false,
   loginURL: "",
   me: {},
-  loading: false,
+  loading: null,
 
   getLoginURL() {
     AuthStore.loginURL = steemconnect().getLoginURL();
@@ -18,6 +18,13 @@ const AuthStore = store({
       if (err) {
       } else {
         AuthStore.me = res;
+        try {
+          AuthStore.me.account.json_metadata = JSON.parse(
+            res.account.json_metadata
+          );
+        } catch (e) {
+          console.log(e);
+        }
         AuthStore.isLogin = true;
       }
       AuthStore.loading = false;
@@ -25,6 +32,11 @@ const AuthStore = store({
   },
   getAccessToken() {
     return Cookies.get("accessToken");
+  },
+  doLogout() {
+    Cookies.remove("accessToken");
+    AuthStore.me = {};
+    AuthStore.isLogin = false;
   }
 });
 

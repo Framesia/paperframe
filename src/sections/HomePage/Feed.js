@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import Icon from "../../components/Icon";
-import { Client } from "dsteem";
 
-const client = new Client("https://api.steemit.com");
+import { view } from "react-easy-state";
+import PostStore from "../../stores/Post";
+import AuthStore from "../../stores/Auth";
 
 const Wrapper = styled.div`
   padding: 0 20px;
@@ -12,13 +13,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 560px;
   margin: 0 auto;
-  /* display: flex; */
-  /* justify-content: space-between; */
 `;
-// const LeftSection = styled.div`
-//   width: 540px;
-//   border-top: solid 2px #eee;
-// `;
 const Card = styled.div`
   padding: 20px 0;
   border-bottom: solid 1px #eee;
@@ -27,14 +22,11 @@ const Card = styled.div`
   flex: 1 1 auto;
 `;
 const LeftCard = styled.div`
-  /* width: 400px; */
   margin-right: 20px;
-  /* flex: 0 0 auto; */
   flex: 1 1 auto;
 `;
 const RightCard = styled.div`
   width: 160px;
-  /* height: auto; */
   display: flex;
   flex: 0 0 auto;
   background: #f6f6f6;
@@ -77,7 +69,6 @@ const Footer = styled.div`
 `;
 const Votes = styled.div`
   display: flex;
-  /* align-items: center; */
   margin-right: 16px;
   svg {
     position: relative;
@@ -86,21 +77,16 @@ const Votes = styled.div`
 `;
 const Comment = styled.div`
   display: flex;
-  /* align-items: center; */
   margin-right: 16px;
   flex: 1;
 `;
 const Earning = styled.div`
   display: flex;
-  /* align-items: center; */
 `;
 const Text = styled.div`
-  /* font-size: 0em; */
   padding-top: 1px;
-  /* color: #999; */
   margin-right: 4px;
   margin-left: 2px;
-  /* color: #61e0af; */
 `;
 const Head = styled.div`
   display: flex;
@@ -110,10 +96,8 @@ const Head = styled.div`
 `;
 const Category = styled.div`
   border-bottom: solid 1px #aaa;
-  /* font-weight: bold; */
 `;
 const Time = styled.div`
-  /* border-bottom: solid 1px #ddd; */
   margin-left: 10px;
 `;
 class Feed extends Component {
@@ -121,6 +105,8 @@ class Feed extends Component {
     data: []
   };
   componentDidMount() {
+    console.log(AuthStore);
+    PostStore.getTrending();
     // client.database
     //   .getDiscussions("trending", {
     //     tag: "science",
@@ -178,4 +164,4 @@ class Feed extends Component {
   }
 }
 
-export default Feed;
+export default view(Feed);

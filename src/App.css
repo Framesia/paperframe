@@ -247,6 +247,7 @@ table p {
   position: fixed;
   /* border-radius: 2px; */
   /* top: 50px; */
+  transition: all 0.1s;
 }
 
 .dropdown-items {
@@ -265,7 +266,8 @@ table p {
 }
 
 .dropdown div:hover {
-  padding-left: 10px;
+  background: #f6f6f6;
+  /* padding-left: 10px; */
 }
 
 .dropdown .paragraph {

@@ -10,6 +10,7 @@ class Dropdown extends Component {
         overlay={this.props.dropdown}
         overlayClassName="dropdown-items"
         animation="slide-up"
+        placement={this.props.placement || "bottomLeft"}
       >
         {this.props.children}
       </RCDropdown>

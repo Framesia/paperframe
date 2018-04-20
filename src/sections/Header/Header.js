@@ -10,9 +10,13 @@ import steemconnect from "../../helpers/steemconnect";
 import { view } from "react-easy-state";
 import AuthStore from "../../stores/Auth";
 
+import AfterLogin from "./AfterLogin";
+
 const Wrapper = styled.div`
   padding: 0 20px;
   background: #fff;
+  position: fixed;
+  width: 100%;
   /* border-bottom: solid 1px #eee; */
   /* background: #333;
   color: #eee; */
@@ -25,22 +29,25 @@ const LogoText = styled(Link)`
 `;
 const Container = styled.div`
   height: 50px;
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
 `;
+const Slip = styled.div`
+  height: 50px;
+`;
 
 class Header extends Component {
   componentDidMount() {
-    // AuthStore.getLoginURL();
-    // if (AuthStore.getAccessToken()) {
-    //   AuthStore.getMe();
-    // }
+    AuthStore.getLoginURL();
+    if (AuthStore.getAccessToken()) {
+      AuthStore.getMe();
+    }
   }
   renderWhenLogin() {
-    return <div>{AuthStore.me.name}</div>;
+    return <AfterLogin me={AuthStore.me.account} />;
   }
   renderWhenNotLogin() {
     return (
@@ -54,14 +61,18 @@ class Header extends Component {
   }
   render() {
     return (
-      <Wrapper>
-        <Container>
-          <LogoText to="/">Framesia</LogoText>
-          {AuthStore.isLogin
-            ? this.renderWhenLogin()
-            : this.renderWhenNotLogin()}
-        </Container>
-      </Wrapper>
+      <React.Fragment>
+        <Wrapper>
+          <Container>
+            <LogoText to="/">Framesia</LogoText>
+            {AuthStore.loading !== true &&
+              (AuthStore.isLogin
+                ? this.renderWhenLogin()
+                : this.renderWhenNotLogin())}
+          </Container>
+        </Wrapper>
+        <Slip />
+      </React.Fragment>
     );
   }
 }
