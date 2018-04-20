@@ -16,16 +16,21 @@ const Ava = styled.img`
 `;
 
 const DropItem = styled.div`
-  padding: 6px 12px;
+  padding: 6px 16px;
   font-size: 12px;
-  /* opacity: 0.7; */
+  color: #777;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    background: #f6f6f6;
+  }
 `;
 const DropdownWrapper = styled.div`
   position: relative;
   background: #fff;
   margin-left: 50px;
-  padding: 5px;
   border: solid 1px #eee;
+  border-radius: 2px;
 
   a {
     text-decoration: none;

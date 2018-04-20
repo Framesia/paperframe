@@ -105,8 +105,14 @@ class Feed extends Component {
     data: []
   };
   componentDidMount() {
-    console.log(AuthStore);
-    PostStore.getTrending();
+    PostStore.getPost({
+      sortBy: "trending",
+      query: {
+        tag: "productivity",
+        limit: 10,
+        truncate_body: 1
+      }
+    });
     // client.database
     //   .getDiscussions("trending", {
     //     tag: "science",
@@ -119,6 +125,11 @@ class Feed extends Component {
     //   });
   }
   render() {
+    const posts = PostStore.selectPosts({
+      sortBy: "trending",
+      tag: "productivity"
+    });
+    console.log(posts);
     return (
       <Wrapper>
         <Container>
@@ -126,38 +137,43 @@ class Feed extends Component {
             <Heading>Science</Heading>
             <SortBy>Trending</SortBy>
           </Header>
-          {[0, 1, 2, 3, 4].map(item => (
-            <Card>
-              <LeftCard>
-                <Head>
-                  <Category>{item.category || "science"}</Category>
-                  <Time>{item.created || "13 april"}</Time>
-                </Head>
-                <Title>{item.title || "How to train your dragon"}</Title>
-                <User>
-                  <Username>{item.author || "damaera"}</Username>
-                  <Earning>
-                    {/* <Icon type="coin" /> */}
-                    <Text>$520.50</Text>
-                  </Earning>
-                </User>
-                {/* <SubTitle>
+          {posts.map(item => {
+            if (!item) {
+              return null;
+            }
+            return (
+              <Card>
+                <LeftCard>
+                  <Head>
+                    <Category>{item.category || "science"}</Category>
+                    <Time>{item.created || "13 april"}</Time>
+                  </Head>
+                  <Title>{item.title || "How to train your dragon"}</Title>
+                  <User>
+                    <Username>{item.author || "damaera"}</Username>
+                    <Earning>
+                      {/* <Icon type="coin" /> */}
+                      <Text>$520.50</Text>
+                    </Earning>
+                  </User>
+                  {/* <SubTitle>
                     Hiccup (Jay Baruchel) is a Norse teenager from the island of
                     Berk, where fighting dragons is a way of life.
                   </SubTitle> */}
-              </LeftCard>
-              <RightCard>
-                {/* {JSON.parse(item.json_metadata).image && (
-                    <Img
-                      src={
-                        "https://steemitimages.com/160x200/" +
-                        JSON.parse(item.json_metadata).image[0]
-                      }
-                    />
-                  )} */}
-              </RightCard>
-            </Card>
-          ))}
+                </LeftCard>
+                <RightCard>
+                  {/* {JSON.parse(item.json_metadata).image && (
+                      <Img
+                        src={
+                          "https://steemitimages.com/160x200/" +
+                          JSON.parse(item.json_metadata).image[0]
+                        }
+                      />
+                    )} */}
+                </RightCard>
+              </Card>
+            );
+          })}
         </Container>
       </Wrapper>
     );
