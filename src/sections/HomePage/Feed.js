@@ -34,27 +34,17 @@ class Feed extends Component {
     PostStore.getPost({
       sortBy: "trending",
       query: {
-        tag: "science",
+        tag: "technology",
         limit: 5,
         truncate_body: 1
       }
     });
-    // client.database
-    //   .getDiscussions("trending", {
-    //     tag: "science",
-    //     limit: 5,
-    //     truncate_body: 1
-    //   })
-    //   .then(data => {
-    //     console.log(data);
-    //     this.setState({ data });
-    //   });
   }
 
   render() {
     const posts = PostStore.selectPosts({
       sortBy: "trending",
-      tag: "science"
+      tag: "technology"
     });
     return (
       <Wrapper>

@@ -38,19 +38,16 @@ class Renderer extends Component {
         metadata = JSON.parse(post.json_metadata);
 
         let { image, links, users } = metadata;
-        image = image ? image.reverse() : [];
         links = links ? links.reverse() : [];
         users = users ? users.reverse() : [];
+        image = image ? image.reverse() : [];
+
+        console.log(image);
 
         function escapeRegExp(str) {
           return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
         }
-        image.forEach((img, i) => {
-          value = value.replace(
-            new RegExp(escapeRegExp(img), "g"),
-            randomId + "-img-" + i + "-"
-          );
-        });
+
         links.forEach((link, i) => {
           value = value.replace(
             new RegExp(escapeRegExp(link), "g"),
@@ -63,17 +60,22 @@ class Renderer extends Component {
             randomId + "-user-" + i + "-"
           );
         });
-        console.log(value);
+        image.forEach((img, i) => {
+          value = value.replace(
+            new RegExp(escapeRegExp(img), "g"),
+            randomId + "-img-" + i + "-"
+          );
+        });
 
+        value = value.replace(/<CENTER>/g, "<center>");
+        value = value.replace(/<\/CENTER>/g, "</center>");
+        // small caps
+        value = value.replace(/([A-Z]{2,})/g, "<abbr>$1</abbr>");
+        // console.log(value);
         value = md.render(value);
 
         value = value.replace(/\<img (.+)?src=("|')(.+?)("|').+?\/?>/g, "$3");
-        image.forEach((img, i) => {
-          value = value.replace(
-            new RegExp(randomId + "-img-" + i + "-", "g"),
-            `<img src="https://steemitimages.com/640x2000/${img}" />`
-          );
-        });
+
         links.forEach((link, i) => {
           value = value.replace(
             new RegExp(randomId + "-link-" + i + "-", "g"),
@@ -86,6 +88,18 @@ class Renderer extends Component {
             `<a href="https://steemit.com/${user}">@${user}</a>`
           );
         });
+        console.log(value);
+        image.forEach((img, i) => {
+          value = value.replace(
+            new RegExp('([^"])(' + img + ")", "g"),
+            `$1<img src="https://steemitimages.com/640x2000/$2" />`
+          );
+          value = value.replace(
+            new RegExp(randomId + "-img-" + i + "-", "g"),
+            `<img src="https://steemitimages.com/640x2000/${img}" />`
+          );
+        });
+        console.log(value);
 
         this.setState({ value });
       });
