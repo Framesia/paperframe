@@ -11,12 +11,15 @@ const Wrapper = styled.div`
 `;
 
 class EditorPage extends Component {
+  componentDidMount() {
+    // console.log(this.props.mar);
+  }
   render() {
     return (
       <div>
         <Header />
         <Wrapper>
-          <Article />
+          <Article params={this.props.match.params} />
         </Wrapper>
       </div>
     );

@@ -17,7 +17,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={HomePage} />
             <Route path="/editor" component={EditorPage} />
-            <Route path="/@:username/:permlink" component={ArticlePage} />
+            <Route path="/@:author/:permlink" component={ArticlePage} />
           </Switch>
         </BrowserRouter>
       </div>

@@ -17,10 +17,19 @@ class Renderer extends Component {
       typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
       quotes: "“”‘’"
     });
+    console.log(this.props.params);
     client.database
-      .getDiscussions("trending", { tag: "science", limit: 1 })
+      .call("get_content", [
+        this.props.params.author,
+        this.props.params.permlink
+      ])
+      // limit: 1,
+      // start_permilnk: this.props.params.permlink,
+      // start_author: this.props.params.author,
+      // tag: "science"
+      // })
       .then(data => {
-        const post = data[0];
+        const post = data;
         let value = post.body;
         let metadata = {};
 
