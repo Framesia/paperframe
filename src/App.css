@@ -4,6 +4,9 @@ html {
   font-family: "Roboto", sans-serif;
   color: #172b4d;
 }
+a {
+  text-decoration: none;
+}
 .article {
   padding: 10px;
   cursor: text;
