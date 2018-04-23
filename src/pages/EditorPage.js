@@ -14,7 +14,6 @@ class EditorPage extends Component {
   render() {
     return (
       <div>
-        <Header />
         <Wrapper>
           <Editor />
         </Wrapper>

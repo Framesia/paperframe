@@ -18,6 +18,7 @@ const Wrapper = styled.div`
   position: fixed;
   top: 0;
   width: 640px;
+  z-index: 5;
 
   button {
     display: flex;

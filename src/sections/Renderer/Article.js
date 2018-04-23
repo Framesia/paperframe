@@ -42,7 +42,7 @@ class Renderer extends Component {
         users = users ? users.reverse() : [];
         image = image ? image.reverse() : [];
 
-        console.log(image);
+        // console.log(image);
 
         function escapeRegExp(str) {
           return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -67,6 +67,10 @@ class Renderer extends Component {
           );
         });
 
+        value =
+          value +
+          '<iframe width="560" height="315" src="https://www.youtube.com/embed/QQPVQFyL0_Y" frameborder="0" encrypted-media" allowfullscreen></iframe>';
+
         value = value.replace(/<CENTER>/g, "<center>");
         value = value.replace(/<\/CENTER>/g, "</center>");
         // small caps
@@ -82,13 +86,18 @@ class Renderer extends Component {
             link
           );
         });
+        // const ytRegex = /<p>http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?<\/p>/g;
+        // value = value.replace(
+        //   ytRegex,
+        //   '<div class="embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>'
+        // );
         users.forEach((user, i) => {
           value = value.replace(
             new RegExp(randomId + "-user-" + i + "-", "g"),
             `<a href="https://steemit.com/${user}">@${user}</a>`
           );
         });
-        console.log(value);
+        // console.log(value);
         image.forEach((img, i) => {
           value = value.replace(
             new RegExp('([^"])(' + img + ")", "g"),

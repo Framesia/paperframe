@@ -4,7 +4,8 @@ const Button = styled.button`
   padding: 8px 12px;
   border-radius: 2px;
   font-weight: bold;
-  color: #253858;
+  /* color: #253858;  */
+  color: #333;
   background: ${({ type }) => {
     if (type === "yellow") {
       return "#FFFAE5";

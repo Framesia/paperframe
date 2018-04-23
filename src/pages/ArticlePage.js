@@ -17,7 +17,6 @@ class EditorPage extends Component {
   render() {
     return (
       <div>
-        <Header />
         <Wrapper>
           <Article params={this.props.match.params} />
         </Wrapper>

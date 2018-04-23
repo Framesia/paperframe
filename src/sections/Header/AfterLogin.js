@@ -40,6 +40,9 @@ const DropdownWrapper = styled.div`
 class AfterLogin extends Component {
   render() {
     const { profile } = this.props.me.json_metadata;
+    if (!profile) {
+      return null;
+    }
     return (
       <div>
         <Dropdown

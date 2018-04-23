@@ -57,7 +57,7 @@ class Feed extends Component {
             if (!item) {
               return null;
             }
-            return <Card data={item} />;
+            return <Card data={item} key={item.id} />;
           })}
         </Container>
       </Wrapper>

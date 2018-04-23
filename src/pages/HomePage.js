@@ -18,14 +18,11 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <Header />
-        <div>
-          <Landing />
-          <WrapContent>
-            <Feed />
-            <Sidebar />
-          </WrapContent>
-        </div>
+        <Landing />
+        <WrapContent>
+          <Feed />
+          <Sidebar />
+        </WrapContent>
       </div>
     );
   }

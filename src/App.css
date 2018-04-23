@@ -2,7 +2,8 @@ body,
 html {
   font-size: 16px;
   font-family: "Roboto", sans-serif;
-  color: #172b4d;
+  /* color: #172b4d; */
+  color: #333;
 }
 a {
   text-decoration: none;
@@ -12,7 +13,8 @@ a {
   cursor: text;
   font-size: 20px;
   font-family: "Crimson Text", serif;
-  color: #172b4d;
+  /* color: #172b4d; */
+  color: #333;
 }
 h1,
 h2,
@@ -35,16 +37,19 @@ h5 {
   resize: none;
 }
 ::placeholder {
-  color: #97a0af;
+  /* color: #97a0af; */
+  color: #999;
 }
 
 .wf-loading * {
   /* color: #172b4d; */
+  /* color: #333; */
   color: rgba(0, 0, 0, 0);
 }
 
 .wf-active * {
-  /* color: #172B4D; */
+  /* color: #172b4d; */
+  /* color: #333; */
   color: inherit;
 }
 
@@ -72,7 +77,7 @@ li abbr {
   text-transform: uppercase;
   letter-spacing: 0.1em;
   font-size: 18px;
-  /* text-shadow: -0.05px 0 #222, 0 0.05px #222, 0.05px 0 #222, 0 -0.05px #222; */
+  /* text-shadow: -0.05px 0 #333, 0 0.05px #333, 0.05px 0 #333, 0 -0.05px #333; */
   /* margin: 0 2px; */
 }
 p {
@@ -153,7 +158,7 @@ option {
   /* height: 30px; */
   font-size: 14px;
   border-radius: 2px;
-  /* background: #222;
+  /* background: #333;
   color: #eee; */
   outline: none;
   border: none;
@@ -217,8 +222,12 @@ hr:after {
   /* text-decoration: underline; */
   text-decoration-line: underline;
   text-decoration-style: solid 1px;
-  text-decoration-color: #ffbdad;
+  /* text-decoration-color: #ffbdad; */
   /* border-bottom: dotted 1px #999; */
+}
+.article u {
+  text-decoration-line: underline;
+  text-decoration-style: dotted 1px;
 }
 
 table {

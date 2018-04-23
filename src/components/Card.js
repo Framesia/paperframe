@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+import { view } from "react-easy-state";
+
 import { Link } from "react-router-dom";
+import PostStore from "../stores/Post";
+
 // import removeMd from "remove-markdown";
 
 const Wrapper = styled.div`
@@ -27,6 +31,7 @@ const RightCard = styled.div`
 const Title = styled.h3`
   margin: 12px 0;
   font-size: 20px;
+  letter-spacing: 0.01em;
   /* font-weight: normal; */
 `;
 const SubTitle = styled.div`
@@ -103,6 +108,20 @@ const Time = styled.div`
 `;
 
 class Card extends Component {
+  votePost = data => {
+    PostStore.votePost({
+      author: data.author,
+      permlink: data.permlink,
+      weight: 10000
+    });
+  };
+  unvotePost = data => {
+    PostStore.votePost({
+      author: data.author,
+      permlink: data.permlink,
+      weight: 0
+    });
+  };
   getCover(metadata) {
     if (metadata.image) {
       return metadata.image[0];
@@ -153,49 +172,60 @@ class Card extends Component {
   render() {
     const { data } = this.props;
     return (
-      <Link to={`/@${data.author}/${data.permlink}`}>
-        <Wrapper>
-          <LeftCard>
-            <Head>
-              <Link to={`/trending/${data.category}`}>
-                <Category>{data.category || "science"}</Category>
-              </Link>
-              <Time>{this.getDateString(data.created) || "13 april"}</Time>
-            </Head>
+      <Wrapper>
+        <LeftCard>
+          <Head>
+            <Link to={`/trending/${data.category}`}>
+              <Category>{data.category || "science"}</Category>
+            </Link>
+            <Time>{this.getDateString(data.created) || "13 april"}</Time>
+          </Head>
+          <Link to={`/@${data.author}/${data.permlink}`}>
             <Title>{data.title || "How to train your dragon"}</Title>
             {/* <SubTitle>{this.getSubtitle(data.body)}</SubTitle> */}
-            <User>
+          </Link>
+          <User>
+            <Link to={`/@${data.author}`}>
+              <Ava
+                src={`https://steemitimages.com/u/${data.author}/avatar/small`}
+              />
+            </Link>
+            <UserRight>
               <Link to={`/@${data.author}`}>
-                <Ava
-                  src={`https://steemitimages.com/u/${
-                    data.author
-                  }/avatar/small`}
-                />
+                <Username>{data.author || "damaera"}</Username>
               </Link>
-              <UserRight>
-                <Link to={`/@${data.author}`}>
-                  <Username>{data.author || "damaera"}</Username>
-                </Link>
-                <Earning>
-                  ${this.getDollars(data.pending_payout_value) || "240"}
-                </Earning>
-              </UserRight>
-            </User>
-          </LeftCard>
+              <Earning>
+                ${this.getDollars(data.pending_payout_value) || "240"}
+                {!data.voteLoading ? (
+                  data.isVoted ? (
+                    <button onClick={() => this.unvotePost(data)}>
+                      unvote
+                    </button>
+                  ) : (
+                    <button onClick={() => this.votePost(data)}>vote</button>
+                  )
+                ) : (
+                  <button>loading...</button>
+                )}
+              </Earning>
+            </UserRight>
+          </User>
+        </LeftCard>
+        {this.getCover(data.json_metadata) && (
           <RightCard>
-            {this.getCover(data.json_metadata) && (
+            <Link to={`/@${data.author}/${data.permlink}`}>
               <Img
                 src={
                   "https://steemitimages.com/160x200/" +
                   this.getCover(data.json_metadata)
                 }
               />
-            )}
+            </Link>
           </RightCard>
-        </Wrapper>
-      </Link>
+        )}
+      </Wrapper>
     );
   }
 }
 
-export default Card;
+export default view(Card);
