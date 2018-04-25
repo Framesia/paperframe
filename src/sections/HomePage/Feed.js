@@ -9,7 +9,7 @@ import AuthStore from "../../stores/Auth";
 
 const Wrapper = styled.div`
   margin-bottom: 40px;
-  border: solid 1px #ddd;
+  border: solid 1px #eee;
 `;
 const Container = styled.div`
   width: 600px;
@@ -17,15 +17,15 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   padding: 20px;
+  border-top: none;
 `;
 const Header = styled.div`
   display: flex;
   align-items: center;
-  /* border-bottom: solid 1px #ddd; */
-  background: #333;
-  color: #fff;
+  border-bottom: solid 1px #eee;
+  background: #f6f6f6;
 `;
-const Heading = styled.h2`
+const Heading = styled.h3`
   font-family: "Josefin Slab", serif;
   padding: 20px;
   margin: 0;

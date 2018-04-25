@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import { view } from "react-easy-state";
+import { Link } from "react-router-dom";
+
 import AuthStore from "../../stores/Auth";
+import PostStore from "../../stores/Post";
 
 const Title = styled.h3`
   font-family: "Josefin Slab", serif;
   flex: 1;
-  margin: 20px 0;
-  font-weight: normal;
+  margin: 0;
+  font-weight: bold;
+  padding: 20px;
+  background: #ffebe5;
+  border-bottom: solid 1px #eee;
 `;
 const Wrapper = styled.div`
   width: 400px;
@@ -16,9 +22,32 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 const Container = styled.div`
-  padding-top: 70px;
+  padding: 70px 0;
+`;
+const Content = styled.div`
+  padding: 20px;
   background: #f6f6f6;
-  height: 100%;
+`;
+
+const CuratedTags = styled.div`
+  /* border: solid 1px #ddd; */
+`;
+const Tags = styled.div`
+  padding: 10px 0;
+`;
+const TagTitle = styled.h4`
+  margin: 0;
+  font-size: 14px;
+  margin-bottom: 10px;
+`;
+const Tag = styled.div`
+  margin-right: 8px;
+  margin-bottom: 8px;
+  padding: 5px 8px;
+  background: #fff;
+  border: solid 1px #eee;
+  display: inline-block;
+  font-size: 12px;
 `;
 
 class Sidebar extends Component {
@@ -29,16 +58,75 @@ class Sidebar extends Component {
     AuthStore.updateMetadata(metadata);
   };
   render() {
-    console.log(AuthStore.me);
+    const recommendedTags = {
+      Knowledge: [
+        "Science",
+        "Technology",
+        "Steemstem",
+        "Astronomy",
+        "Space",
+        "History"
+      ],
+      Life: ["Parenting", "Travel", "Health", "Food", "Funny", "Life"],
+      "Arts & Entertainment": [
+        "Art",
+        "Music",
+        "Photography",
+        "Entertainment",
+        "Film"
+      ],
+      News: ["News", "Sports"],
+      Finance: ["Cryptocurrency"]
+    };
+    // const recommendedTags = {};
+    // const posts = PostStore.entities;
+    // for (const key in posts) {
+    //   if (posts.hasOwnProperty(key)) {
+    //     const post = posts[key];
+    //     const postTags = post.json_metadata.tags;
+    //     postTags.forEach(tag => {
+    //       if (!recommendedTags[tag]) {
+    //         recommendedTags[tag] = 1;
+    //       } else {
+    //         recommendedTags[tag] += 1;
+    //       }
+    //     });
+    //   }
+    // }
+
+    // console.log(
+    //   Object.keys(recommendedTags).sort((a, b) => {
+    //     return recommendedTags[b] - recommendedTags[a];
+    //   })
+    // );
+
     return (
       <Wrapper>
         <Container>
-          <Title>Trending tags</Title>
-          {AuthStore.isLogin && (
-            <button onClick={() => this.updateMetadata(AuthStore.me)}>
-              update metadata
-            </button>
-          )}
+          <CuratedTags>
+            <Title>Topics</Title>
+            {/* {AuthStore.isLogin && (
+              <button onClick={() => this.updateMetadata(AuthStore.me)}>
+                update metadata
+              </button>
+            )} */}
+            <Content>
+              {Object.keys(recommendedTags).map((categoryTag, i) => {
+                return (
+                  <Tags key={i}>
+                    <TagTitle>{categoryTag}</TagTitle>
+                    <div>
+                      {recommendedTags[categoryTag].map(tag => (
+                        <Link to={`/topic/${tag.toLowerCase()}`}>
+                          <Tag>{tag}</Tag>
+                        </Link>
+                      ))}
+                    </div>
+                  </Tags>
+                );
+              })}
+            </Content>
+          </CuratedTags>
         </Container>
       </Wrapper>
     );

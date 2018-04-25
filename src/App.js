@@ -24,7 +24,7 @@ class App extends Component {
               <Route exact path="/" component={HomePage} />
               <Route path="/editor" component={EditorPage} />
               <Route path="/@:author/:permlink" component={ArticlePage} />
-              <Route path="/tag/:tag" component={TagPage} />
+              <Route path="/topic/:tag" component={TagPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </div>

@@ -7,7 +7,7 @@ import queryString from "query-string";
 let data = {
   app: "framesia.app",
   callbackURL: "http://localhost:3000",
-  scope: ["vote", "comment", "comment_delete", "comment_options", "custom_json"]
+  scope: ["vote", "comment", "delete_comment", "comment_options", "custom_json"]
 };
 
 // if (env === 'production') {

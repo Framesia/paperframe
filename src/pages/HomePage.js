@@ -30,8 +30,8 @@ class HomePage extends Component {
             {AuthStore.me.user_metadata &&
             AuthStore.me.user_metadata.follow_tags &&
             Array.isArray(AuthStore.me.user_metadata.follow_tags)
-              ? AuthStore.me.user_metadata.follow_tags.map(tag => {
-                  return <Feed isLogin={AuthStore.isLogin} tag={tag} />;
+              ? AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
+                  return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
                 })
               : null}
           </Content>
