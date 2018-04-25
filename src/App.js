@@ -10,6 +10,8 @@ import Header from "./sections/Header/Header";
 import HomePage from "./pages/HomePage";
 import EditorPage from "./pages/EditorPage";
 import ArticlePage from "./pages/ArticlePage";
+import TagPage from "./pages/TagPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 class App extends Component {
   render() {
@@ -22,6 +24,8 @@ class App extends Component {
               <Route exact path="/" component={HomePage} />
               <Route path="/editor" component={EditorPage} />
               <Route path="/@:author/:permlink" component={ArticlePage} />
+              <Route path="/tag/:tag" component={TagPage} />
+              <Route component={NotFoundPage} />
             </Switch>
           </div>
         </BrowserRouter>

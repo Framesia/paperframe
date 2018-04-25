@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 
 import styled from "styled-components";
+import { view } from "react-easy-state";
 
 import Header from "../sections/Header/Header";
 import Landing from "../sections/HomePage/Landing";
 import Feed from "../sections/HomePage/Feed";
 import Sidebar from "../sections/HomePage/Sidebar";
+
+import AuthStore from "../stores/Auth";
 
 const WrapContent = styled.div`
   display: flex;
@@ -15,12 +18,16 @@ const WrapContent = styled.div`
 `;
 
 class HomePage extends Component {
+  componentDidMount() {
+    console.log(AuthStore);
+  }
+
   render() {
     return (
       <div>
-        <Landing />
+        {AuthStore.isLogin !== true && <Landing />}
         <WrapContent>
-          <Feed />
+          <Feed isLogin={AuthStore.isLogin} />
           <Sidebar />
         </WrapContent>
       </div>
@@ -28,4 +35,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default view(HomePage);

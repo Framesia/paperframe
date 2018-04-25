@@ -48,7 +48,6 @@ const PostStore = store({
       PostStore.entities[id].voteLoading = true;
       api.vote(voter, author, permlink, weight, (err, res) => {
         if (!err) {
-          console.log(res);
           PostStore.entities[id].voteLoading = false;
           if (weight > 0) {
             PostStore.entities[id].isVoted = true;

@@ -175,7 +175,7 @@ class Card extends Component {
       <Wrapper>
         <LeftCard>
           <Head>
-            <Link to={`/trending/${data.category}`}>
+            <Link to={`/tag/${data.category}`}>
               <Category>{data.category || "science"}</Category>
             </Link>
             <Time>{this.getDateString(data.created) || "13 april"}</Time>

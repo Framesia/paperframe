@@ -41,7 +41,7 @@ const Slip = styled.div`
 `;
 
 class Header extends Component {
-  componentDidMount() {
+  componentWillMount() {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
       AuthStore.getMe();

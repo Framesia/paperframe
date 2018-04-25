@@ -28,24 +28,41 @@ const SortBy = styled.div``;
 
 class Feed extends Component {
   state = {
+    haveFetched: false,
     data: []
   };
+
   componentDidMount() {
+    if (!AuthStore.isLogin) {
+      this.fetchPost();
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isLogin === false && nextProps.isLogin) {
+      this.fetchPost();
+    }
+  }
+
+  fetchPost = () => {
     PostStore.getPost({
       sortBy: "trending",
       query: {
-        tag: "technology",
+        tag: "",
         limit: 5,
         truncate_body: 1
       }
     });
-  }
+  };
 
   render() {
     const posts = PostStore.selectPosts({
       sortBy: "trending",
-      tag: "technology"
+      tag: ""
     });
+
+    console.log(this.props.isLogin);
+
     return (
       <Wrapper>
         <Container>
