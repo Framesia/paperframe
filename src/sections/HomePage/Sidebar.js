@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+import { view } from "react-easy-state";
+import AuthStore from "../../stores/Auth";
+
 const Title = styled.h3`
   font-family: "Josefin Slab", serif;
   flex: 1;
@@ -19,15 +22,27 @@ const Container = styled.div`
 `;
 
 class Sidebar extends Component {
+  updateMetadata = me => {
+    const metadata = me.account.json_metadata;
+    metadata.follow_tags = ["science", "steemstem"];
+
+    AuthStore.updateMetadata(metadata);
+  };
   render() {
+    console.log(AuthStore.me);
     return (
       <Wrapper>
         <Container>
           <Title>Trending tags</Title>
+          {AuthStore.isLogin && (
+            <button onClick={() => this.updateMetadata(AuthStore.me)}>
+              update metadata
+            </button>
+          )}
         </Container>
       </Wrapper>
     );
   }
 }
 
-export default Sidebar;
+export default view(Sidebar);

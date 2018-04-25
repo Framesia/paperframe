@@ -37,6 +37,11 @@ const AuthStore = store({
     Cookies.remove("accessToken");
     AuthStore.me = {};
     AuthStore.isLogin = false;
+  },
+  updateMetadata(metadata) {
+    steemconnect().updateUserMetadata(metadata, (err, res) => {
+      AuthStore.me.user_metadata = res.user_metadata;
+    });
   }
 });
 
