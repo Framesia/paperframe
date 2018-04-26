@@ -31,7 +31,11 @@ const AuthStore = store({
     });
   },
   getAccessToken() {
-    return Cookies.get("accessToken");
+    const accessToken = Cookies.get("accessToken");
+    if (!accessToken) {
+      AuthStore.loading = false;
+    }
+    return accessToken;
   },
   doLogout() {
     Cookies.remove("accessToken");

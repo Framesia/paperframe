@@ -1,10 +1,11 @@
 import { store } from "react-easy-state";
 
-import { Client } from "dsteem";
+// import { Client } from "dsteem";
 import steemconnect from "../helpers/steemconnect";
+import steemApi from "../helpers/steemApi";
 import AuthStore from "./Auth";
 
-const client = new Client("https://api.steemit.com");
+// const client = new Client("https://api.steemit.com");
 
 const PostStore = store({
   ids: {},
@@ -17,8 +18,8 @@ const PostStore = store({
     if (!PostStore.ids[sortBy][query.tag]) {
       PostStore.ids[sortBy][query.tag] = {};
     }
-    client.database.getDiscussions(sortBy, query).then(discussions => {
-      discussions.forEach(post => {
+    steemApi.getPosts({ sortBy, query }).then(posts => {
+      posts.forEach(post => {
         try {
           post.json_metadata = JSON.parse(post.json_metadata);
         } catch (e) {}

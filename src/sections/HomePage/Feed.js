@@ -41,7 +41,8 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    if (!AuthStore.isLogin) {
+    if (!AuthStore.isLogin && AuthStore.loading === false) {
+      console.log(AuthStore.isLogin);
       this.fetchPost();
     }
   }
