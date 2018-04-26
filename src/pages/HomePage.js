@@ -17,7 +17,9 @@ const WrapContent = styled.div`
   margin: 0 auto;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  padding: 20px 0;
+`;
 
 class HomePage extends Component {
   render() {
@@ -26,14 +28,21 @@ class HomePage extends Component {
         {!AuthStore.getAccessToken() && <Landing />}
         <WrapContent>
           <Content>
-            {AuthStore.me.user_metadata &&
-            AuthStore.me.user_metadata.follow_tags &&
-            Array.isArray(AuthStore.me.user_metadata.follow_tags) ? (
-              AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
-                return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
-              })
+            {AuthStore.getAccessToken() ? (
+              AuthStore.me.user_metadata &&
+              AuthStore.me.user_metadata.follow_tags &&
+              Array.isArray(AuthStore.me.user_metadata.follow_tags) ? (
+                AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
+                  return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
+                })
+              ) : (
+                <div>Loading...</div>
+              )
             ) : (
-              <div>Loading...</div>
+              <React.Fragment>
+                <Feed isLogin={false} tag="science" />
+                <Feed isLogin={false} tag="programming" />
+              </React.Fragment>
             )}
           </Content>
           <Sidebar />

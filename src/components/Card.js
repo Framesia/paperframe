@@ -9,7 +9,7 @@ import PostStore from "../stores/Post";
 // import removeMd from "remove-markdown";
 
 const Wrapper = styled.div`
-  padding: 20px 0;
+  padding: 12px 0;
   border-bottom: solid 1px #eee;
   display: flex;
   align-items: stretch;
@@ -30,7 +30,7 @@ const RightCard = styled.div`
 `;
 const Title = styled.h3`
   margin: 12px 0;
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: 0.01em;
   /* font-weight: normal; */
 `;

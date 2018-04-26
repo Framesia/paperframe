@@ -22,7 +22,8 @@ const steemconnect = () => {
   } else {
     const parsed = querystring.parse(window.location.search);
     if (parsed) {
-      const { access_token, username } = parsed;
+      const { username } = parsed;
+      const access_token = parsed["?access_token"];
       if (access_token) {
         Cookies.set("accessToken", access_token, { expires: 7 });
         Cookies.set("username", username, { expires: 7 });

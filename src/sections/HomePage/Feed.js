@@ -14,18 +14,20 @@ import Card from "../../components/Card";
 const Wrapper = styled.div`
   margin-bottom: 40px;
   border: solid 1px #eee;
+  border-top: none;
 `;
 const Container = styled.div`
   width: 600px;
   margin: 0 auto;
 `;
 const Content = styled.div`
-  padding: 20px;
+  padding: 0 20px;
   border-top: none;
 `;
 const Header = styled.div`
   display: flex;
   align-items: center;
+  border-top: solid 1px #eee;
   border-bottom: solid 1px #eee;
   background: #f6f6f6;
   z-index: 5;
@@ -47,7 +49,7 @@ class Feed extends Component {
 
   componentDidMount() {
     if (!AuthStore.isLogin && AuthStore.loading === false) {
-      this.fetchPost();
+      this.fetchPost(this.props.tag);
     }
   }
 
@@ -75,7 +77,10 @@ class Feed extends Component {
       sortBy: "trending",
       tag: this.props.tag
     });
-    console.log(this.props.tag);
+    const loading = PostStore.selectLoading({
+      sortBy: "trending",
+      tag: this.props.tag
+    });
 
     return (
       <Wrapper>
@@ -92,12 +97,14 @@ class Feed extends Component {
               }}
             </Sticky>
             <Content>
-              {posts.map(item => {
-                if (!item) {
-                  return null;
-                }
-                return <Card data={item} key={item.id} />;
-              })}
+              {loading && <div>Loading...</div>}
+              {!loading &&
+                posts.map(item => {
+                  if (!item) {
+                    return null;
+                  }
+                  return <Card data={item} key={item.id} />;
+                })}
             </Content>
           </StickyContainer>
         </Container>

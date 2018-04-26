@@ -8,16 +8,27 @@ import AuthStore from "./Auth";
 // const client = new Client("https://api.steemit.com");
 
 const PostStore = store({
-  ids: {},
-  entities: {},
+  ids: {
+    // trending: { tag: { author/permlink: true }}
+  },
+  entities: {
+    // author/permlink: { ...data }
+  },
+  loading: {
+    // trending: { tag: false }
+    // author/permlink: false
+  },
 
   getPosts({ sortBy, query }) {
     if (!PostStore.ids[sortBy]) {
       PostStore.ids[sortBy] = {};
+      PostStore.loading[sortBy] = {};
     }
     if (!PostStore.ids[sortBy][query.tag]) {
       PostStore.ids[sortBy][query.tag] = {};
+      PostStore.loading[sortBy][query.tag] = false;
     }
+    PostStore.loading[sortBy][query.tag] = true;
     steemApi.getPosts({ sortBy, query }).then(posts => {
       posts.forEach(post => {
         try {
@@ -38,6 +49,7 @@ const PostStore = store({
 
         PostStore.entities[id] = post;
       });
+      PostStore.loading[sortBy][query.tag] = false;
     });
   },
 
@@ -83,6 +95,17 @@ const PostStore = store({
       return posts;
     } else {
       return [];
+    }
+  },
+  selectLoading({ sortBy, tag, author, permlink }) {
+    if (author && permlink) {
+      return PostStore.loading[`${author}/${permlink}`];
+    } else if (sortBy && tag) {
+      if (PostStore.loading[sortBy]) {
+        return PostStore.loading[sortBy][tag];
+      } else {
+        return false;
+      }
     }
   },
   selectPostById(id) {

@@ -15,7 +15,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PostStore from "./stores/Post";
 class App extends Component {
   render() {
-    console.log(PostStore);
     return (
       <div>
         <BrowserRouter>
