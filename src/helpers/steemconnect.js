@@ -1,7 +1,8 @@
 import sc2 from "sc2-sdk";
 import Cookies from "js-cookie";
-import queryString from "query-string";
+// import queryString from "query-string";
 
+import querystring from "querystring";
 // const env = process.env.NODE_ENV
 
 let data = {
@@ -19,7 +20,7 @@ const steemconnect = () => {
   if (accessToken) {
     data.accessToken = accessToken;
   } else {
-    const parsed = queryString.parse(window.location.search);
+    const parsed = querystring.parse(window.location.search);
     if (parsed) {
       const { access_token, username } = parsed;
       if (access_token) {

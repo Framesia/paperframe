@@ -3,8 +3,6 @@ import React from "react";
 import { Value } from "slate";
 import { Editor } from "slate-react";
 
-import { Client } from "dsteem";
-
 import TextareaAutosize from "react-textarea-autosize";
 
 import Dropdown from "rc-dropdown";
@@ -18,7 +16,7 @@ import initialValue from "./initialValue.json";
 import Icons from "./Icons";
 import schema from "./schema";
 
-import detectLang from "lang-detector";
+import detectLang from "../../utils/detectLang";
 
 import SoftBreak from "slate-soft-break";
 import PluginEditTable from "slate-edit-table";
