@@ -10,7 +10,7 @@ const Wrapper = styled.div`
   padding: 0 10px;
 `;
 
-class EditorPage extends Component {
+class ArticlePage extends Component {
   componentDidMount() {
     // console.log(this.props.mar);
   }
@@ -25,4 +25,4 @@ class EditorPage extends Component {
   }
 }
 
-export default EditorPage;
+export default ArticlePage;

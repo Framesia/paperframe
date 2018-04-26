@@ -11,7 +11,7 @@ const PostStore = store({
   ids: {},
   entities: {},
 
-  getPost({ sortBy, query }) {
+  getPosts({ sortBy, query }) {
     if (!PostStore.ids[sortBy]) {
       PostStore.ids[sortBy] = {};
     }
@@ -41,6 +41,22 @@ const PostStore = store({
     });
   },
 
+  getContent({ author, permlink }) {
+    const id = `${author}/${permlink}`;
+    if (!PostStore.entities[id]) {
+      PostStore.entities[id] = {};
+    }
+    steemApi.getContent({ author, permlink }).then(post => {
+      try {
+        post.json_metadata = JSON.parse(post.json_metadata);
+      } catch (e) {}
+      PostStore.entities[id] = {
+        ...PostStore.entities[id],
+        ...post
+      };
+    });
+  },
+
   votePost({ author, permlink, weight = 10000 }) {
     const api = steemconnect();
     const voter = AuthStore.me.user;
@@ -67,6 +83,13 @@ const PostStore = store({
       return posts;
     } else {
       return [];
+    }
+  },
+  selectPostById(id) {
+    if (PostStore.entities[id]) {
+      return PostStore.entities[id];
+    } else {
+      return {};
     }
   }
 });

@@ -54,7 +54,7 @@ class Feed extends Component {
   }
 
   fetchPost = () => {
-    PostStore.getPost({
+    PostStore.getPosts({
       sortBy: "trending",
       query: {
         tag: this.props.tag,
