@@ -22,9 +22,19 @@ class Article extends Component {
     if (!post.id) {
       return <div>null</div>;
     }
+    // immutable
+    let { image, links, users } = post.json_metadata;
+    const data = {
+      body: post.body,
+      json_metadata: {
+        links: links ? [...links] : [],
+        users: users ? [...users] : [],
+        image: image ? [...image] : []
+      }
+    };
     return (
       <div className="article">
-        <div dangerouslySetInnerHTML={{ __html: renderToHTML(post) }} />
+        <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
       </div>
     );
   }

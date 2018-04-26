@@ -9,7 +9,7 @@ const md = new Remarkable({
 
 const renderToHTML = data => {
   const post = data;
-  let value = post.body + "";
+  let value = post.body;
   let metadata = {};
   const randomId = Math.floor(Math.random() * 1000);
   metadata = post.json_metadata;
@@ -17,7 +17,7 @@ const renderToHTML = data => {
   links = links ? links.reverse() : [];
   users = users ? users.reverse() : [];
   image = image ? image.reverse() : [];
-  // console.log(image);
+  console.log(data);
   function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   }
@@ -52,11 +52,13 @@ const renderToHTML = data => {
   links.forEach((link, i) => {
     value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
   });
+
   const ytRegex = /<p>http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?<\/p>/g;
   value = value.replace(
     ytRegex,
     '<div class="embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>'
   );
+
   users.forEach((user, i) => {
     value = value.replace(
       new RegExp(randomId + "-user-" + i + "-", "g"),
