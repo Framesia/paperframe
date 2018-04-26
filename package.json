@@ -23,6 +23,7 @@
     "remarkable": "^1.7.1",
     "remove-markdown": "^0.2.2",
     "sc2-sdk": "^1.0.2",
+    "sentence-case": "^2.1.1",
     "slate": "^0.33.3",
     "slate-auto-replace": "^0.9.0",
     "slate-edit-code": "^0.15.0",

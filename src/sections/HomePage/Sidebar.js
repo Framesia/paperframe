@@ -116,8 +116,8 @@ class Sidebar extends Component {
                   <Tags key={i}>
                     <TagTitle>{categoryTag}</TagTitle>
                     <div>
-                      {recommendedTags[categoryTag].map(tag => (
-                        <Link to={`/topic/${tag.toLowerCase()}`}>
+                      {recommendedTags[categoryTag].map((tag, i) => (
+                        <Link to={`/tag/${tag.toLowerCase()}`} key={i}>
                           <Tag>{tag}</Tag>
                         </Link>
                       ))}

@@ -12,9 +12,10 @@ import EditorPage from "./pages/EditorPage";
 import ArticlePage from "./pages/ArticlePage";
 import TagPage from "./pages/TagPage";
 import NotFoundPage from "./pages/NotFoundPage";
-
+import PostStore from "./stores/Post";
 class App extends Component {
   render() {
+    console.log(PostStore);
     return (
       <div>
         <BrowserRouter>
@@ -24,7 +25,7 @@ class App extends Component {
               <Route exact path="/" component={HomePage} />
               <Route path="/editor" component={EditorPage} />
               <Route path="/@:author/:permlink" component={ArticlePage} />
-              <Route path="/topic/:tag" component={TagPage} />
+              <Route path="/tag/:tag" component={TagPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </div>

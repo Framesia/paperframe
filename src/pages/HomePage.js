@@ -9,7 +9,6 @@ import Feed from "../sections/HomePage/Feed";
 import Sidebar from "../sections/HomePage/Sidebar";
 
 import AuthStore from "../stores/Auth";
-import { isArray } from "util";
 
 const WrapContent = styled.div`
   display: flex;
@@ -29,11 +28,13 @@ class HomePage extends Component {
           <Content>
             {AuthStore.me.user_metadata &&
             AuthStore.me.user_metadata.follow_tags &&
-            Array.isArray(AuthStore.me.user_metadata.follow_tags)
-              ? AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
-                  return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
-                })
-              : null}
+            Array.isArray(AuthStore.me.user_metadata.follow_tags) ? (
+              AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
+                return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
+              })
+            ) : (
+              <div>Loading...</div>
+            )}
           </Content>
           <Sidebar />
         </WrapContent>

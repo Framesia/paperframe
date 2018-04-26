@@ -3,10 +3,11 @@ import styled from "styled-components";
 
 import Card from "../../components/Card";
 
+import sentenceCase from "sentence-case";
+
 import { view } from "react-easy-state";
 import PostStore from "../../stores/Post";
 import AuthStore from "../../stores/Auth";
-
 const Wrapper = styled.div`
   margin-bottom: 40px;
   border: solid 1px #eee;
@@ -42,22 +43,23 @@ class Feed extends Component {
 
   componentDidMount() {
     if (!AuthStore.isLogin && AuthStore.loading === false) {
-      console.log(AuthStore.isLogin);
       this.fetchPost();
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isLogin === false && nextProps.isLogin) {
-      this.fetchPost();
+      this.fetchPost(nextProps.tag);
+    } else if (this.props.tag !== nextProps.tag) {
+      this.fetchPost(nextProps.tag);
     }
   }
 
-  fetchPost = () => {
+  fetchPost = tag => {
     PostStore.getPosts({
       sortBy: "trending",
       query: {
-        tag: this.props.tag,
+        tag,
         limit: 5,
         truncate_body: 1
       }
@@ -69,12 +71,13 @@ class Feed extends Component {
       sortBy: "trending",
       tag: this.props.tag
     });
+    console.log(this.props.tag);
 
     return (
       <Wrapper>
         <Container>
           <Header>
-            <Heading>{this.props.tag}</Heading>
+            <Heading>{sentenceCase(this.props.tag)}</Heading>
           </Header>
           <Content>
             {posts.map(item => {
