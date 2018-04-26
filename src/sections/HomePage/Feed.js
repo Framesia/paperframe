@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
-import Card from "../../components/Card";
-
 import sentenceCase from "sentence-case";
 
 import { view } from "react-easy-state";
+import { StickyContainer, Sticky } from "react-sticky";
+
 import PostStore from "../../stores/Post";
 import AuthStore from "../../stores/Auth";
+
+import Card from "../../components/Card";
+
 const Wrapper = styled.div`
   margin-bottom: 40px;
   border: solid 1px #eee;
@@ -25,6 +28,7 @@ const Header = styled.div`
   align-items: center;
   border-bottom: solid 1px #eee;
   background: #f6f6f6;
+  z-index: 5;
 `;
 const Heading = styled.h3`
   font-family: "Josefin Slab", serif;
@@ -76,17 +80,26 @@ class Feed extends Component {
     return (
       <Wrapper>
         <Container>
-          <Header>
-            <Heading>{sentenceCase(this.props.tag)}</Heading>
-          </Header>
-          <Content>
-            {posts.map(item => {
-              if (!item) {
-                return null;
-              }
-              return <Card data={item} key={item.id} />;
-            })}
-          </Content>
+          <StickyContainer>
+            <Sticky topOffset={-50}>
+              {({ style }) => {
+                // console.log(style);
+                return (
+                  <Header style={{ ...style, top: 50 }}>
+                    <Heading>{sentenceCase(this.props.tag)}</Heading>
+                  </Header>
+                );
+              }}
+            </Sticky>
+            <Content>
+              {posts.map(item => {
+                if (!item) {
+                  return null;
+                }
+                return <Card data={item} key={item.id} />;
+              })}
+            </Content>
+          </StickyContainer>
         </Container>
       </Wrapper>
     );
