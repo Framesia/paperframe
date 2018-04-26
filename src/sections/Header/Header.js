@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import Button from "../../components/Button";
 
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 import steemconnect from "../../helpers/steemconnect";
 
@@ -45,6 +45,12 @@ class Header extends Component {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
       AuthStore.getMe();
+      if (window.location.search.length > 1) {
+        this.props.history.push({
+          pathname: "/",
+          search: ""
+        });
+      }
     }
   }
   renderWhenLogin() {
@@ -78,4 +84,4 @@ class Header extends Component {
   }
 }
 
-export default view(Header);
+export default withRouter(view(Header));

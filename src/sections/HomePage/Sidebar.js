@@ -14,19 +14,20 @@ const Title = styled.h3`
   font-weight: bold;
   padding: 20px;
   background: #ffebe5;
-  border-bottom: solid 1px #eee;
+  border: solid 1px #eee;
 `;
 const Wrapper = styled.div`
-  width: 400px;
-
+  max-width: 400px;
   padding: 0 20px;
 `;
 const Container = styled.div`
   padding: 70px 0;
 `;
 const Content = styled.div`
+  border: solid 1px #eee;
+  border-top: none;
   padding: 20px;
-  background: #f6f6f6;
+  background: #fff;
 `;
 
 const CuratedTags = styled.div`
@@ -44,7 +45,7 @@ const Tag = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   padding: 5px 8px;
-  background: #fff;
+  background: #f6f6f6;
   border: solid 1px #eee;
   display: inline-block;
   font-size: 12px;

@@ -13,7 +13,7 @@ import AuthStore from "../stores/Auth";
 const WrapContent = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
 `;
 

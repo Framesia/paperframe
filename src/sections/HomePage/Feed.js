@@ -13,8 +13,6 @@ import Card from "../../components/Card";
 
 const Wrapper = styled.div`
   margin-bottom: 40px;
-  border: solid 1px #eee;
-  border-top: none;
 `;
 const Container = styled.div`
   width: 600px;
@@ -22,13 +20,13 @@ const Container = styled.div`
 `;
 const Content = styled.div`
   padding: 0 20px;
+  border: solid 1px #eee;
   border-top: none;
 `;
 const Header = styled.div`
   display: flex;
   align-items: center;
-  border-top: solid 1px #eee;
-  border-bottom: solid 1px #eee;
+  border: solid 1px #eee;
   background: #f6f6f6;
   z-index: 5;
 `;
@@ -86,7 +84,7 @@ class Feed extends Component {
       <Wrapper>
         <Container>
           <StickyContainer>
-            <Sticky topOffset={-50}>
+            <Sticky topOffset={-50} bottomOffset={-100}>
               {({ style }) => {
                 // console.log(style);
                 return (
