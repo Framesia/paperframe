@@ -19,9 +19,9 @@ const FeedLoader = props => (
       {...props}
     >
       <rect x="400" y="0" rx="0" ry="0" width="160" height="120" />
-      <rect x="0" y="0" rx="0" ry="0" width="100" height="15" />
-      <rect x="0" y="27" rx="0" ry="0" width="260" height="21" />
-      <rect x="0" y="55" rx="0" ry="0" width="300" height="21" />
+      <rect x="0" y="2.5" rx="0" ry="0" width="100" height="10" />
+      <rect x="0" y="29.5" rx="0" ry="0" width="260" height="16" />
+      <rect x="0" y="57.5" rx="0" ry="0" width="300" height="16" />
       <circle cx="15" cy="105" r="15" />
       <rect x="35" y="95" rx="0" ry="0" width="72" height="9" />
       <rect x="35" y="109" rx="0" ry="0" width="39" height="6" />

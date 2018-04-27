@@ -28,7 +28,7 @@ const DropItem = styled.div`
 const DropdownWrapper = styled.div`
   position: relative;
   background: #fff;
-  margin-left: 50px;
+  margin-left: -50px;
   border: solid 1px #eee;
   border-radius: 2px;
 
