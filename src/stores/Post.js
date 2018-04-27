@@ -58,10 +58,12 @@ const PostStore = store({
     if (!PostStore.entities[id]) {
       PostStore.entities[id] = {};
     }
+    PostStore.loading[id] = true;
     steemApi.getContent({ author, permlink }).then(post => {
       try {
         post.json_metadata = JSON.parse(post.json_metadata);
       } catch (e) {}
+      PostStore.loading[id] = false;
       PostStore.entities[id] = {
         ...PostStore.entities[id],
         ...post

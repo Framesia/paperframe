@@ -22,7 +22,8 @@ const DropItem = styled.div`
   font-weight: bold;
   cursor: pointer;
   &:hover {
-    background: #f6f6f6;
+    background: #deebff;
+    color: #333;
   }
 `;
 const DropdownWrapper = styled.div`

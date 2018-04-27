@@ -19,8 +19,10 @@ class Article extends Component {
     const { author, permlink } = this.props.params;
     const id = `${author}/${permlink}`;
     const post = PostStore.selectPostById(id);
-    if (!post.id) {
-      return <div>null</div>;
+    const loading = PostStore.selectLoading({ author, permlink });
+
+    if (!post.id || loading) {
+      return <div>Loading...</div>;
     }
     // immutable
     let { image, links, users } = post.json_metadata;

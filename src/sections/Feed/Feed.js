@@ -28,7 +28,7 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   border: solid 1px #eee;
-  background: #f6f6f6;
+  background: #eae6ff;
   z-index: 5;
 `;
 const Heading = styled.h3`
