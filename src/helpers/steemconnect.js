@@ -7,7 +7,7 @@ import querystring from "querystring";
 
 let data = {
   app: "framesia.app",
-  callbackURL: "http://localhost:3000",
+  callbackURL: window.location.origin,
   scope: ["vote", "comment", "delete_comment", "comment_options", "custom_json"]
 };
 
