@@ -4,9 +4,11 @@ import styled from "styled-components";
 import { view } from "react-easy-state";
 
 import Header from "../sections/Header/Header";
+
 import Landing from "../sections/HomePage/Landing";
-import Feed from "../sections/HomePage/Feed";
 import Sidebar from "../sections/HomePage/Sidebar";
+
+import Feed from "../sections/Feed/Feed";
 
 import AuthStore from "../stores/Auth";
 

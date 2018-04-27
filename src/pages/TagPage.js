@@ -6,13 +6,14 @@ import { view } from "react-easy-state";
 import AuthStore from "../stores/Auth";
 
 import Sidebar from "../sections/HomePage/Sidebar";
-import Feed from "../sections/HomePage/Feed";
+import Feed from "../sections/Feed/Feed";
 
 const WrapContent = styled.div`
   display: flex;
   justify-content: space-between;
   width: 1000px;
   margin: 0 auto;
+  padding: 20px 0;
 `;
 const Content = styled.div``;
 class TagPage extends Component {

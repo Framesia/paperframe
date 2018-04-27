@@ -10,6 +10,7 @@ import PostStore from "../../stores/Post";
 import AuthStore from "../../stores/Auth";
 
 import Card from "../../components/Card";
+import FeedLoading from "./FeedLoading";
 
 const Wrapper = styled.div`
   margin-bottom: 40px;
@@ -46,7 +47,7 @@ class Feed extends Component {
   };
 
   componentDidMount() {
-    if (!AuthStore.isLogin && AuthStore.loading === false) {
+    if (!AuthStore.loading) {
       this.fetchPost(this.props.tag);
     }
   }
@@ -95,7 +96,13 @@ class Feed extends Component {
               }}
             </Sticky>
             <Content>
-              {loading && <div>Loading...</div>}
+              {loading && (
+                <React.Fragment>
+                  {[0, 1, 2].map(() => {
+                    return <FeedLoading />;
+                  })}
+                </React.Fragment>
+              )}
               {!loading &&
                 posts.map(item => {
                   if (!item) {
