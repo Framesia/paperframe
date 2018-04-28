@@ -50,6 +50,7 @@ const Group = styled.div`
 const Toolbar = ({
   hasMark,
   hasBlock,
+  hasFragment,
   onClickBlock,
   onClickLink,
   onClickMark,
@@ -153,9 +154,28 @@ const Toolbar = ({
         </Tooltip>
         {!isInTable && (
           <React.Fragment>
+            <Tooltip placement="bottom" overlay={<span>Pull left</span>}>
+              <button
+                className={hasFragment("pull-left") ? "active" : ""}
+                onMouseDown={e => onClickBlock(e, "pull-left")}
+              >
+                <Icons type="pull-left" />
+              </button>
+            </Tooltip>
             <Tooltip placement="bottom" overlay={<span>Center</span>}>
-              <button onMouseDown={e => onClickBlock(e, "center")}>
+              <button
+                className={hasFragment("center") ? "active" : ""}
+                onMouseDown={e => onClickBlock(e, "center")}
+              >
                 <Icons type="center" />
+              </button>
+            </Tooltip>
+            <Tooltip placement="bottom" overlay={<span>Pull right</span>}>
+              <button
+                className={hasFragment("pull-right") ? "active" : ""}
+                onMouseDown={e => onClickBlock(e, "pull-right")}
+              >
+                <Icons type="pull-right" />
               </button>
             </Tooltip>
             <Tooltip placement="bottom" overlay={<span>Insert table</span>}>
@@ -196,7 +216,7 @@ const Toolbar = ({
         </Group>
       )}
       <Group>
-        <button>Publish</button>
+        <button onClick={e => onSerialize()}>Publish</button>
       </Group>
     </Wrapper>
   );

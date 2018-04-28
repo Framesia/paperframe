@@ -36,7 +36,8 @@ const MARK_TAGS = {
 };
 
 const INLINE_TAGS = {
-  a: "link"
+  a: "link",
+  img: "image"
 };
 
 const deserializeNode = (el, next) => {
@@ -104,6 +105,7 @@ const serializeNode = (obj, children) => {
       case "center":
         return <center>{children}</center>;
       case "image":
+        console.log(obj);
         return <img src={obj.data.get("src")} />;
       case "figure":
         return <figure>{children}</figure>;
@@ -121,9 +123,12 @@ const serializeNode = (obj, children) => {
         return <tr>{children}</tr>;
       case "table-cell":
         return <td>{children}</td>;
-      case "div":
-        const pull = obj.data.get("pull");
-        return <div className={pull && `pull-${pull}`}>{children}</div>;
+      case "pull-left":
+        return <div className="pull-left">{children}</div>;
+      case "pull-right":
+        return <div className="pull-right">{children}</div>;
+      case "code-line":
+        return <div>{children}</div>;
     }
   }
 };
@@ -178,6 +183,8 @@ const serializeInline = (obj, children) => {
     switch (obj.type) {
       case "link":
         return <a href={obj.data.get("href")}>{children}</a>;
+      case "image":
+        return <img src={obj.data.get("src")} />;
     }
   }
 };

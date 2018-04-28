@@ -15,6 +15,18 @@ const renderNode = props => {
       return <pre {...props.attributes}>{props.children}</pre>;
     case "code-line":
       return <div {...props.attributes}>{props.children}</div>;
+    case "pull-left":
+      return (
+        <div className="pull-left" {...props.attributes}>
+          {props.children}
+        </div>
+      );
+    case "pull-right":
+      return (
+        <div className="pull-right" {...props.attributes}>
+          {props.children}
+        </div>
+      );
     case "paragraph":
       // let readOnly = true;
       // if (readOnly) {
@@ -144,13 +156,6 @@ const renderNode = props => {
       return <tr {...props.attributes}>{props.children}</tr>;
     case "table-cell":
       return <td {...props.attributes}>{props.children}</td>;
-    case "pull-left":
-      const pull = props.node.data.get("pull");
-      return (
-        <div className={pull && `pull-${pull}`} {...props.attributes}>
-          {props.children}
-        </div>
-      );
   }
 };
 

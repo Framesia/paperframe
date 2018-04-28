@@ -416,14 +416,14 @@ figcaption {
 .pull-left {
   float: left;
   margin-right: -70px;
-  width: 400px;
+  width: 380px;
   position: relative;
   left: -90px;
 }
 .pull-right {
   float: right;
   margin-left: -70px;
-  width: 400px;
+  width: 380px;
   position: relative;
   left: 90px;
 }

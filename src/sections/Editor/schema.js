@@ -26,7 +26,9 @@ const schema = {
           "bulleted-list",
           "bulleted-item",
           "link",
-          "div"
+          "div",
+          "pull-left",
+          "pull-right"
         ]
       }
     ]

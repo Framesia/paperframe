@@ -105,7 +105,20 @@ export default class EditorApp extends React.Component {
 
   hasBlock = type => {
     const { value } = this.state;
-    return value.blocks.some(node => node.type == type);
+    return value.blocks.some(node => node.type === type);
+  };
+
+  hasFragment = type => {
+    const { value } = this.state;
+    return value.fragment.nodes.some(node => {
+      if (node.type === type) {
+        return true;
+      } else {
+        if (node.nodes) {
+          return node.nodes.some(node => node.type === type);
+        }
+      }
+    });
   };
   onChange = ({ value }) => {
     // const { value } = this.state;
@@ -161,9 +174,34 @@ export default class EditorApp extends React.Component {
     const { document } = value;
 
     const isCenterActive = value.fragment.nodes.some(
-      node => node.type == "center"
+      node => node.type === "center"
     );
-    if (type == "center") {
+    const isPullLeftActive = value.fragment.nodes.some(
+      node => node.type === "pull-left"
+    );
+    const isPullRightActive = value.fragment.nodes.some(
+      node => node.type === "pull-right"
+    );
+    console.log(isPullLeftActive, isCenterActive, isPullRightActive);
+    if (type === "pull-left") {
+      if (isPullLeftActive) {
+        change.unwrapBlock("pull-left");
+      } else if (isPullRightActive) {
+        change.unwrapBlock("pull-right");
+        change.wrapBlock("pull-left");
+      } else {
+        change.wrapBlock("pull-left");
+      }
+    } else if (type === "pull-right") {
+      if (isPullRightActive) {
+        change.unwrapBlock("pull-right");
+      } else if (isPullLeftActive) {
+        change.unwrapBlock("pull-left");
+        change.wrapBlock("pull-right");
+      } else {
+        change.wrapBlock("pull-right");
+      }
+    } else if (type === "center") {
       // if ()
       // console.log(value.fragment.nodes.toJSON);
       if (isCenterActive) {
@@ -181,42 +219,6 @@ export default class EditorApp extends React.Component {
       change.setBlocks(isActive ? "paragraph" : type);
       // }
     }
-    // else if (type != "bulleted-list" && type != "numbered-list") {
-    //   // Handle everything but list buttons. and center
-    //   const isActive = this.hasBlock(type);
-    //   const isList = this.hasBlock("list-item");
-
-    //   if (isList) {
-    //     // change
-    //     //   .setBlocks(isActive ? "paragraph" : type)
-    //     //   .unwrapBlock("bulleted-list")
-    //     //   .unwrapBlock("numbered-list");
-    //   } else {
-    //     change.setBlocks(isActive ? "paragraph" : type);
-    //   }
-    // } else {
-    //   // Handle the extra wrapping required for list buttons.
-    //   const isList = this.hasBlock("list-item");
-    //   const isType = value.blocks.some(block => {
-    //     return !!document.getClosest(block.key, parent => parent.type == type);
-    //   });
-
-    //   if (isList && isType) {
-    //     change
-    //       .setBlocks("paragraph")
-    //       .unwrapBlock("bulleted-list")
-    //       .unwrapBlock("numbered-list");
-    //   } else if (isList) {
-    //     change
-    //       .unwrapBlock(
-    //         type == "bulleted-list" ? "numbered-list" : "bulleted-list"
-    //       )
-    //       .wrapBlock(type);
-    //   } else {
-    //     change.setBlocks("list-item").wrapBlock(type);
-    //   }
-    // }
-
     this.onChange(change);
   };
 
@@ -241,18 +243,6 @@ export default class EditorApp extends React.Component {
       // console.log(val.data.results);
       this.setState({ imgUnsplash: val.data.results });
     });
-
-    // const { value } = this.state;
-    // const change = value.change();
-    // change.insertInline({
-    //   type: "image",
-    //   isVoid: true,
-    //   data: {
-    //     src:
-    //       "https://cdn-enterprise.discourse.org/imgur/uploads/default/original/3X/9/4/946841767587979b888acd2c2e6f6a99982ff68a.jpg"
-    //   }
-    // });
-    // this.onChange(change);
   };
 
   onSubmitImage = data => {
@@ -355,6 +345,7 @@ export default class EditorApp extends React.Component {
           value={this.state.value}
           hasMark={this.hasMark}
           hasBlock={this.hasBlock}
+          hasFragment={this.hasFragment}
           onClickBlock={this.onClickBlock}
           onClickLink={this.onClickLink}
           onClickMark={this.onClickMark}
