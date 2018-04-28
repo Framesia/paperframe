@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Icons from "./Icons";
 
 import Dropdown from "../../components/Dropdown";
-
+import Tooltip from "rc-tooltip";
+import "rc-tooltip/assets/bootstrap.css";
 const Wrapper = styled.div`
   display: flex;
   height: 50px;
@@ -21,22 +22,22 @@ const Wrapper = styled.div`
   z-index: 5;
 
   button {
+    position: relative;
     display: flex;
     align-items: center;
     background: none;
     margin: 0;
     /* opacity: 0.3; */
-    color: #344563;
+    color: #333;
     padding: 5px;
     margin: 2px;
     border-radius: 20px;
     &:hover {
       /* background: #fff; */
-      opacity: 0.6;
+      color: #999;
     }
     &.active {
       background: #79f2c0;
-      opacity: 1;
     }
   }
 `;
@@ -64,12 +65,14 @@ const Toolbar = ({
   tablePlugin
 }) => {
   const Mark = type => (
-    <button
-      className={hasMark(type) ? "active" : ""}
-      onMouseDown={e => onClickMark(e, type)}
-    >
-      <Icons type={type} />
-    </button>
+    <Tooltip placement="bottom" overlay={<span>{type}</span>}>
+      <button
+        className={hasMark(type) ? "active" : ""}
+        onMouseDown={e => onClickMark(e, type)}
+      >
+        <Icons type={type} />
+      </button>
+    </Tooltip>
   );
 
   const Node = (type, text) => (
@@ -128,48 +131,68 @@ const Toolbar = ({
         {Mark("bold")}
         {Mark("italic")}
         {Mark("code")}
-        <button
-          className={
-            value.inlines.some(inline => inline.type == "link") ? "active" : ""
-          }
-          onMouseDown={onClickLink}
-        >
-          <Icons type="link" />
-        </button>
+        <Tooltip placement="bottom" overlay={<span>Insert link</span>}>
+          <button
+            className={
+              value.inlines.some(inline => inline.type == "link")
+                ? "active"
+                : ""
+            }
+            onMouseDown={onClickLink}
+          >
+            <Icons type="link" />
+          </button>
+        </Tooltip>
       </Group>
 
       <Group>
-        <button onMouseDown={e => onInsertImage(e)}>
-          <Icons type="image" />
-        </button>
+        <Tooltip placement="bottom" overlay={<span>Insert image</span>}>
+          <button onMouseDown={e => onInsertImage(e)}>
+            <Icons type="image" />
+          </button>
+        </Tooltip>
         {!isInTable && (
           <React.Fragment>
-            <button onMouseDown={e => onClickBlock(e, "center")}>
-              <Icons type="center" />
-            </button>
-            <button onMouseDown={e => onInsertTable(e)}>
-              <Icons type="table" />
-            </button>
+            <Tooltip placement="bottom" overlay={<span>Center</span>}>
+              <button onMouseDown={e => onClickBlock(e, "center")}>
+                <Icons type="center" />
+              </button>
+            </Tooltip>
+            <Tooltip placement="bottom" overlay={<span>Insert table</span>}>
+              <button onMouseDown={e => onInsertTable(e)}>
+                <Icons type="table" />
+              </button>
+            </Tooltip>
           </React.Fragment>
         )}
       </Group>
       {isInTable && (
         <Group>
-          <button onMouseDown={e => onInsertRow(e)}>
-            <Icons type="insert-row" />
-          </button>
-          <button onMouseDown={e => onInsertColumn(e)}>
-            <Icons type="insert-column" />
-          </button>
-          <button onMouseDown={e => onRemoveRow(e)}>
-            <Icons type="remove-row" />
-          </button>
-          <button onMouseDown={e => onRemoveColumn(e)}>
-            <Icons type="remove-column" />
-          </button>
-          <button onMouseDown={e => onRemoveTable(e)}>
-            <Icons type="delete" />
-          </button>
+          <Tooltip placement="bottom" overlay={<span>Insert row</span>}>
+            <button onMouseDown={e => onInsertRow(e)}>
+              <Icons type="insert-row" />
+            </button>
+          </Tooltip>
+          <Tooltip placement="bottom" overlay={<span>Insert column</span>}>
+            <button onMouseDown={e => onInsertColumn(e)}>
+              <Icons type="insert-column" />
+            </button>
+          </Tooltip>
+          <Tooltip placement="bottom" overlay={<span>Remove row</span>}>
+            <button onMouseDown={e => onRemoveRow(e)}>
+              <Icons type="remove-row" />
+            </button>
+          </Tooltip>
+          <Tooltip placement="bottom" overlay={<span>Remove column</span>}>
+            <button onMouseDown={e => onRemoveColumn(e)}>
+              <Icons type="remove-column" />
+            </button>
+          </Tooltip>
+          <Tooltip placement="bottom" overlay={<span>Delete table</span>}>
+            <button onMouseDown={e => onRemoveTable(e)}>
+              <Icons type="delete" />
+            </button>
+          </Tooltip>
         </Group>
       )}
       <Group>

@@ -12,12 +12,13 @@ import sentenceCase from "sentence-case";
 
 const WrapContent = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 1000px;
+  justify-content: center;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px 0;
 `;
 const Content = styled.div``;
+
 class TagPage extends Component {
   render() {
     const { tag } = this.props.match.params;

@@ -18,11 +18,15 @@ const Wrapper = styled.div`
 const Container = styled.div`
   width: 600px;
   margin: 0 auto;
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
 `;
 const Content = styled.div`
   padding: 0 20px;
   border: solid 1px #eee;
   border-top: none;
+  width: 100%;
 `;
 const Header = styled.div`
   display: flex;

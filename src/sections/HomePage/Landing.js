@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   padding: 50px 20px;
 `;
 const Container = styled.div`
-  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -34,6 +34,9 @@ const Illust = styled.img`
   position: absolute;
   right: 0;
   top: -20px;
+  @media only screen and (max-width: 960px) {
+    display: none;
+  }
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   /* border: solid 1px rgba(0, 0, 0, 0.1); */
 `;

@@ -196,19 +196,19 @@ class Card extends Component {
               </Link>
               <Earning>
                 ${this.getDollars(data.pending_payout_value) || "240"}
-                {!data.voteLoading ? (
-                  data.isVoted ? (
-                    <button onClick={() => this.unvotePost(data)}>
-                      unvote
-                    </button>
-                  ) : (
-                    <button onClick={() => this.votePost(data)}>vote</button>
-                  )
-                ) : (
-                  <button>loading...</button>
-                )}
               </Earning>
             </UserRight>
+            <div>
+              {!data.voteLoading ? (
+                data.isVoted ? (
+                  <button onClick={() => this.unvotePost(data)}>unvote</button>
+                ) : (
+                  <button onClick={() => this.votePost(data)}>vote</button>
+                )
+              ) : (
+                <button>loading...</button>
+              )}
+            </div>
           </User>
         </LeftCard>
         {this.getCover(data.json_metadata) && (

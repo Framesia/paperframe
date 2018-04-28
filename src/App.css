@@ -10,6 +10,7 @@ a {
 }
 .article {
   padding: 10px;
+  padding-bottom: 80px;
   cursor: text;
   font-size: 20px;
   font-family: "Crimson Text", serif;
@@ -165,6 +166,12 @@ option {
   margin: 0 5px 5px 0;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+img + sub {
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  opacity: 0.8;
 }
 
 button code {
@@ -419,4 +426,18 @@ figcaption {
   width: 400px;
   position: relative;
   left: 90px;
+}
+
+@media only screen and (max-width: 600px) {
+  .pull-left,
+  .pull-right {
+    left: 0;
+    float: none;
+    margin: 10px 0;
+    max-width: 100%;
+  }
+
+  iframe {
+    max-width: 100%;
+  }
 }

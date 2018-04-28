@@ -17,7 +17,7 @@ const renderToHTML = data => {
   links = links ? links.reverse() : [];
   users = users ? users.reverse() : [];
   image = image ? image.reverse() : [];
-  console.log(data);
+
   function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   }
@@ -53,7 +53,7 @@ const renderToHTML = data => {
     value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
   });
 
-  const ytRegex = /<p>http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?<\/p>/g;
+  const ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/g;
   value = value.replace(
     ytRegex,
     '<div class="embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>'
@@ -65,17 +65,20 @@ const renderToHTML = data => {
       `<a href="https://steemit.com/${user}">@${user}</a>`
     );
   });
-  // console.log(value);
   image.forEach((img, i) => {
     value = value.replace(
       new RegExp('([^"])(' + img + ")", "g"),
       `$1<img src="https://steemitimages.com/640x2000/$2" />`
     );
+    // value = value.replace(new RegExp('([^"])(' + img + ")", "g"), `$1<img src="https://steemitimages.com/640x2000/$2" />`);
     value = value.replace(
       new RegExp(randomId + "-img-" + i + "-", "g"),
       `<img src="https://steemitimages.com/640x2000/${img}" />`
     );
+    value = value.replace(/<img src="<img src="/, '<img src="');
+    value = value.replace(/\/>">/, "/>");
   });
+  console.log(value);
 
   return value;
 };

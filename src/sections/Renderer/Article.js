@@ -2,10 +2,16 @@ import React, { Component } from "react";
 
 import Remarkable from "remarkable";
 import steemApi from "../../helpers/steemApi";
+// import styled from "styled-components";
 
 import PostStore from "../../stores/Post";
 import { view } from "react-easy-state";
 import renderToHTML from "./renderToHTML";
+
+// const Title = styled.h1`
+//   font-size: 32px;
+// `;
+
 class Article extends Component {
   // state = {
   //   value: ""
@@ -35,9 +41,12 @@ class Article extends Component {
       }
     };
     return (
-      <div className="article">
-        <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
-      </div>
+      <React.Fragment>
+        <h1 className="title">{post.title}</h1>
+        <div className="article">
+          <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
+        </div>
+      </React.Fragment>
     );
   }
 }

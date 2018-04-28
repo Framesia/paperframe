@@ -6,6 +6,10 @@ import styled from "styled-components";
 const Wrapper = styled.div`
   padding: 20px 0;
   border-bottom: solid 1px #eee;
+  width: 560px;
+  @media only screen and (max-width: 640px) {
+    width: 100%;
+  }
 `;
 
 const FeedLoader = props => (
