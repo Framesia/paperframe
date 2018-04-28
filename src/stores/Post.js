@@ -90,6 +90,50 @@ const PostStore = store({
     }
   },
 
+  createPost({ title, body, category, tags }) {
+    const api = steemconnect();
+    const author = AuthStore.me.name;
+    const permlink = "test-post";
+    console.log(author, title, body);
+    const operations = [];
+    const commentOp = [
+      "comment",
+      {
+        parent_author: "",
+        parent_permlink: category,
+        author,
+        permlink,
+        title,
+        body,
+        json_metadata: JSON.stringify({
+          image: [],
+          tags,
+          format: "html",
+          app: "framesia"
+        })
+      }
+    ];
+    operations.push(commentOp);
+    const commentOptionsConfig = {
+      author: author,
+      permlink: permlink,
+      max_accepted_payout: "1000000.000 SBD",
+      percent_steem_dollars: 10000,
+      allow_votes: true,
+      allow_curation_rewards: true,
+      extensions: [
+        [0, { beneficiaries: [{ account: "damaera", weight: 2500 }] }]
+      ]
+    };
+    operations.push(["comment_options", commentOptionsConfig]);
+    api.broadcast(operations, (err, res) => {
+      console.log(err, res);
+    });
+    // api.comment(null, null, author, "test", title, body, {}, (err, res) => {
+    //   console.log(err, res);
+    // });
+  },
+
   selectPosts({ sortBy, tag }) {
     if (PostStore.ids[sortBy] && PostStore.ids[sortBy][tag]) {
       const { ids, entities } = PostStore;

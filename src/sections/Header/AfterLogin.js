@@ -40,9 +40,12 @@ const DropdownWrapper = styled.div`
 
 class AfterLogin extends Component {
   render() {
-    const { profile } = this.props.me.json_metadata;
+    let { profile } = this.props.me.json_metadata;
     if (!profile) {
-      return null;
+      profile = {
+        profile_image:
+          "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
+      };
     }
     return (
       <div>

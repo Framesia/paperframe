@@ -62,12 +62,17 @@ class HomePage extends Component {
             {AuthStore.getAccessToken() ? (
               AuthStore.me.user_metadata &&
               AuthStore.me.user_metadata.follow_tags &&
-              Array.isArray(AuthStore.me.user_metadata.follow_tags) ? (
-                AuthStore.me.user_metadata.follow_tags.map((tag, i) => {
-                  return <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />;
-                })
+              Array.isArray(AuthStore.me.user_metadata.follow_tags) &&
+              AuthStore.me.user_metadata.follow_tags > 0 ? (
+                AuthStore.me.user_metadata.follow_tags.map((tag, i) => (
+                  <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />
+                ))
+              ) : AuthStore.me.user_metadata &&
+              (!AuthStore.me.user_metadata.follow_tags ||
+                Array.isArray(AuthStore.me.user_metadata.follow_tags)) ? (
+                <div>first time...</div>
               ) : (
-                <div>Loading...</div>
+                <div>loading...</div>
               )
             ) : (
               <React.Fragment>

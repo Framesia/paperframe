@@ -42,6 +42,8 @@ import renderMark from "./renderMark";
 import Toolbar from "./Toolbar";
 import Axios from "axios";
 
+import PostStore from "../../stores/Post";
+
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
   typeCell: "table-cell",
@@ -224,7 +226,14 @@ export default class EditorApp extends React.Component {
 
   onSerialize = () => {
     // const { nodes } = this.state.value.toJSON().document
-    console.log(serializer.serialize(this.state.value));
+    const body = serializer.serialize(this.state.value);
+    const title = this.state.title;
+    PostStore.createPost({
+      body,
+      title,
+      category: "test",
+      tags: ["editor", "test"]
+    });
   };
 
   onInsertImage = e => {

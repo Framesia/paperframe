@@ -19,7 +19,7 @@ const Title = styled.h3`
 const Wrapper = styled.div`
   max-width: 400px;
   padding: 0 20px;
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 770px) {
     display: none;
   }
 `;

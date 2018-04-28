@@ -39,12 +39,18 @@ const Wrapper = styled.div`
     &.active {
       background: #79f2c0;
     }
+
+    &.publish {
+      background: #79f2c0;
+      border-radius: 2px;
+      padding: 5px 8px;
+    }
   }
 `;
 const Group = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 10px;
+  /* margin-right: 10px; */
 `;
 
 const Toolbar = ({
@@ -122,7 +128,7 @@ const Toolbar = ({
           }
         >
           <div className="dropdown trigger">
-            <div className={block} style={{ width: 160 }}>
+            <div className={block} style={{ width: 150 }}>
               {!isInTable && textBlock}
             </div>
           </div>
@@ -132,6 +138,8 @@ const Toolbar = ({
         {Mark("bold")}
         {Mark("italic")}
         {Mark("code")}
+        {Mark("sup")}
+        {Mark("sub")}
         <Tooltip placement="bottom" overlay={<span>Insert link</span>}>
           <button
             className={
@@ -216,7 +224,9 @@ const Toolbar = ({
         </Group>
       )}
       <Group>
-        <button onClick={e => onSerialize()}>Publish</button>
+        <button className="publish" onClick={e => onSerialize()}>
+          Publish
+        </button>
       </Group>
     </Wrapper>
   );

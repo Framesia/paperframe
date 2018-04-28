@@ -159,6 +159,10 @@ const serializeMark = (obj, children) => {
         return <del>{children}</del>;
       case "small-caps":
         return <abbr>{children}</abbr>;
+      case "sup":
+        return <sup>{children}</sup>;
+      case "sub":
+        return <sub>{children}</sub>;
     }
   }
 };
