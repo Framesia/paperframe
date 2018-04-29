@@ -1,7 +1,8 @@
 import Remarkable from "remarkable";
 const md = new Remarkable({
   html: true,
-  breaks: false,
+  breaks: true,
+  xhtmlOut: true,
   linkify: false, // linkify is done locally
   typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
   quotes: "“”‘’"
@@ -75,8 +76,8 @@ const renderToHTML = data => {
       new RegExp(randomId + "-img-" + i + "-", "g"),
       `<img src="https://steemitimages.com/640x2000/${img}" />`
     );
-    value = value.replace(/<img src="<img src="/, '<img src="');
-    value = value.replace(/\/>">/, "/>");
+    value = value.replace(/(<img src=('|")){2,}/, '<img src="');
+    value = value.replace(/(\/>('|")>){1,}/, "/>");
   });
   console.log(value);
 

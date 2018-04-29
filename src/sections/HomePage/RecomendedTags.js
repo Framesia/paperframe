@@ -51,8 +51,8 @@ const Tag = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   padding: 5px 8px;
-  background: ${({ followed }) => (followed ? "#f6f6f6" : "#fffae5")};
-  border: solid 1px ${({ followed }) => (followed ? "#eee" : "#fff0b2")};
+  background: ${({ followed }) => (!followed ? "#f6f6f6" : "#fffae5")};
+  border: solid 1px ${({ followed }) => (!followed ? "#eee" : "#fff0b2")};
   display: inline-block;
   font-size: 12px;
 `;

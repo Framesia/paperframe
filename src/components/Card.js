@@ -6,6 +6,8 @@ import { view } from "react-easy-state";
 import { Link } from "react-router-dom";
 import PostStore from "../stores/Post";
 
+import getDateString from "../utils/getDateString";
+
 // import removeMd from "remove-markdown";
 
 const Wrapper = styled.div`
@@ -14,6 +16,18 @@ const Wrapper = styled.div`
   display: flex;
   align-items: stretch;
   flex: 1 1 auto;
+  .action-wrapper {
+    button {
+      opacity: 0;
+    }
+  }
+  :hover {
+    .action-wrapper {
+      button {
+        opacity: 1;
+      }
+    }
+  }
 `;
 const LeftCard = styled.div`
   margin-right: 20px;
@@ -106,8 +120,28 @@ const Time = styled.div`
   margin-left: 4px;
   font-style: italic;
 `;
+const ActionWrapper = styled.div`
+  margin-left: 20px;
+  button {
+    margin: 3px;
+    font-size: 12px;
+    padding: 3px 8px;
+    color: #333;
+    border: solid 1px #ddd;
+    background: #f6f6f6;
+    font-weight: bold;
+  }
+  .active {
+    background: #e3fcef
+    border-color: #ABF5D1;
+    opacity: 1 !important;
+  }
+`;
 
 class Card extends Component {
+  state = {
+    voteText: "Voted"
+  };
   votePost = data => {
     PostStore.votePost({
       author: data.author,
@@ -128,40 +162,6 @@ class Card extends Component {
     }
     return "";
   }
-  getDateString(date) {
-    date = new Date(date);
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec"
-    ];
-
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
-
-    const now = new Date();
-    if (
-      now.getDate() === day &&
-      now.getMonth() === monthIndex &&
-      now.getFullYear() === year
-    ) {
-      return "Today";
-    }
-    if (now.getFullYear() === year) {
-      return day + " " + monthNames[monthIndex];
-    }
-    return day + " " + monthNames[monthIndex] + " " + year;
-  }
   getDollars(sbd) {
     return parseFloat(sbd.split(" ")[0]).toFixed(2);
   }
@@ -176,13 +176,12 @@ class Card extends Component {
         <LeftCard>
           <Head>
             <Link to={`/tag/${data.category}`}>
-              <Category>{data.category || "science"}</Category>
+              <Category>{data.category}</Category>
             </Link>
-            <Time>{this.getDateString(data.created) || "13 april"}</Time>
+            <Time>{getDateString(data.created)}</Time>
           </Head>
           <Link to={`/@${data.author}/${data.permlink}`}>
-            <Title>{data.title || "How to train your dragon"}</Title>
-            {/* <SubTitle>{this.getSubtitle(data.body)}</SubTitle> */}
+            <Title>{data.title}</Title>
           </Link>
           <User>
             <Link to={`/@${data.author}`}>
@@ -198,17 +197,25 @@ class Card extends Component {
                 ${this.getDollars(data.pending_payout_value) || "240"}
               </Earning>
             </UserRight>
-            <div>
+            <ActionWrapper className="action-wrapper">
               {!data.voteLoading ? (
                 data.isVoted ? (
-                  <button onClick={() => this.unvotePost(data)}>unvote</button>
+                  <button
+                    className="active"
+                    onClick={() => this.unvotePost(data)}
+                    onMouseEnter={() => this.setState({ voteText: "Unvote" })}
+                    onMouseLeave={() => this.setState({ voteText: "Voted" })}
+                  >
+                    {this.state.voteText}
+                  </button>
                 ) : (
-                  <button onClick={() => this.votePost(data)}>vote</button>
+                  <button onClick={() => this.votePost(data)}>Vote</button>
                 )
               ) : (
-                <button>loading...</button>
+                <button>Loading…</button>
               )}
-            </div>
+              <button>Bookmark</button>
+            </ActionWrapper>
           </User>
         </LeftCard>
         {this.getCover(data.json_metadata) && (

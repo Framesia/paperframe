@@ -76,7 +76,7 @@ p abbr,
 li abbr {
   /* font-family: "Alegreya SC", serif; */
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.05em;
   font-size: 18px;
   /* text-shadow: -0.05px 0 #333, 0 0.05px #333, 0.05px 0 #333, 0 -0.05px #333; */
   /* margin: 0 2px; */
@@ -145,6 +145,7 @@ blockquote {
 
 blockquote p {
   font-family: "Josefin Slab", serif;
+  font-size: inherit;
 }
 
 center blockquote {
@@ -168,6 +169,7 @@ option {
   transition: all 0.2s;
 }
 
+img + sup,
 img + sub {
   font-family: "Roboto", sans-serif;
   font-size: 12px;

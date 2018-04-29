@@ -52,7 +52,7 @@ class Feed extends Component {
   state = {
     haveFetched: false,
     data: [],
-    followText: "Followed" // heading
+    followText: "Followed ✓" // heading
   };
 
   componentDidMount() {
@@ -121,7 +121,7 @@ class Feed extends Component {
                     {AuthStore.me.name &&
                       (!isFollowed ? (
                         <Button
-                          type="yellow"
+                          type="white"
                           style={{ margin: 0, marginRight: 20 }}
                           onClick={this.onClickFollow}
                           disabled={followLoading}
@@ -130,7 +130,7 @@ class Feed extends Component {
                         </Button>
                       ) : (
                         <Button
-                          type="white"
+                          type="yellow"
                           style={{ margin: 0, marginRight: 20 }}
                           onClick={this.onClickUnfollow}
                           disabled={followLoading}
@@ -138,7 +138,7 @@ class Feed extends Component {
                             this.setState({ followText: "Unfollow" })
                           }
                           onMouseLeave={e =>
-                            this.setState({ followText: "Followed" })
+                            this.setState({ followText: "Followed ✓" })
                           }
                         >
                           {followLoading ? "Loading..." : this.state.followText}

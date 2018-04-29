@@ -25,6 +25,8 @@ const Button = styled.button`
   border-color: ${({ type }) => {
     if (type === "green") {
       return "#ABF5D1";
+    } else if (type === "yellow") {
+      return "#fff0b2";
     }
   }};
 `;
