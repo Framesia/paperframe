@@ -10,6 +10,7 @@ import PostStore from "../../stores/Post";
 import AuthStore from "../../stores/Auth";
 
 import Card from "../../components/Card";
+import Button from "../../components/Button";
 import FeedLoading from "./FeedLoading";
 
 const Wrapper = styled.div`
@@ -31,6 +32,7 @@ const Content = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   border: solid 1px #eee;
   background: #eae6ff;
   z-index: 5;
@@ -47,7 +49,8 @@ const SortBy = styled.div``;
 class Feed extends Component {
   state = {
     haveFetched: false,
-    data: []
+    data: [],
+    followText: "Followed" // heading
   };
 
   componentDidMount() {
@@ -63,6 +66,13 @@ class Feed extends Component {
       this.fetchPost(nextProps.tag);
     }
   }
+
+  onClickFollow = () => {
+    AuthStore.followTag(this.props.tag);
+  };
+  onClickUnfollow = () => {
+    AuthStore.unfollowTag(this.props.tag);
+  };
 
   fetchPost = tag => {
     PostStore.getPosts({
@@ -85,6 +95,17 @@ class Feed extends Component {
       tag: this.props.tag
     });
 
+    let isFollowed = false;
+    if (AuthStore.me.name) {
+      if (Array.isArray(AuthStore.me.user_metadata.follow_tags)) {
+        AuthStore.me.user_metadata.follow_tags.forEach(tag => {
+          if (this.props.tag === tag) {
+            isFollowed = true;
+          }
+        });
+      }
+    }
+
     return (
       <Wrapper>
         <Container>
@@ -95,6 +116,30 @@ class Feed extends Component {
                 return (
                   <Header style={{ ...style, top: 50 }}>
                     <Heading>{sentenceCase(this.props.tag)}</Heading>
+                    {AuthStore.me.name &&
+                      (!isFollowed ? (
+                        <Button
+                          type="yellow"
+                          style={{ margin: 0, marginRight: 20 }}
+                          onClick={this.onClickFollow}
+                        >
+                          Follow
+                        </Button>
+                      ) : (
+                        <Button
+                          type="white"
+                          style={{ margin: 0, marginRight: 20 }}
+                          onClick={this.onClickUnfollow}
+                          onMouseEnter={e =>
+                            this.setState({ followText: "Unfollow" })
+                          }
+                          onMouseLeave={e =>
+                            this.setState({ followText: "Followed" })
+                          }
+                        >
+                          {this.state.followText}
+                        </Button>
+                      ))}
                   </Header>
                 );
               }}

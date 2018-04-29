@@ -48,8 +48,8 @@ const Tag = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   padding: 5px 8px;
-  background: #f6f6f6;
-  border: solid 1px #eee;
+  background: #fffae5;
+  border: solid 1px #fff0b2;
   display: inline-block;
   font-size: 12px;
 `;

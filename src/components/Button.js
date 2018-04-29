@@ -18,7 +18,7 @@ const Button = styled.button`
     } else if (type === "purple") {
       return "#EAE6FF";
     } else {
-      return "none";
+      return "#ffffff";
     }
   }};
   border: solid 1px #eee;
