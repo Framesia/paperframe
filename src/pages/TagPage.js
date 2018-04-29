@@ -5,7 +5,6 @@ import { view } from "react-easy-state";
 import { Helmet } from "react-helmet";
 import AuthStore from "../stores/Auth";
 
-import Sidebar from "../sections/HomePage/Sidebar";
 import Feed from "../sections/Feed/Feed";
 
 import sentenceCase from "sentence-case";
@@ -31,7 +30,6 @@ class TagPage extends Component {
           <Content>
             <Feed isLogin={AuthStore.isLogin} tag={tag} />
           </Content>
-          <Sidebar />
         </WrapContent>
       </div>
     );

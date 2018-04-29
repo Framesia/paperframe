@@ -59,7 +59,7 @@ class Landing extends Component {
               <i>You might even get paid for it!</i>
             </p>
             <Button type="red">Getting started</Button>
-            <Link to="/editor">
+            <Link to="/try-editor">
               <Button type="green">Try out the editor!</Button>
             </Link>
           </div>

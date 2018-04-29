@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import styled from "styled-components";
 
 import Dropdown from "../../components/Dropdown";
+import Button from "../../components/Button";
+
 import { Link } from "react-router-dom";
 import AuthStore from "../../stores/Auth";
 
@@ -49,6 +51,11 @@ class AfterLogin extends Component {
     }
     return (
       <div>
+        <Link to={`/write`}>
+          <Button type="green" style={{ padding: "4px 10px", marginRight: 10 }}>
+            Write
+          </Button>
+        </Link>
         <Dropdown
           dropdown={
             <DropdownWrapper>

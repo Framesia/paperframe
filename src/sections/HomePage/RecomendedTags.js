@@ -54,7 +54,7 @@ const Tag = styled.div`
   font-size: 12px;
 `;
 
-class Sidebar extends Component {
+class RecomendedTags extends Component {
   updateMetadata = me => {
     const metadata = me.account.json_metadata;
     metadata.follow_tags = ["science", "steemstem"];
@@ -137,4 +137,4 @@ class Sidebar extends Component {
   }
 }
 
-export default view(Sidebar);
+export default view(RecomendedTags);
