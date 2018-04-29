@@ -163,4 +163,5 @@ const PostStore = store({
   }
 });
 
+window.PostStore = PostStore;
 export default PostStore;

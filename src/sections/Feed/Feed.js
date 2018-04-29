@@ -5,9 +5,11 @@ import sentenceCase from "sentence-case";
 
 import { view } from "react-easy-state";
 import { StickyContainer, Sticky } from "react-sticky";
+import { Link } from "react-router-dom";
 
 import PostStore from "../../stores/Post";
 import AuthStore from "../../stores/Auth";
+import TagStore from "../../stores/Tags";
 
 import Card from "../../components/Card";
 import Button from "../../components/Button";
@@ -68,10 +70,10 @@ class Feed extends Component {
   }
 
   onClickFollow = () => {
-    AuthStore.followTag(this.props.tag);
+    TagStore.followTag(this.props.tag);
   };
   onClickUnfollow = () => {
-    AuthStore.unfollowTag(this.props.tag);
+    TagStore.unfollowTag(this.props.tag);
   };
 
   fetchPost = tag => {
@@ -96,15 +98,13 @@ class Feed extends Component {
     });
 
     let isFollowed = false;
-    if (AuthStore.me.name) {
-      if (Array.isArray(AuthStore.me.user_metadata.follow_tags)) {
-        AuthStore.me.user_metadata.follow_tags.forEach(tag => {
-          if (this.props.tag === tag) {
-            isFollowed = true;
-          }
-        });
+    TagStore.selectFollowedTags().forEach(tag => {
+      if (this.props.tag === tag) {
+        isFollowed = true;
       }
-    }
+    });
+
+    const followLoading = TagStore.selectLoading(this.props.tag);
 
     return (
       <Wrapper>
@@ -115,21 +115,25 @@ class Feed extends Component {
                 // console.log(style);
                 return (
                   <Header style={{ ...style, top: 50 }}>
-                    <Heading>{sentenceCase(this.props.tag)}</Heading>
+                    <Link to={`/tag/${this.props.tag}`}>
+                      <Heading>{sentenceCase(this.props.tag)}</Heading>
+                    </Link>
                     {AuthStore.me.name &&
                       (!isFollowed ? (
                         <Button
                           type="yellow"
                           style={{ margin: 0, marginRight: 20 }}
                           onClick={this.onClickFollow}
+                          disabled={followLoading}
                         >
-                          Follow
+                          {followLoading ? "Loading..." : "Follow"}
                         </Button>
                       ) : (
                         <Button
                           type="white"
                           style={{ margin: 0, marginRight: 20 }}
                           onClick={this.onClickUnfollow}
+                          disabled={followLoading}
                           onMouseEnter={e =>
                             this.setState({ followText: "Unfollow" })
                           }
@@ -137,7 +141,7 @@ class Feed extends Component {
                             this.setState({ followText: "Followed" })
                           }
                         >
-                          {this.state.followText}
+                          {followLoading ? "Loading..." : this.state.followText}
                         </Button>
                       ))}
                   </Header>
@@ -147,8 +151,8 @@ class Feed extends Component {
             <Content>
               {loading && (
                 <React.Fragment>
-                  {[0, 1, 2].map(() => {
-                    return <FeedLoading />;
+                  {[0, 1, 2].map(i => {
+                    return <FeedLoading key={i} />;
                   })}
                 </React.Fragment>
               )}

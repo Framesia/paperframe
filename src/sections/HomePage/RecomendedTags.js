@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 
 import AuthStore from "../../stores/Auth";
 import PostStore from "../../stores/Post";
+import TagStore from "../../stores/Tags";
+
+import sentenceCase from "sentence-case";
 
 const Title = styled.h3`
   font-family: "Josefin Slab", serif;
@@ -48,8 +51,8 @@ const Tag = styled.div`
   margin-right: 8px;
   margin-bottom: 8px;
   padding: 5px 8px;
-  background: #fffae5;
-  border: solid 1px #fff0b2;
+  background: ${({ followed }) => (followed ? "#f6f6f6" : "#fffae5")};
+  border: solid 1px ${({ followed }) => (followed ? "#eee" : "#fff0b2")};
   display: inline-block;
   font-size: 12px;
 `;
@@ -108,7 +111,7 @@ class RecomendedTags extends Component {
       <Wrapper>
         <Container>
           <CuratedTags>
-            <Title>Topics</Title>
+            <Title>Recommended topics</Title>
             {/* {AuthStore.isLogin && (
               <button onClick={() => this.updateMetadata(AuthStore.me)}>
                 update metadata
@@ -120,11 +123,19 @@ class RecomendedTags extends Component {
                   <Tags key={i}>
                     <TagTitle>{categoryTag}</TagTitle>
                     <div>
-                      {recommendedTags[categoryTag].map((tag, i) => (
-                        <Link to={`/tag/${tag.toLowerCase()}`} key={i}>
-                          <Tag>{tag}</Tag>
-                        </Link>
-                      ))}
+                      {recommendedTags[categoryTag].map((tag, i) => {
+                        const isFollowed = TagStore.selectFollowedTags().some(
+                          prevTag => sentenceCase(prevTag) === tag
+                        );
+                        return (
+                          <Link to={`/tag/${tag.toLowerCase()}`} key={i}>
+                            <Tag followed={isFollowed}>
+                              {tag}
+                              {isFollowed && " ✓"}
+                            </Tag>
+                          </Link>
+                        );
+                      })}
                     </div>
                   </Tags>
                 );
