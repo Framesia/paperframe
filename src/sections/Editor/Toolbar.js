@@ -63,7 +63,7 @@ const Toolbar = ({
   onInsertImage,
   onInsertTable,
   value,
-  onSerialize,
+  onClickPublish,
   onRemoveTable,
   onRemoveRow,
   onRemoveColumn,
@@ -224,7 +224,7 @@ const Toolbar = ({
         </Group>
       )}
       <Group>
-        <button className="publish" onClick={e => onSerialize()}>
+        <button className="publish" onClick={e => onClickPublish(e)}>
           Publish
         </button>
       </Group>

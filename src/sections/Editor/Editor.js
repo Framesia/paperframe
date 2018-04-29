@@ -43,6 +43,7 @@ import Toolbar from "./Toolbar";
 import Axios from "axios";
 
 import PostStore from "../../stores/Post";
+import Button from "../../components/Button";
 
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
@@ -76,10 +77,18 @@ const prismPlugin = PluginPrism({
 export default class EditorApp extends React.Component {
   state = {
     value: serializer.deserialize(""),
-    linkDialongShow: false,
+
+    linkDialogShow: false,
+    imageDialogShow: false,
+    publishDialogShow: false,
+
     mousePosition: { x: 0, y: 0 },
+
     linkValue: "",
+    imageValue: "",
+
     title: "",
+
     errorLink: "",
     figureClicked: -1,
     imgUnsplash: []
@@ -184,7 +193,6 @@ export default class EditorApp extends React.Component {
     const isPullRightActive = value.fragment.nodes.some(
       node => node.type === "pull-right"
     );
-    console.log(isPullLeftActive, isCenterActive, isPullRightActive);
     if (type === "pull-left") {
       if (isPullLeftActive) {
         change.unwrapBlock("pull-left");
@@ -224,8 +232,29 @@ export default class EditorApp extends React.Component {
     this.onChange(change);
   };
 
+  onClickPublish = e => {
+    this.setState({
+      mousePosition: {
+        x: e.pageX,
+        y: e.pageY
+      },
+      publishDialogShow: true
+    });
+  };
+
   onSerialize = () => {
     // const { nodes } = this.state.value.toJSON().document
+    // const body = serializer.serialize(this.state.value);
+    // const title = this.state.title;
+    // PostStore.createPost({
+    //   body,
+    //   title,
+    //   category: "test",
+    //   tags: ["editor", "test"]
+    // });
+  };
+
+  onPublishPost = () => {
     const body = serializer.serialize(this.state.value);
     const title = this.state.title;
     PostStore.createPost({
@@ -243,7 +272,7 @@ export default class EditorApp extends React.Component {
         x: e.pageX,
         y: e.pageY
       },
-      imgDialongShow: true
+      imageDialogShow: true
     });
 
     Axios.get(
@@ -261,10 +290,10 @@ export default class EditorApp extends React.Component {
       type: "image",
       isVoid: true,
       data: {
-        src: data.urls.small
+        src: data
       }
     });
-    this.setState({ imgDialongShow: false });
+    this.setState({ imageDialogShow: false });
     this.onChange(change);
   };
 
@@ -313,7 +342,7 @@ export default class EditorApp extends React.Component {
           x: e.pageX,
           y: e.pageY
         },
-        linkDialongShow: true
+        linkDialogShow: true
       });
     }
 
@@ -335,7 +364,7 @@ export default class EditorApp extends React.Component {
       // .blur();s
       this.setState({
         linkValue: "",
-        linkDialongShow: false,
+        linkDialogShow: false,
         errorLink: ""
       });
       this.onChange(change);
@@ -358,14 +387,19 @@ export default class EditorApp extends React.Component {
           onClickBlock={this.onClickBlock}
           onClickLink={this.onClickLink}
           onClickMark={this.onClickMark}
-          onInsertImage={this.onInsertImage} //
-          onInsertTable={this.onInsertTable}
+          onInsertImage={this.onInsertImage}
+          onInsertTable={
+            this.onInsertTable //
+          }
           onInsertRow={this.onInsertRow}
           onInsertColumn={this.onInsertColumn}
           onRemoveTable={this.onRemoveTable}
           onRemoveRow={this.onRemoveRow}
-          onRemoveColumn={this.onRemoveColumn} //
-          onSerialize={this.onSerialize}
+          onRemoveColumn={this.onRemoveColumn}
+          onSerialize={
+            this.onSerialize //
+          }
+          onClickPublish={this.onClickPublish}
           tablePlugin={tablePlugin}
         />
         <TextareaAutosize
@@ -378,8 +412,10 @@ export default class EditorApp extends React.Component {
             this.setState({ title });
           }}
         />
-        <Editor // readOnly=false
-          spellCheck={false}
+        <Editor
+          spellCheck={
+            false // readOnly=false
+          }
           className="article"
           placeholder="Write your thought…"
           plugins={this.plugins}
@@ -389,13 +425,14 @@ export default class EditorApp extends React.Component {
           renderMark={renderMark}
           schema={schema}
         />
+        {/* link dialog */}
         <Dialog
-          visible={this.state.linkDialongShow}
+          visible={this.state.linkDialogShow}
           animation="zoom"
           maskAnimation="fade"
           onClose={() =>
             this.setState({
-              linkDialongShow: false
+              linkDialogShow: false
             })
           }
           style={{ width: 400 }}
@@ -419,13 +456,14 @@ export default class EditorApp extends React.Component {
           <hr />
         </Dialog>
 
+        {/* image dialog */}
         <Dialog
-          visible={this.state.imgDialongShow}
+          visible={this.state.imageDialogShow}
           animation="zoom"
           maskAnimation="fade"
           onClose={() =>
             this.setState({
-              imgDialongShow: false
+              imageDialogShow: false
             })
           }
           style={{ width: 740 }}
@@ -433,15 +471,51 @@ export default class EditorApp extends React.Component {
           destroyOnClose={true}
         >
           <h3>Enter img:</h3>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              this.onSubmitImage(this.state.imageValue);
+              this.setState({ imageValue: "" });
+            }}
+          >
+            <input
+              value={this.state.imageValue}
+              onChange={e => this.setState({ imageValue: e.target.value })}
+            />
+            <input type="submit" style={{ visibility: "hidden" }} />
+            <Button>Submit</Button>
+          </form>
           <div>
             {this.state.imgUnsplash.map(item => (
               <img
                 style={{ margin: 10 }}
                 src={item.urls.thumb}
-                onClick={() => this.onSubmitImage(item)}
+                onClick={() => this.onSubmitImage(item.urls.small)}
               />
             ))}
           </div>
+          <hr />
+        </Dialog>
+
+        {/* publish dialog */}
+        <Dialog
+          visible={this.state.publishDialogShow}
+          animation="zoom"
+          maskAnimation="fade"
+          onClose={() =>
+            this.setState({
+              publishDialogShow: false
+            })
+          }
+          style={{ width: 400 }}
+          mousePosition={this.state.mousePosition}
+          destroyOnClose={true}
+        >
+          <h3>Publish article</h3>
+          <form>
+            <input />
+            <Button>Publish</Button>
+          </form>
           <hr />
         </Dialog>
       </div>
