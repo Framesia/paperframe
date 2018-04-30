@@ -8,7 +8,7 @@ import PostStore from "../stores/Post";
 
 import getDateString from "../utils/getDateString";
 
-// import removeMd from "remove-markdown";
+import Icon from "./Icon";
 
 const Wrapper = styled.div`
   padding: 12px 0;
@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   flex: 1 1 auto;
   .action-wrapper {
     button {
-      opacity: 0;
+      opacity: 0.6;
     }
   }
   :hover {
@@ -68,6 +68,7 @@ const UserRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  flex: 1;
 `;
 
 const Username = styled.div`
@@ -121,20 +122,33 @@ const Time = styled.div`
   font-style: italic;
 `;
 const ActionWrapper = styled.div`
-  margin-left: 20px;
-  button {
-    margin: 3px;
-    font-size: 12px;
-    padding: 3px 8px;
-    color: #333;
-    border: solid 1px #ddd;
-    background: #f6f6f6;
-    font-weight: bold;
+  display: flex;
+`;
+const Action = styled.button`
+  cursor: pointer;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background: #fff;
+  color: #999;
+  font-size: 16px;
+  margin: 0;
+  &:hover {
+    background: #eee;
   }
-  .active {
-    background: #e3fcef
-    border-color: #ABF5D1;
+  &.love-active {
+    color: #ff7452;
     opacity: 1 !important;
+  }
+  &.bookmark-active {
+    color: #57d9a3;
+    opacity: 1 !important;
+  }
+  &.loading {
+    opacity: 0.4 !important;
   }
 `;
 
@@ -191,30 +205,33 @@ class Card extends Component {
             </Link>
             <UserRight>
               <Link to={`/@${data.author}`}>
-                <Username>{data.author || "damaera"}</Username>
+                <Username>{data.author}</Username>
               </Link>
               <Earning>
                 ${this.getDollars(data.pending_payout_value) || "240"}
               </Earning>
             </UserRight>
             <ActionWrapper className="action-wrapper">
-              {!data.voteLoading ? (
-                data.isVoted ? (
-                  <button
-                    className="active"
-                    onClick={() => this.unvotePost(data)}
-                    onMouseEnter={() => this.setState({ voteText: "Unvote" })}
-                    onMouseLeave={() => this.setState({ voteText: "Voted" })}
-                  >
-                    {this.state.voteText}
-                  </button>
-                ) : (
-                  <button onClick={() => this.votePost(data)}>Vote</button>
-                )
+              {data.isVoted ? (
+                <Action
+                  className={`love-active ${data.voteLoading && "loading"}`}
+                  disabled={data.voteLoading}
+                  onClick={() => this.unvotePost(data)}
+                >
+                  <Icon type="love" />
+                </Action>
               ) : (
-                <button>Loading…</button>
+                <Action
+                  className={`${data.voteLoading && "loading"}`}
+                  disabled={data.voteLoading}
+                  onClick={() => this.votePost(data)}
+                >
+                  <Icon type="love-border" />
+                </Action>
               )}
-              <button>Bookmark</button>
+              <Action className="bookmark-active">
+                <Icon type="bookmark" />
+              </Action>
             </ActionWrapper>
           </User>
         </LeftCard>
