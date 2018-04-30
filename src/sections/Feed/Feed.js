@@ -47,6 +47,10 @@ const Heading = styled.h3`
   /* flex: 1; */
 `;
 const SortBy = styled.div``;
+const LoadMoreWrapper = styled.div`
+  padding: 10px 0;
+  text-align: center;
+`;
 
 class Feed extends Component {
   state = {
@@ -57,15 +61,15 @@ class Feed extends Component {
 
   componentDidMount() {
     if (!AuthStore.loading) {
-      this.fetchPost(this.props.tag);
+      this.fetchPost({ tag: this.props.tag });
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isLogin === false && nextProps.isLogin) {
-      this.fetchPost(nextProps.tag);
+      this.fetchPost({ tag: nextProps.tag });
     } else if (this.props.tag !== nextProps.tag) {
-      this.fetchPost(nextProps.tag);
+      this.fetchPost({ tag: nextProps.tag });
     }
   }
 
@@ -76,14 +80,20 @@ class Feed extends Component {
     TagStore.unfollowTag(this.props.tag);
   };
 
-  fetchPost = tag => {
+  fetchPost = ({ tag, sortBy = "trending", start_author, start_permlink }) => {
+    let query = {
+      tag,
+      limit: 5,
+      truncate_body: 1
+    };
+    if (start_author && start_permlink) {
+      query.start_author = start_author;
+      query.start_permlink = start_permlink;
+      query.limit = 6;
+    }
     PostStore.getPosts({
       sortBy: "trending",
-      query: {
-        tag,
-        limit: 5,
-        truncate_body: 1
-      }
+      query
     });
   };
 
@@ -149,20 +159,35 @@ class Feed extends Component {
               }}
             </Sticky>
             <Content>
+              {posts.map(item => {
+                if (!item) {
+                  return null;
+                }
+                return <Card data={item} key={item.id} />;
+              })}
+              {!loading && posts.length > 0 && posts.length % 5 === 0 ? (
+                <LoadMoreWrapper>
+                  <Button
+                    type="blue"
+                    onClick={() => {
+                      this.fetchPost({
+                        tag: this.props.tag,
+                        start_author: posts[posts.length - 1].author,
+                        start_permlink: posts[posts.length - 1].permlink
+                      });
+                    }}
+                  >
+                    Load more
+                  </Button>
+                </LoadMoreWrapper>
+              ) : null}
               {loading && (
                 <React.Fragment>
-                  {[0, 1, 2].map(i => {
+                  {[0].map(i => {
                     return <FeedLoading key={i} />;
                   })}
                 </React.Fragment>
               )}
-              {!loading &&
-                posts.map(item => {
-                  if (!item) {
-                    return null;
-                  }
-                  return <Card data={item} key={item.id} />;
-                })}
             </Content>
           </StickyContainer>
         </Container>
