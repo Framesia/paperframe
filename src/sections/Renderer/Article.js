@@ -13,17 +13,14 @@ import getDateString from "../../utils/getDateString";
 import renderToHTML from "./renderToHTML";
 import Loader from "../../components/Loader";
 
+import ActionWrapper from "./ActionWrapper";
+
 const Header = styled.div`
   display: flex;
-  border-bottom: solid 1px #ddd;
-  padding: 8px 20px;
+  padding: 0 20px;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
   width: 100%;
-  max-width: 660px;
-  top: 0;
-  margin-left: -10px;
   z-index: 9;
   background: #fff;
 `;
@@ -32,37 +29,22 @@ const User = styled.div`
   align-items: center;
 `;
 const Ava = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 20px;
   object-fit: cover;
   margin-right: 10px;
 `;
 const Earning = styled.div`
   font-style: italic;
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.7;
 `;
-const SmallTitle = styled.h4`
-  /* padding-left: 10px;
-  border-left: solid 1px #ddd; */
-  margin: 0;
-  /* margin-left: 10px; */
-  font-size: 12px;
-  /* max-width: 300px; */
-  max-height: 32px;
-  overflow: hidden;
-  /* @media only screen and (max-width: 640px) {
-    & {
-      display: none;
-    }
-  } */
-`;
 const Username = styled.div`
-  font-size: 12px;
-  opacity: 0.8;
   a {
-    text-decoration: underline;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0.9;
   }
 `;
 const Category = styled.div`
@@ -141,35 +123,21 @@ class Article extends Component {
                 src={`https://steemitimages.com/u/${post.author}/avatar/small`}
               />
             </Link>
-            <div>
-              <SmallTitle>{post.title}</SmallTitle>
-              <Username>
-                <em>
-                  ${parseFloat(post.pending_payout_value.split(" ")[0]).toFixed(
-                    2
-                  )}
-                </em>
-                {` — `}
-                {`by `}
-                <Link to={`/@${post.author}`}>{post.author}</Link>
-              </Username>
-            </div>
+            <Username>
+              <Link to={`/@${post.author}`}>{post.author}</Link>
+              <Earning>
+                ${parseFloat(post.pending_payout_value.split(" ")[0]).toFixed(
+                  2
+                )}
+              </Earning>
+            </Username>
           </User>
 
           <Right>
-            {!this.state.isShowTitleInHeader ? (
-              <React.Fragment>
-                <Time>{getDateString(post.created)}</Time>
-                <Link to={`/tag/${post.category}`}>
-                  <Category>{post.category}</Category>
-                </Link>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                <Button>Vote</Button>
-                <Button>Bookmark</Button>
-              </React.Fragment>
-            )}
+            <Time>{getDateString(post.created)}</Time>
+            <Link to={`/tag/${post.category}`}>
+              <Category>{post.category}</Category>
+            </Link>
           </Right>
         </Header>
         <div>
@@ -177,6 +145,7 @@ class Article extends Component {
           <div className="article">
             <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
           </div>
+          <ActionWrapper data={post} />
         </div>
       </div>
     );

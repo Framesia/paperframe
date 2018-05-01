@@ -77,6 +77,23 @@ const PostStore = store({
         post.json_metadata = JSON.parse(post.json_metadata);
       } catch (e) {}
       PostStore.loading[id] = false;
+      if (AuthStore.isLogin) {
+        post.active_votes.forEach(vote => {
+          if (vote.voter === AuthStore.me.user && vote.percent > 0) {
+            post.isVoted = true;
+          }
+        });
+        if (
+          AuthStore.me.user_metadata &&
+          Array.isArray(AuthStore.me.user_metadata.bookmarks)
+        ) {
+          AuthStore.me.user_metadata.bookmarks.forEach(bookmark => {
+            if (bookmark === id) {
+              post.isBookmarked = true;
+            }
+          });
+        }
+      }
       PostStore.entities[id] = {
         ...PostStore.entities[id],
         ...post
