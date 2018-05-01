@@ -1,11 +1,10 @@
 import { store } from "react-easy-state";
 
-// import { Client } from "dsteem";
+import axios from "axios";
+
 import steemconnect from "../helpers/steemconnect";
 import steemApi from "../helpers/steemApi";
 import AuthStore from "./Auth";
-
-// const client = new Client("https://api.steemit.com");
 
 const PostStore = store({
   ids: {
@@ -76,7 +75,7 @@ const PostStore = store({
       try {
         post.json_metadata = JSON.parse(post.json_metadata);
       } catch (e) {}
-      PostStore.loading[id] = false;
+
       if (AuthStore.isLogin) {
         post.active_votes.forEach(vote => {
           if (vote.voter === AuthStore.me.user && vote.percent > 0) {
@@ -94,10 +93,38 @@ const PostStore = store({
           });
         }
       }
-      PostStore.entities[id] = {
-        ...PostStore.entities[id],
-        ...post
-      };
+      // at html render too
+      // get all images
+      const image = Array.isArray(post.json_metadata.image)
+        ? post.json_metadata.image
+        : [];
+      const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))(\?[-a-zA-Z0-9=&]+)?/gi;
+      post.body.replace(imageRegex, img => {
+        if (!image.some(imgI => imgI === img)) {
+          image.push(img);
+        }
+      });
+      axios
+        .get("https://image-size-api.glitch.me/", {
+          params: {
+            image
+          }
+        })
+        .then(({ data }) => {
+          PostStore.loading[id] = false;
+          post.imageSizes = data.result;
+          PostStore.entities[id] = {
+            ...PostStore.entities[id],
+            ...post
+          };
+        })
+        .catch(err => {
+          PostStore.loading[id] = false;
+          PostStore.entities[id] = {
+            ...PostStore.entities[id],
+            ...post
+          };
+        });
     });
   },
 

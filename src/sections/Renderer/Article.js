@@ -79,6 +79,7 @@ class Article extends Component {
   };
   componentDidMount() {
     const { author, permlink } = this.props.params;
+
     PostStore.getContent({ author, permlink });
 
     window.addEventListener("scroll", e => {
@@ -101,7 +102,7 @@ class Article extends Component {
     const post = PostStore.selectPostById(id);
     const loading = PostStore.selectLoading({ author, permlink });
 
-    if (!post.id || loading) {
+    if (!post.id) {
       return <Loader />;
     }
     // immutable
@@ -112,7 +113,8 @@ class Article extends Component {
         links: links ? [...links] : [],
         users: users ? [...users] : [],
         image: image ? [...image] : []
-      }
+      },
+      imageSizes: post.imageSizes ? [...post.imageSizes] : []
     };
     return (
       <div>
@@ -142,10 +144,16 @@ class Article extends Component {
         </Header>
         <div>
           <h1 className="title">{post.title}</h1>
-          <div className="article">
-            <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
-          </div>
-          <ActionWrapper data={post} />
+          {loading ? (
+            <Loader />
+          ) : (
+            <React.Fragment>
+              <div className="article">
+                <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
+              </div>
+              <ActionWrapper data={post} />
+            </React.Fragment>
+          )}
         </div>
       </div>
     );

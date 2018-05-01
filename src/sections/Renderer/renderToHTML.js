@@ -1,4 +1,5 @@
 import Remarkable from "remarkable";
+
 const md = new Remarkable({
   html: true,
   breaks: true,
@@ -15,49 +16,66 @@ const renderToHTML = data => {
   const randomId = Math.floor(Math.random() * 1000);
   metadata = post.json_metadata;
   let { image, links, users } = metadata;
-  links = links ? links.reverse() : [];
-  users = users ? users.reverse() : [];
-  image = image ? image.reverse() : [];
-  console.log(value);
 
-  const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))/gi;
+  const sortByLength = (a, b) => b.length - a.length;
+  links = links ? links.sort(sortByLength) : [];
+  users = users ? users.sort(sortByLength) : [];
+  image = image ? image : [];
+
+  console.log(users);
+
+  // get images from stringbody that no exist in image[]
+  // and add it to image[]
+  const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))(\?[-a-zA-Z0-9=&]+)?/gi;
   value.replace(imageRegex, img => {
     if (!image.some(imgI => imgI === img)) {
       image = [img, ...image];
     }
   });
 
+  image = image.sort(sortByLength);
+
+  // replace link, user and image with uniqueId represent by each type
+  // for example: link to 235-link-0-, image to 235-img-0-
+  // the purpose is, for enabling typographer and autolink markdown
   function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
   }
   links.forEach((link, i) => {
     value = value.replace(
-      new RegExp(escapeRegExp(link), "g"),
+      new RegExp(escapeRegExp(link), "gi"),
       randomId + "-link-" + i + "-"
     );
   });
   users.forEach((user, i) => {
     value = value.replace(
-      new RegExp(`[^\/]` + escapeRegExp("@" + user + `[^\/]`), "g"),
-      randomId + "-user-" + i + "-"
+      new RegExp("([^/])" + "@" + user + "([^/])", "gi"),
+      "$1" + randomId + "-user-" + i + "-" + "$2"
     );
   });
   image.forEach((img, i) => {
     value = value.replace(
-      new RegExp(escapeRegExp(img), "g"),
+      new RegExp(escapeRegExp(img), "gi"),
       randomId + "-img-" + i + "-"
     );
   });
-  // value =
-  //   value +
-  //   '<iframe width="560" height="315" src="https://www.youtube.com/embed/QQPVQFyL0_Y" frameborder="0" encrypted-media" allowfullscreen></iframe>';
-  value = value.replace(/<CENTER>/g, "<center>");
-  value = value.replace(/<\/CENTER>/g, "</center>");
+
+  console.log(value);
+
+  value = value.replace(/<center>/gi, "<center>");
+  value = value.replace(/<\/center>/gi, "</center>");
+
   // small caps
   value = value.replace(/([A-Z]{2,})/g, "<abbr>$1</abbr>");
-  // console.log(value);
+
+  // remarkable markdown render
   value = md.render(value);
+
+  // replace img tag with it's src
   value = value.replace(/\<img (.+)?src=("|')(.+?)("|').+?\/?>/g, "$3");
+
+  // after markdown render
+  // replace back 235-[type]-0 with the link, image, and user
   links.forEach((link, i) => {
     value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
   });
@@ -74,21 +92,42 @@ const renderToHTML = data => {
       `<a href="https://steemit.com/${user}">@${user}</a>`
     );
   });
+
+  const imageSizes = post.imageSizes.sort(sortByLength);
+
   image.forEach((img, i) => {
+    const imageSize = imageSizes[i] || { w: "auto", h: "auto" };
+    let width = imageSize.w;
+    let height = imageSize.h;
+    let isWide = false;
+    if (width >= 960) {
+      height = height / width * 960;
+      width = 960;
+      isWide = true;
+    } else if (width >= 620) {
+      height = height / width * 620;
+      width = 620;
+    }
+
     value = value.replace(
-      new RegExp('([^"])(' + img + ")", "g"),
-      `$1<img src="https://steemitimages.com/640x2000/$2" />`
+      new RegExp('([^"/])(' + escapeRegExp(img) + ")", "g"),
+      `$1<img src="https://steemitimages.com/640x2000/$2"
+        class="${isWide && "is-wide"}"
+        width="${width}"
+        height="${height}"
+      />`
     );
-    // value = value.replace(new RegExp('([^"])(' + img + ")", "g"), `$1<img src="https://steemitimages.com/640x2000/$2" />`);
     value = value.replace(
       new RegExp(randomId + "-img-" + i + "-", "g"),
-      `<img src="https://steemitimages.com/640x2000/${img}" />`
+      `<img src="https://steemitimages.com/640x2000/${img}"
+        class="${isWide && "is-wide"}"
+        width="${width}"
+        height="${height}"
+      />`
     );
     value = value.replace(/(<img src=('|")){2,}/, '<img src="');
     value = value.replace(/(\/>('|")>){1,}/, "/>");
   });
-  // console.log(value);
-
   return value;
 };
 

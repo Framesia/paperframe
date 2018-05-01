@@ -406,7 +406,30 @@ figure figcaption {
 }
 
 img {
+  background: #f6f6f6;
   max-width: 100%;
+  height: auto;
+}
+img.is-wide {
+  width: 960px;
+  max-width: 960px;
+  height: auto;
+  margin-left: -170px;
+}
+.pull-left img,
+.pull-right img {
+  max-width: 100% !important;
+  height: auto !important;
+  margin-left: 0;
+}
+
+@media only screen and (max-width: 960px) {
+  img.is-wide {
+    width: calc(100% + 40px);
+    max-width: calc(100% + 40px);
+    height: auto;
+    margin-left: -20px;
+  }
 }
 
 figcaption {
