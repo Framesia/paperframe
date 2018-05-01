@@ -58,9 +58,9 @@ const renderToHTML = data => {
   // console.log(value);
   value = md.render(value);
   value = value.replace(/\<img (.+)?src=("|')(.+?)("|').+?\/?>/g, "$3");
-  // links.forEach((link, i) => {
-  //   value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
-  // });
+  links.forEach((link, i) => {
+    value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
+  });
 
   const ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/g;
   value = value.replace(
