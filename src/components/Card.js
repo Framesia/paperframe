@@ -42,7 +42,13 @@ const RightCard = styled.div`
   width: 160px;
   display: flex;
   flex: 0 0 auto;
-  background: #f6f6f6;
+
+  @media only screen and (max-width: 480px) {
+    width: 120px;
+  }
+  @media only screen and (max-width: 360px) {
+    width: 90px;
+  }
 `;
 const Title = styled.h3`
   margin: 12px 0;
@@ -59,6 +65,7 @@ const Img = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+  background: #f6f6f6;
 `;
 const User = styled.div`
   display: flex;
@@ -258,7 +265,7 @@ class Card extends Component {
             </ActionWrapper>
           </User>
         </LeftCard>
-        {this.getCover(data.json_metadata) && (
+        {this.getCover(data.json_metadata) ? (
           <RightCard>
             <Link to={`/@${data.author}/${data.permlink}`}>
               <Img
@@ -269,6 +276,8 @@ class Card extends Component {
               />
             </Link>
           </RightCard>
+        ) : (
+          <RightCard />
         )}
       </Wrapper>
     );

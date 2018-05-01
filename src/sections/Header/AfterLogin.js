@@ -62,6 +62,8 @@ class AfterLogin extends Component {
               <Link to={`/@${this.props.me.name}`}>
                 <DropItem>My profile</DropItem>
               </Link>
+              <DropItem>Topics</DropItem>
+              <DropItem>Bookmarks</DropItem>
               <DropItem onClick={() => AuthStore.doLogout()}>Logout</DropItem>
             </DropdownWrapper>
           }
