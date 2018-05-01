@@ -3,8 +3,8 @@ const md = new Remarkable({
   html: true,
   breaks: true,
   xhtmlOut: true,
-  linkify: false, // linkify is done locally
-  typographer: true, // https://github.com/jonschlinkert/remarkable/issues/142#issuecomment-221546793
+  linkify: true,
+  typographer: true,
   quotes: "“”‘’"
 });
 
@@ -18,6 +18,14 @@ const renderToHTML = data => {
   links = links ? links.reverse() : [];
   users = users ? users.reverse() : [];
   image = image ? image.reverse() : [];
+  console.log(value);
+
+  const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))/gi;
+  value.replace(imageRegex, img => {
+    if (!image.some(imgI => imgI === img)) {
+      image = [img, ...image];
+    }
+  });
 
   function escapeRegExp(str) {
     return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -30,7 +38,7 @@ const renderToHTML = data => {
   });
   users.forEach((user, i) => {
     value = value.replace(
-      new RegExp(escapeRegExp("@" + user), "g"),
+      new RegExp(`[^\/]` + escapeRegExp("@" + user + `[^\/]`), "g"),
       randomId + "-user-" + i + "-"
     );
   });
@@ -50,9 +58,9 @@ const renderToHTML = data => {
   // console.log(value);
   value = md.render(value);
   value = value.replace(/\<img (.+)?src=("|')(.+?)("|').+?\/?>/g, "$3");
-  links.forEach((link, i) => {
-    value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
-  });
+  // links.forEach((link, i) => {
+  //   value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
+  // });
 
   const ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/g;
   value = value.replace(
@@ -79,7 +87,7 @@ const renderToHTML = data => {
     value = value.replace(/(<img src=('|")){2,}/, '<img src="');
     value = value.replace(/(\/>('|")>){1,}/, "/>");
   });
-  console.log(value);
+  // console.log(value);
 
   return value;
 };
