@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { store } from "react-easy-state";
 
 import AuthStore from "./Auth";

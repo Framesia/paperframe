@@ -4,7 +4,9 @@ import styled from "styled-components";
 import { view } from "react-easy-state";
 
 import { Link } from "react-router-dom";
+
 import PostStore from "../stores/Post";
+import BookmarkStore from "../stores/Bookmark";
 
 import getDateString from "../utils/getDateString";
 
@@ -170,6 +172,12 @@ class Card extends Component {
       weight: 0
     });
   };
+  bookmarkPost = data => {
+    BookmarkStore.bookmark({ author: data.author, permlink: data.permlink });
+  };
+  unBookmarkPost = data => {
+    BookmarkStore.unBookmark({ author: data.author, permlink: data.permlink });
+  };
   getCover(metadata) {
     if (metadata.image) {
       return metadata.image[0];
@@ -229,9 +237,24 @@ class Card extends Component {
                   <Icon type="love-border" />
                 </Action>
               )}
-              <Action className="bookmark-active">
-                <Icon type="bookmark" />
-              </Action>
+              {data.isBookmarked ? (
+                <Action
+                  className={`bookmark-active ${data.bookmarkLoading &&
+                    "loading"}`}
+                  disabled={data.bookmarkLoading}
+                  onClick={() => this.unBookmarkPost(data)}
+                >
+                  <Icon type="bookmark" />
+                </Action>
+              ) : (
+                <Action
+                  className={`${data.bookmarkLoading && "loading"}`}
+                  disabled={data.bookmarkLoading}
+                  onClick={() => this.bookmarkPost(data)}
+                >
+                  <Icon type="bookmark-border" />
+                </Action>
+              )}
             </ActionWrapper>
           </User>
         </LeftCard>

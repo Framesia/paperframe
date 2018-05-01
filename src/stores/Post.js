@@ -39,12 +39,25 @@ const PostStore = store({
 
         post.isVoted = false;
         post.voteLoading = false;
+        post.isBookmarked = false;
+        post.bookmarkLoading = false;
+
         if (AuthStore.isLogin) {
           post.active_votes.forEach(vote => {
             if (vote.voter === AuthStore.me.user && vote.percent > 0) {
               post.isVoted = true;
             }
           });
+          if (
+            AuthStore.me.user_metadata &&
+            Array.isArray(AuthStore.me.user_metadata.bookmarks)
+          ) {
+            AuthStore.me.user_metadata.bookmarks.forEach(bookmark => {
+              if (bookmark === id) {
+                post.isBookmarked = true;
+              }
+            });
+          }
         }
 
         PostStore.entities[id] = post;
@@ -77,14 +90,14 @@ const PostStore = store({
     if (AuthStore.isLogin) {
       const id = `${author}/${permlink}`;
       PostStore.entities[id].voteLoading = true;
+      if (weight > 0) {
+        PostStore.entities[id].isVoted = true;
+      } else {
+        PostStore.entities[id].isVoted = false;
+      }
       api.vote(voter, author, permlink, weight, (err, res) => {
         if (!err) {
           PostStore.entities[id].voteLoading = false;
-          if (weight > 0) {
-            PostStore.entities[id].isVoted = true;
-          } else {
-            PostStore.entities[id].isVoted = false;
-          }
         }
       });
     }
@@ -94,7 +107,6 @@ const PostStore = store({
     const api = steemconnect();
     const author = AuthStore.me.name;
     const permlink = "test-post";
-    console.log(author, title, body);
     const operations = [];
     const commentOp = [
       "comment",
