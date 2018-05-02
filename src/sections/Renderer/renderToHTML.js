@@ -93,37 +93,49 @@ const renderToHTML = data => {
     );
   });
 
-  const imageSizes = post.imageSizes.sort(sortByLength);
+  const imageSizes = post.imageSizes.sort(
+    (a, b) => b.img.length - a.img.length
+  );
 
   image.forEach((img, i) => {
-    const imageSize = imageSizes[i] || { w: "auto", h: "auto" };
+    const imageSize = imageSizes[i] || { w: 0, h: 0 };
+    console.log(imageSize);
     let width = imageSize.w;
     let height = imageSize.h;
     let isWide = false;
+    const aspectRatio = height / width ? height / width : 0;
     if (width >= 960) {
-      height = height / width * 960;
+      height = Math.round(height / width * 960);
       width = 960;
       isWide = true;
     } else if (width >= 620) {
-      height = height / width * 620;
+      height = Math.round(height / width * 620);
       width = 620;
     }
 
     value = value.replace(
       new RegExp('([^"/])(' + escapeRegExp(img) + ")", "g"),
-      `$1<img src="https://steemitimages.com/640x2000/$2"
-        class="${isWide && "is-wide"}"
-        width="${width}"
-        height="${height}"
-      />`
+      `$1<figure
+          class="${isWide ? "is-wide" : ""}"
+          style="height:${height ? height + "px" : "auto"}"
+        >
+        <img src="https://steemitimages.com/${width}x${height}/$2"
+          width="${width || "auto"}"
+          height="${height || "auto"}"
+        />
+      </figure>`
     );
     value = value.replace(
       new RegExp(randomId + "-img-" + i + "-", "g"),
-      `<img src="https://steemitimages.com/640x2000/${img}"
-        class="${isWide && "is-wide"}"
-        width="${width}"
-        height="${height}"
-      />`
+      `<figure
+        class="${isWide ? "is-wide" : ""}"
+        style="height:${height ? height + "px" : "auto"}"
+      >
+      <img src="https://steemitimages.com/${width}x${height}/${img}"
+        width="${width || "auto"}"
+        height="${height || "auto"}"
+      />
+      </figure>`
     );
     value = value.replace(/(<img src=('|")){2,}/, '<img src="');
     value = value.replace(/(\/>('|")>){1,}/, "/>");
