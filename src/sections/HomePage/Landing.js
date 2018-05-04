@@ -37,6 +37,11 @@ const Illust = styled.img`
   @media only screen and (max-width: 960px) {
     display: none;
   }
+  opacity: 0;
+  transition: opacity 0.8s;
+  &.loaded {
+    opacity: 1;
+  }
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   /* border: solid 1px rgba(0, 0, 0, 0.1); */
 `;
@@ -63,7 +68,10 @@ class Landing extends Component {
               <Button type="green">Try out the editor!</Button>
             </Link>
           </div>
-          <Illust src={IllustSrc} />
+          <Illust
+            src={IllustSrc}
+            onLoad={e => e.target.classList.add("loaded")}
+          />
         </Container>
       </Wrapper>
     );

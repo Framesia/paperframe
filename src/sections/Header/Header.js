@@ -11,6 +11,7 @@ import { view } from "react-easy-state";
 import AuthStore from "../../stores/Auth";
 
 import AfterLogin from "./AfterLogin";
+import FramesiaLogo from "./framesia-logo.png";
 
 const Wrapper = styled.div`
   padding: 0 20px;
@@ -53,6 +54,12 @@ const Slip = styled.div`
 `;
 
 class Header extends Component {
+  componentDidMount() {
+    window.addEventListener("scroll", e => {
+      console.log(window.pageY);
+    });
+  }
+
   componentWillMount() {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
@@ -85,7 +92,7 @@ class Header extends Component {
           <Container>
             <Logo>
               <Link to="/">
-                <LogoImg src="./framesia-logo.png" />
+                <LogoImg src={FramesiaLogo} />
               </Link>
               <LogoText to="/">Framesia</LogoText>
             </Logo>
