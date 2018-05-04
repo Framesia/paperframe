@@ -63,6 +63,7 @@ class Header extends Component {
     let prevScrollY = 0;
     window.addEventListener("scroll", e => {
       const { scrollY } = window;
+      console.log(scrollY);
       if (prevScrollY >= scrollY) {
         this.setState({ headerHide: false });
       } else {
@@ -70,9 +71,7 @@ class Header extends Component {
       }
       prevScrollY = scrollY;
     });
-  }
 
-  componentDidMount() {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
       AuthStore.getMe();
