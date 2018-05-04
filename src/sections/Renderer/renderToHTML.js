@@ -113,29 +113,36 @@ const renderToHTML = data => {
       width = 620;
     }
 
+    const imgElString = () => `
+      <figure
+        class="${isWide ? "is-wide" : ""}"
+        style="
+          max-height:${height ? height + "px" : "auto"};
+          max-width:${width ? width + "px" : "auto"};"
+      >
+        <div class="fill" style="padding-bottom:${
+          aspectRatio !== 0 ? aspectRatio * 100 : 0
+        }%"></div>
+        <img
+          class="small"
+          src="https://steemitimages.com/20x20/${img}"
+          onload="this.classList.add('loaded')"
+        />
+        <img
+          class="original"
+          src="https://steemitimages.com/${width}x${height}/${img}"
+          onload="this.classList.add('loaded')"
+        />
+      </figure>
+    `;
+
     value = value.replace(
       new RegExp('([^"/])(' + escapeRegExp(img) + ")", "g"),
-      `$1<figure
-          class="${isWide ? "is-wide" : ""}"
-          style="height:${height ? height + "px" : "auto"}"
-        >
-        <img src="https://steemitimages.com/${width}x${height}/$2"
-          width="${width || "auto"}"
-          height="${height || "auto"}"
-        />
-      </figure>`
+      `$1${imgElString()}`
     );
     value = value.replace(
       new RegExp(randomId + "-img-" + i + "-", "g"),
-      `<figure
-        class="${isWide ? "is-wide" : ""}"
-        style="height:${height ? height + "px" : "auto"}"
-      >
-      <img src="https://steemitimages.com/${width}x${height}/${img}"
-        width="${width || "auto"}"
-        height="${height || "auto"}"
-      />
-      </figure>`
+      imgElString()
     );
     value = value.replace(/(<img src=('|")){2,}/, '<img src="');
     value = value.replace(/(\/>('|")>){1,}/, "/>");

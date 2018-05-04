@@ -392,20 +392,21 @@ blockquote .hanging-single {
   margin-left: -0.12em;
 }
 
-.article figure {
-  margin: 0;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
 img {
   background: #f6f6f6;
   max-width: 100%;
   height: auto;
 }
+.article figure {
+  position: relative;
+  margin: 20px 0;
+  overflow: hidden;
+  width: 100%;
+}
+
 figure.is-wide {
   width: 960px;
   max-width: 960px;
-  height: auto;
   margin-left: -170px;
 }
 .pull-left figure,
@@ -415,13 +416,39 @@ figure.is-wide {
   margin-left: 0;
 }
 
+figure .fill {
+  width: 100%;
+}
+figure img {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 0.8s;
+}
+
+figure img.loaded {
+  opacity: 1;
+}
+figure img.small {
+  filter: blur(50px);
+  opacity: 0.5 !important;
+  /* this is needed so Safari keeps sharp edges */
+  transform: scale(1);
+}
+
 @media only screen and (max-width: 960px) {
+  figure {
+    height: auto !important;
+  }
   figure.is-wide {
     width: calc(100% + 40px);
     max-width: calc(100% + 40px);
     height: auto;
     margin-left: -20px;
   }
+}
+@media only screen and (max-width: 960px) {
 }
 
 figcaption {
