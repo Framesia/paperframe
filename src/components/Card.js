@@ -30,6 +30,14 @@ const Wrapper = styled.div`
       }
     }
   }
+
+  img {
+    opacity: 0;
+    transition: opacity 0.8s;
+  }
+  img.loaded {
+    opacity: 1;
+  }
 `;
 const LeftCard = styled.div`
   margin-right: 20px;
@@ -216,6 +224,7 @@ class Card extends Component {
             <Link to={`/@${data.author}`}>
               <Ava
                 src={`https://steemitimages.com/u/${data.author}/avatar/small`}
+                onLoad={e => e.target.classList.add("loaded")}
               />
             </Link>
             <UserRight>
@@ -273,6 +282,7 @@ class Card extends Component {
                   "https://steemitimages.com/160x200/" +
                   this.getCover(data.json_metadata)
                 }
+                onLoad={e => e.target.classList.add("loaded")}
               />
             </Link>
           </RightCard>
