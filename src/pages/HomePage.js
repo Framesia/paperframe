@@ -29,10 +29,10 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        {!AuthStore.getAccessToken() && <Landing />}
+        {!AuthStore.getAccessToken(false) && <Landing />}
         <WrapContent>
           <Content>
-            {AuthStore.getAccessToken() ? (
+            {AuthStore.getAccessToken(false) ? (
               AuthStore.me.user_metadata &&
               AuthStore.me.user_metadata.follow_tags &&
               Array.isArray(AuthStore.me.user_metadata.follow_tags) &&

@@ -24,7 +24,7 @@ class TagPage extends Component {
     return (
       <div>
         <Helmet>
-          <title>{sentenceCase(tag)} topics - Framesia.</title>
+          <title>{sentenceCase(tag)} topic - Framesia.</title>
         </Helmet>
         <WrapContent>
           <Content>

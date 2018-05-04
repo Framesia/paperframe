@@ -53,9 +53,11 @@ const AuthStore = store({
       AuthStore.loading = false;
     });
   },
-  getAccessToken() {
+  getAccessToken(reaction = true) {
     const accessToken = Cookies.get("accessToken");
-    if (!accessToken) {
+    // about reaction:
+    // Mutating observables in reactions is forbidden. You set loading to false.
+    if (!accessToken && reaction) {
       AuthStore.loading = false;
     }
     return accessToken;
