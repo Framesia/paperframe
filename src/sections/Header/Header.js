@@ -72,7 +72,7 @@ class Header extends Component {
     });
   }
 
-  componentWillMount() {
+  componentDidMount() {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
       AuthStore.getMe();

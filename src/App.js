@@ -14,7 +14,9 @@ import WritePage from "./pages/WritePage";
 
 import ArticlePage from "./pages/ArticlePage";
 import TagPage from "./pages/TagPage";
+import UserPage from "./pages/UserPage";
 import NotFoundPage from "./pages/NotFoundPage";
+
 import PostStore from "./stores/Post";
 class App extends Component {
   render() {
@@ -55,7 +57,10 @@ class App extends Component {
               <Route exact path="/" component={HomePage} />
               <Route path="/try-editor" component={TryEditorPage} />
               <Route path="/write" component={WritePage} />
+
               <Route path="/@:author/:permlink" component={ArticlePage} />
+              <Route path="/@:username/" component={UserPage} />
+
               <Route path="/tag/:tag" component={TagPage} />
               <Route component={NotFoundPage} />
             </Switch>

@@ -35,6 +35,12 @@ const api = {
       type: "get_content",
       data: [author, permlink]
     });
+  },
+  getUser({ username }) {
+    return fetchSteemit({
+      type: "get_accounts",
+      data: [[username]]
+    });
   }
 };
 
