@@ -25,13 +25,14 @@ h5,
 h5 {
   font-family: "Roboto", sans-serif;
   clear: both;
+  font-weight: 600;
 }
 .title {
   font-family: "Roboto", sans-serif;
   padding: 0 10px;
   margin-top: 50px;
   font-size: 40px;
-  font-weight: 900;
+  font-weight: 600;
   width: 100%;
   border: none;
   outline: none;
