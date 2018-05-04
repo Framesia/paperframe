@@ -22,10 +22,22 @@ const Wrapper = styled.div`
   /* background: #333;
   color: #eee; */
 `;
+const Logo = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const LogoImg = styled.img`
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  margin-right: 12px;
+`;
 const LogoText = styled(Link)`
   font-family: "Josefin Slab", serif;
   font-size: 28px;
   text-decoration: none;
+  position: relative;
+  top: 5px;
   /* color: #eae6ff; */
 `;
 const Container = styled.div`
@@ -71,7 +83,12 @@ class Header extends Component {
       <React.Fragment>
         <Wrapper>
           <Container>
-            <LogoText to="/">Framesia</LogoText>
+            <Logo>
+              <Link to="/">
+                <LogoImg src="./framesia-logo.png" />
+              </Link>
+              <LogoText to="/">Framesia</LogoText>
+            </Logo>
             {AuthStore.loading !== true &&
               (AuthStore.isLogin
                 ? this.renderWhenLogin()
