@@ -60,8 +60,6 @@ const renderToHTML = data => {
     );
   });
 
-  console.log(value);
-
   value = value.replace(/<center>/gi, "<center>");
   value = value.replace(/<\/center>/gi, "</center>");
 
@@ -99,7 +97,7 @@ const renderToHTML = data => {
 
   image.forEach((img, i) => {
     const imageSize = imageSizes[i] || { w: 0, h: 0 };
-    console.log(imageSize);
+    // console.log(imageSize);
     let width = imageSize.w;
     let height = imageSize.h;
     let isWide = false;

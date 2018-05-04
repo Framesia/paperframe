@@ -393,10 +393,11 @@ blockquote .hanging-single {
 }
 
 img {
-  background: #f6f6f6;
+  /* background: #f6f6f6; */
   max-width: 100%;
   height: auto;
 }
+
 .article figure {
   position: relative;
   margin: 20px 0;
@@ -422,6 +423,7 @@ figure .fill {
 figure img {
   position: absolute;
   top: 0;
+  left: 0;
   width: 100%;
   opacity: 0;
   transition: opacity 0.8s;
