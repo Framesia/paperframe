@@ -235,9 +235,7 @@ class Card extends Component {
               <Link to={`/@${data.author}`}>
                 <Username>{data.author}</Username>
               </Link>
-              <Earning>
-                ${this.getDollars(data.pending_payout_value) || "240"}
-              </Earning>
+              <Earning>${this.getDollars(data.pending_payout_value)}</Earning>
             </UserRight>
             <ActionWrapper
               className={`action-wrapper ${
