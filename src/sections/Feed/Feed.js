@@ -120,11 +120,11 @@ class Feed extends Component {
       <Wrapper>
         <Container>
           <StickyContainer>
-            <Sticky topOffset={-50} bottomOffset={-100}>
+            <Sticky>
               {({ style }) => {
                 // console.log(style);
                 return (
-                  <Header style={{ ...style, top: 50 }}>
+                  <Header style={{ ...style }}>
                     <Link to={`/tag/${this.props.tag}`}>
                       <Heading>{sentenceCase(this.props.tag)}</Heading>
                     </Link>

@@ -19,6 +19,8 @@ const Wrapper = styled.div`
   position: fixed;
   width: 100%;
   z-index: 4;
+  top: ${({ hide }) => (hide ? -60 : 0)}px;
+  transition: top 0.3s;
   /* border-bottom: solid 1px #eee; */
   /* background: #333;
   color: #eee; */
@@ -38,7 +40,7 @@ const LogoText = styled(Link)`
   font-size: 28px;
   text-decoration: none;
   position: relative;
-  top: 5px;
+  top: 2px;
   /* color: #eae6ff; */
 `;
 const Container = styled.div`
@@ -54,9 +56,19 @@ const Slip = styled.div`
 `;
 
 class Header extends Component {
+  state = {
+    headerHide: false
+  };
   componentDidMount() {
+    let prevScrollY = 0;
     window.addEventListener("scroll", e => {
-      console.log(window.pageY);
+      const { scrollY } = window;
+      if (prevScrollY >= scrollY) {
+        this.setState({ headerHide: false });
+      } else {
+        this.setState({ headerHide: true });
+      }
+      prevScrollY = scrollY;
     });
   }
 
@@ -88,7 +100,7 @@ class Header extends Component {
   render() {
     return (
       <React.Fragment>
-        <Wrapper>
+        <Wrapper hide={this.state.headerHide}>
           <Container>
             <Logo>
               <Link to="/">
