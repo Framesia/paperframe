@@ -6,6 +6,7 @@ import { view } from "react-easy-state";
 import { Link } from "react-router-dom";
 
 import PostStore from "../stores/Post";
+import AuthStore from "../stores/Auth";
 import BookmarkStore from "../stores/Bookmark";
 
 import getDateString from "../utils/getDateString";
@@ -140,6 +141,9 @@ const Time = styled.div`
 `;
 const ActionWrapper = styled.div`
   display: flex;
+  &.hide {
+    display: none;
+  }
 `;
 const Action = styled.button`
   cursor: pointer;
@@ -235,7 +239,11 @@ class Card extends Component {
                 ${this.getDollars(data.pending_payout_value) || "240"}
               </Earning>
             </UserRight>
-            <ActionWrapper className="action-wrapper">
+            <ActionWrapper
+              className={`action-wrapper ${
+                AuthStore.me.user ? "show" : "hide"
+              }`}
+            >
               {data.isVoted ? (
                 <Action
                   className={`love-active ${data.voteLoading && "loading"}`}

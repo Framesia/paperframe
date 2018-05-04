@@ -229,9 +229,10 @@ hr:after {
 .article a {
   /* opacity: 0.8; */
   /* text-decoration: underline; */
+  /* color: #ff7452; */
   text-decoration-line: underline;
-  text-decoration-style: solid 1px;
-  /* text-decoration-color: #ffbdad; */
+  /* text-decoration-style: solid;
+  text-decoration-color: #999; */
   /* border-bottom: dotted 1px #999; */
 }
 .article u {
