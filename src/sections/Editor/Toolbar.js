@@ -19,7 +19,7 @@ const Wrapper = styled.div`
   position: fixed;
   top: 0;
   width: 640px;
-  z-index: 5;
+  z-index: 10;
 
   button {
     position: relative;

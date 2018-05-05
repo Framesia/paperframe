@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   background: #fff;
   position: fixed;
   width: 100%;
-  z-index: 4;
+  z-index: 9;
   top: ${({ hide }) => (hide ? -60 : 0)}px;
   transition: top 0.3s;
   /* border-bottom: solid 1px #eee; */
@@ -30,8 +30,8 @@ const Logo = styled.div`
   align-items: center;
 `;
 const LogoImg = styled.img`
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
   margin-right: 12px;
 `;
@@ -42,9 +42,13 @@ const LogoText = styled(Link)`
   position: relative;
   top: 2px;
   /* color: #eae6ff; */
+
+  @media only screen and (max-width: 660px) {
+    display: none;
+  }
 `;
 const Container = styled.div`
-  height: 50px;
+  height: 60px;
   max-width: 960px;
   margin: 0 auto;
   display: flex;
@@ -63,8 +67,7 @@ class Header extends Component {
     let prevScrollY = 0;
     window.addEventListener("scroll", e => {
       const { scrollY } = window;
-      console.log(scrollY);
-      if (prevScrollY >= scrollY) {
+      if (prevScrollY >= scrollY || scrollY <= 60) {
         this.setState({ headerHide: false });
       } else {
         this.setState({ headerHide: true });
