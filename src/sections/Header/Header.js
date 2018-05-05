@@ -56,7 +56,7 @@ const Container = styled.div`
   justify-content: space-between;
 `;
 const Slip = styled.div`
-  height: 50px;
+  height: 60px;
 `;
 
 class Header extends Component {

@@ -35,8 +35,9 @@ const Header = styled.div`
   align-items: center;
   justify-content: space-between;
   border: solid 1px #eee;
-  background: #eae6ff;
+  background: #e3fcef;
   z-index: 5;
+  height: 60px;
 `;
 const Heading = styled.h3`
   font-family: "Josefin Slab", serif;
@@ -55,6 +56,7 @@ class Feed extends Component {
   state = {};
 
   componentDidMount() {
+    console.log(AuthStore.loading);
     if (!AuthStore.loading) {
       this.fetchPost({ username: this.props.username });
     }
@@ -69,6 +71,7 @@ class Feed extends Component {
   }
 
   fetchPost = ({ username, start_author, start_permlink }) => {
+    console.log("test");
     let query = {
       tag: username,
       limit: 5,
@@ -101,7 +104,11 @@ class Feed extends Component {
           <StickyContainer>
             <Sticky>
               {({ style }) => {
-                return <Header style={{ ...style }} />;
+                return (
+                  <Header style={{ ...style }}>
+                    <Heading>@{this.props.username}</Heading>
+                  </Header>
+                );
               }}
             </Sticky>
             <Content>

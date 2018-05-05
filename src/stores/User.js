@@ -25,6 +25,15 @@ const UserStore = store({
       .catch(err => {
         UserStore.loading[id] = false;
       });
+  },
+
+  selectUser({ username }) {
+    const id = username;
+    return UserStore.entities[id];
+  },
+  selectLoading({ username }) {
+    const id = username;
+    return UserStore.loading[id];
   }
 });
 

@@ -112,6 +112,7 @@ const Comment = styled.div`
 const Ava = styled.img`
   width: 30px;
   height: 30px;
+  object-fit: cover;
   background: #eee;
   border-radius: 20px;
   margin-right: 10px;

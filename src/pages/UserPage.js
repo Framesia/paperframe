@@ -3,14 +3,25 @@ import { view } from "react-easy-state";
 import styled from "styled-components";
 
 import UserStore from "../stores/User";
-import PostStore from "../stores/Post";
+import AuthStore from "../stores/Auth";
+
 import UserFeed from "../sections/Feed/UserFeed";
 
-const Wrapper = styled.div`
+import UserDetail from "../sections/UserPage/UserDetail";
+
+const WrapContent = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-width: 1000px;
   margin: 0 auto;
-  max-width: 660px;
-  padding: 0 10px;
 `;
+
+const Content = styled.div`
+  padding: 20px 0;
+  width: 100%;
+  max-width: 600px;
+`;
+
 class UserPage extends Component {
   componentDidMount() {
     const { username } = this.props.match.params;
@@ -20,9 +31,12 @@ class UserPage extends Component {
   render() {
     const { username } = this.props.match.params;
     return (
-      <div>
-        <UserFeed username={username} />
-      </div>
+      <WrapContent>
+        <Content>
+          <UserFeed isLogin={AuthStore.isLogin} username={username} />
+        </Content>
+        <UserDetail username={username} />
+      </WrapContent>
     );
   }
 }

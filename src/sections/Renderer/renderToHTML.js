@@ -64,7 +64,10 @@ const renderToHTML = data => {
   value = value.replace(/<\/center>/gi, "</center>");
 
   // small caps
-  value = value.replace(/([A-Z]{2,})/g, "<abbr>$1</abbr>");
+  value = value.replace(
+    /([^a-zA-Z0-9])([A-Z\.]{2,})([^a-zA-Z0-9])/g,
+    "$1<abbr>$2</abbr>$3"
+  );
 
   // remarkable markdown render
   value = md.render(value);
@@ -77,12 +80,6 @@ const renderToHTML = data => {
   links.forEach((link, i) => {
     value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
   });
-
-  const ytRegex = /http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌​[\w\?‌​=]*)?/g;
-  value = value.replace(
-    ytRegex,
-    '<div class="embed"><iframe width="560" height="315" src="https://www.youtube.com/embed/$1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>'
-  );
 
   users.forEach((user, i) => {
     value = value.replace(
