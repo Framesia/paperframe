@@ -19,8 +19,15 @@ const WrapContent = styled.div`
 const Content = styled.div``;
 
 class TagPage extends Component {
+  componentWillMount() {
+    const { tag, sortBy } = this.props.match.params;
+    if (sortBy !== "new" || sortBy !== "created" || sortBy !== "hot") {
+      this.props.history.push(`/tag/${tag}/hot`);
+    }
+  }
+
   render() {
-    const { tag } = this.props.match.params;
+    const { tag, sortBy } = this.props.match.params;
     return (
       <div>
         <Helmet>
@@ -28,7 +35,7 @@ class TagPage extends Component {
         </Helmet>
         <WrapContent>
           <Content>
-            <Feed isLogin={AuthStore.isLogin} tag={tag} />
+            <Feed isLogin={AuthStore.isLogin} tag={tag} sortBy={sortBy} />
           </Content>
         </WrapContent>
       </div>

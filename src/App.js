@@ -61,7 +61,7 @@ class App extends Component {
               <Route path="/@:author/:permlink" component={ArticlePage} />
               <Route path="/@:username/" component={UserPage} />
 
-              <Route path="/tag/:tag" component={TagPage} />
+              <Route path="/tag/:tag/:sortBy" component={TagPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </div>
