@@ -145,7 +145,7 @@ const renderToHTML = data => {
       new RegExp(randomId + "-img-" + i + "-", "g"),
       imgElString()
     );
-    value = value.replace(/(<img src=('|"))<figure/, '<figure"');
+    value = value.replace(/(<img src=('|"))<figure/, "<figure");
     value = value.replace(/(<\/figure>('|")>)/, "</figure>");
   });
   console.log(value);

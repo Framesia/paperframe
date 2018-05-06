@@ -429,6 +429,7 @@ figure img {
   width: 100%;
   opacity: 0;
   transition: opacity 0.8s;
+  object-fit: cover;
 }
 
 figure img.loaded {
