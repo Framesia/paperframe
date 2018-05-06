@@ -68,7 +68,6 @@ class Feed extends Component {
   }
 
   fetchPost = ({ username, start_author, start_permlink }) => {
-    console.log("test");
     let query = {
       tag: username,
       limit: 5,

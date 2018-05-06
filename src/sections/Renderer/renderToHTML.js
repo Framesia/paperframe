@@ -22,8 +22,6 @@ const renderToHTML = data => {
   users = users ? users.sort(sortByLength) : [];
   image = image ? image : [];
 
-  console.log(users);
-
   // get images from stringbody that no exist in image[]
   // and add it to image[]
   const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))(\?[-a-zA-Z0-9=&]+)?/gi;
@@ -108,16 +106,23 @@ const renderToHTML = data => {
       width = 620;
     }
 
-    const imgElString = () => `
-      <figure
+    let isGif = false;
+    const imgSplit = img.split(".");
+    if (imgSplit.length) {
+      if (imgSplit[imgSplit.length - 1] === "gif") {
+        isGif = true;
+      }
+    }
+
+    const imgElString = () => `<figure
         class="${isWide ? "is-wide" : ""}"
         style="
           max-height:${height ? height + "px" : "auto"};
           max-width:${width ? width + "px" : "auto"};"
       >
-        <div class="fill" style="padding-bottom:${
-          aspectRatio !== 0 ? aspectRatio * 100 : 0
-        }%"></div>
+        <div class="fill" style="padding-bottom:${aspectRatio !== 0
+          ? aspectRatio * 100
+          : 0}%"></div>
         <img
           class="small"
           src="https://steemitimages.com/20x20/${img}"
@@ -125,11 +130,12 @@ const renderToHTML = data => {
         />
         <img
           class="original"
-          src="https://steemitimages.com/${width}x${height}/${img}"
+          src="https://steemitimages.com/${isGif ? 0 : width}x${isGif
+      ? 0
+      : width}/${img}"
           onload="this.classList.add('loaded')"
         />
-      </figure>
-    `;
+      </figure>`;
 
     value = value.replace(
       new RegExp('([^"/])(' + escapeRegExp(img) + ")", "g"),
@@ -139,9 +145,10 @@ const renderToHTML = data => {
       new RegExp(randomId + "-img-" + i + "-", "g"),
       imgElString()
     );
-    value = value.replace(/(<img src=('|")){2,}/, '<img src="');
-    value = value.replace(/(\/>('|")>){1,}/, "/>");
+    value = value.replace(/(<img src=('|"))<figure/, '<figure"');
+    value = value.replace(/(<\/figure>('|")>)/, "</figure>");
   });
+  console.log(value);
   return value;
 };
 
