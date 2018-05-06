@@ -14,13 +14,11 @@ import Card from "../../components/Card";
 import Button from "../../components/Button";
 import FeedLoading from "./FeedLoading";
 
-const Wrapper = styled.div`
-  margin-bottom: 40px;
-`;
+const Wrapper = styled.div`margin-bottom: 40px;`;
 const Container = styled.div`
   width: 600px;
   margin: 0 auto;
-  @media only screen and (max-width: 640px) {
+  @media only screen and (max-width: 1000px) {
     width: 100%;
   }
 `;

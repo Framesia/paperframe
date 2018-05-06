@@ -10,11 +10,9 @@ import PostStore from "../../stores/Post";
 import sentenceCase from "sentence-case";
 
 const Wrapper = styled.div`
-  width: 400px;
+  max-width: 400px;
   padding: 0 20px;
-  @media only screen and (max-width: 770px) {
-    display: none;
-  }
+  margin: 0 auto;
 `;
 const Container = styled.div`
   background: #f6f6f6;
@@ -78,21 +76,23 @@ class UserDetail extends Component {
         <Container>
           <Cover
             src={
-              profileMeta.cover_image
-                ? `https://steemitimages.com/400x800/${
-                    user.json_metadata.profile.cover_image
-                  }`
-                : ""
+              profileMeta.cover_image ? (
+                `https://steemitimages.com/400x800/${user.json_metadata.profile
+                  .cover_image}`
+              ) : (
+                ""
+              )
             }
           />
           <Content>
             <Ava
               src={
-                profileMeta.profile_image
-                  ? `https://steemitimages.com/120x240/${
-                      user.json_metadata.profile.profile_image
-                    }`
-                  : ""
+                profileMeta.profile_image ? (
+                  `https://steemitimages.com/120x240/${user.json_metadata
+                    .profile.profile_image}`
+                ) : (
+                  ""
+                )
               }
             />
             <Username>

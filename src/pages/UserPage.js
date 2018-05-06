@@ -14,13 +14,13 @@ const WrapContent = styled.div`
   justify-content: space-between;
   max-width: 1000px;
   margin: 0 auto;
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column-reverse;
+  }
 `;
 
-const Content = styled.div`
-  padding: 20px 0;
-  width: 100%;
-  max-width: 600px;
-`;
+const Content = styled.div`padding: 20px 0;`;
 
 class UserPage extends Component {
   componentDidMount() {
