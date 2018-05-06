@@ -11,6 +11,7 @@ import sentenceCase from "sentence-case";
 
 const Wrapper = styled.div`
   max-width: 400px;
+  width: 100%;
   padding: 0 20px;
   margin: 0 auto;
 `;

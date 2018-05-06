@@ -17,12 +17,14 @@ const WrapContent = styled.div`
   justify-content: space-between;
   max-width: 1000px;
   margin: 0 auto;
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column-reverse;
+  }
 `;
 
 const Content = styled.div`
   padding: 20px 0;
   width: 100%;
-  max-width: 600px;
 `;
 
 class HomePage extends Component {
@@ -32,21 +34,19 @@ class HomePage extends Component {
         {!AuthStore.getAccessToken(false) && <Landing />}
         <WrapContent>
           <Content>
-            {AuthStore.getAccessToken(false) ? (
-              AuthStore.me.user_metadata &&
-              AuthStore.me.user_metadata.follow_tags &&
-              Array.isArray(AuthStore.me.user_metadata.follow_tags) &&
-              AuthStore.me.user_metadata.follow_tags.length > 0 ? (
-                AuthStore.me.user_metadata.follow_tags.map((tag, i) => (
-                  <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />
-                ))
-              ) : AuthStore.me.user_metadata &&
-              (!AuthStore.me.user_metadata.follow_tags ||
-                Array.isArray(AuthStore.me.user_metadata.follow_tags)) ? (
-                <FirstTimeLogin />
-              ) : (
-                <Loader />
-              )
+            {AuthStore.getAccessToken(false) ? AuthStore.me.user_metadata &&
+            AuthStore.me.user_metadata.follow_tags &&
+            Array.isArray(AuthStore.me.user_metadata.follow_tags) &&
+            AuthStore.me.user_metadata.follow_tags.length > 0 ? (
+              AuthStore.me.user_metadata.follow_tags.map((tag, i) => (
+                <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />
+              ))
+            ) : AuthStore.me.user_metadata &&
+            (!AuthStore.me.user_metadata.follow_tags ||
+              Array.isArray(AuthStore.me.user_metadata.follow_tags)) ? (
+              <FirstTimeLogin />
+            ) : (
+              <Loader />
             ) : (
               <React.Fragment>
                 <Feed isLogin={false} tag="science" />

@@ -10,6 +10,7 @@ const Wrapper = styled.div`
   background: #333;
   color: #eee;
   padding: 50px 20px;
+  width: 100%;
   @media only screen and (max-width: 1000px) {
     padding: 20px;
   }
@@ -23,6 +24,8 @@ const Container = styled.div`
 
   @media only screen and (max-width: 1000px) {
     flex-direction: column-reverse;
+    max-width: 640px;
+    width: 100%;
   }
   /* div {
     width: 0px;

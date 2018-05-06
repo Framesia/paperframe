@@ -21,14 +21,11 @@ const Title = styled.h3`
 `;
 const Wrapper = styled.div`
   max-width: 400px;
+  width: 100%;
   padding: 0 20px;
-  @media only screen and (max-width: 770px) {
-    display: none;
-  }
+  margin: 0 auto;
 `;
-const Container = styled.div`
-  padding: 70px 0;
-`;
+const Container = styled.div`padding: 70px 0;`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
@@ -36,12 +33,8 @@ const Content = styled.div`
   background: #fff;
 `;
 
-const CuratedTags = styled.div`
-  /* border: solid 1px #ddd; */
-`;
-const Tags = styled.div`
-  padding: 10px 0;
-`;
+const CuratedTags = styled.div`/* border: solid 1px #ddd; */`;
+const Tags = styled.div`padding: 10px 0;`;
 const TagTitle = styled.h4`
   margin: 0;
   font-size: 14px;
