@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Switch,
+  Route,
+  withRouter,
+  Redirect
+} from "react-router-dom";
 import { Helmet } from "react-helmet";
 // import {}
 import "rc-dropdown/assets/index.css";
@@ -18,7 +24,24 @@ import UserPage from "./pages/UserPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 import PostStore from "./stores/Post";
+
+class ScrollToTop extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  render() {
+    return null;
+  }
+}
+const ScrollTop = withRouter(ScrollToTop);
+
 class App extends Component {
+  componentDidUpdate() {
+    console.log(window.location);
+  }
   render() {
     return (
       <div>
@@ -52,6 +75,7 @@ class App extends Component {
           <meta property="og:site_name" content="Site Name, i.e. Moz" />
           <meta property="fb:admins" content="Facebook numeric ID" /> */}
             </Helmet>
+            <ScrollTop />
             <Header />
             <Switch>
               <Route exact path="/" component={HomePage} />
@@ -62,6 +86,12 @@ class App extends Component {
               <Route path="/@:username/" component={UserPage} />
 
               <Route path="/tag/:tag/:sortBy" component={TagPage} />
+              <Route
+                path="/tag/:tag"
+                render={props => (
+                  <Redirect to={`/tag/${props.match.params.tag}/hot`} />
+                )}
+              />
               <Route component={NotFoundPage} />
             </Switch>
           </div>
