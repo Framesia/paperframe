@@ -21,7 +21,8 @@ const Content = styled.div``;
 class TagPage extends Component {
   componentWillMount() {
     const { tag, sortBy } = this.props.match.params;
-    if (sortBy !== "new" || sortBy !== "created" || sortBy !== "hot") {
+    console.log(sortBy);
+    if (sortBy !== "trending" && sortBy !== "created" && sortBy !== "hot") {
       this.props.history.push(`/tag/${tag}/hot`);
     }
   }

@@ -66,11 +66,15 @@ class App extends Component {
 
               <Route path="/tag/:tag/:sortBy" component={TagPage} />
               <Route
+                exact
                 path="/tag/:tag"
                 render={props => (
                   <Redirect to={`/tag/${props.match.params.tag}/hot`} />
                 )}
               />
+
+              {/*<Route path="/me/topics" component={TagPage} />
+              <Route path="/me/bookmarks" component={TagPage} />*/}
               <Route component={NotFoundPage} />
             </Switch>
           </div>
