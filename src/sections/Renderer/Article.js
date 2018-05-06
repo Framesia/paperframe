@@ -123,15 +123,16 @@ class Article extends Component {
       <div>
         <Helmet>
           <title>{post.title}</title>
-          {!loading ? <meta name="description" content={description} /> : null}
+          <meta name="description" content={description} />
           <meta property="og:title" content={post.title} />
           <meta property="og:type" content="article" />
-          <meta property="og:url" content={`https://framesia.com/@${post.author}/${post.permlink}`} />
-          {!loading ? <meta name="og:description" content={description} /> : null}
+          <meta
+            property="og:url"
+            content={`https://framesia.com/@${post.author}/${post.permlink}`}
+          />
+          <meta name="og:description" content={description} />
           <meta property="og:site_name" content="Framesia" />
-          { data.json_metadata.image.map((img) => 
-            <meta property="og:image" content={img} />
-          )}
+          <meta property="og:image" content={image ? image[0] : null} />
         </Helmet>
         <Header>
           <User>

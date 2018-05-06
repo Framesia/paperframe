@@ -53,24 +53,6 @@ class App extends Component {
                 name="description"
                 content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!"
               />
-
-              <meta name="twitter:card" content="summary" />
-              <meta name="twitter:title" content="Framesia - Frame your thought and get rewards." />
-              <meta
-                name="twitter:description"
-                content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!"
-              />
-              <meta
-                name="twitter:image"
-                content="https://framesia.com/framesia-logo.png"
-              />
-
-              <meta property="og:title" content="Framesia - Frame your thought and get rewards." />
-              <meta property="og:type" content="article" />
-              <meta property="og:url" content="https://framesia.com/" />
-              <meta property="og:image" content="https://framesia.com/framesia-logo.png" />
-              <meta property="og:description" content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!" />
-              <meta property="og:site_name" content="Framesia" />
             </Helmet>
             <ScrollTop />
             <Header />
