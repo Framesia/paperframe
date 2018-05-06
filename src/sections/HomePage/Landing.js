@@ -10,6 +10,9 @@ const Wrapper = styled.div`
   background: #333;
   color: #eee;
   padding: 50px 20px;
+  @media only screen and (max-width: 1000px) {
+    padding: 20px;
+  }
 `;
 const Container = styled.div`
   max-width: 960px;
@@ -17,6 +20,10 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   position: relative;
+
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column-reverse;
+  }
   /* div {
     width: 0px;
   } */
@@ -34,13 +41,19 @@ const Illust = styled.img`
   position: absolute;
   right: 0;
   top: -20px;
-  @media only screen and (max-width: 960px) {
-    display: none;
-  }
   opacity: 0;
+  object-fit: cover;
   transition: opacity 0.8s;
   &.loaded {
     opacity: 1;
+  }
+  @media only screen and (max-width: 1000px) {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 240px;
   }
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
   /* border: solid 1px rgba(0, 0, 0, 0.1); */
