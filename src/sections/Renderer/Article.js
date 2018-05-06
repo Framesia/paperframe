@@ -4,8 +4,9 @@ import Remarkable from "remarkable";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import { Helmet } from "react-helmet";
 import { view } from "react-easy-state";
-
+import removeMd from "remove-markdown";
 import PostStore from "../../stores/Post";
 
 import steemApi from "../../helpers/steemApi";
@@ -116,8 +117,22 @@ class Article extends Component {
       },
       imageSizes: post.imageSizes ? [...post.imageSizes] : []
     };
+    const description = removeMd(post.body).slice(0, 150);
+
     return (
       <div>
+        <Helmet>
+          <title>{post.title}</title>
+          {!loading ? <meta name="description" content={description} /> : null}
+          <meta property="og:title" content={post.title} />
+          <meta property="og:type" content="article" />
+          <meta property="og:url" content={`https://framesia.com/@${post.author}/${post.permlink}`} />
+          {!loading ? <meta name="og:description" content={description} /> : null}
+          <meta property="og:site_name" content="Framesia" />
+          { data.json_metadata.image.map((img) => 
+            <meta property="og:image" content={img} />
+          )}
+        </Helmet>
         <Header>
           <User>
             <Link to={`/@${post.author}`}>

@@ -148,7 +148,7 @@ const renderToHTML = data => {
     value = value.replace(/(<img src=('|"))<figure/, "<figure");
     value = value.replace(/(<\/figure>('|")>)/, "</figure>");
   });
-  console.log(value);
+
   return value;
 };
 
