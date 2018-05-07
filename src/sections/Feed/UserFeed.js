@@ -30,13 +30,15 @@ const Content = styled.div`
 const Header = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
   border: solid 1px #eee;
   background: #e3fcef;
   z-index: 5;
   height: 60px;
+  width: 100%;
+  max-width: 600px;
 `;
 const Heading = styled.h3`
+  flex: 1;
   font-family: "Josefin Slab", serif;
   padding: 20px;
   margin: 0;
@@ -112,7 +114,13 @@ class Feed extends Component {
                 if (!item) {
                   return null;
                 }
-                return <Card data={item} key={item.id} />;
+                return (
+                  <Card
+                    data={item}
+                    key={item.id}
+                    userFeed={this.props.username}
+                  />
+                );
               })}
               {!loading && posts.length > 0 && posts.length % 5 === 0 ? (
                 <LoadMoreWrapper>

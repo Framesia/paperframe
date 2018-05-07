@@ -4,6 +4,7 @@ html {
   font-family: "Roboto", sans-serif;
   /* color: #172b4d; */
   color: #333;
+  word-wrap: break-word;
 }
 a {
   text-decoration: none;

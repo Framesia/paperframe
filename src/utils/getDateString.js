@@ -25,10 +25,9 @@ const getDateString = date => {
     now.getMonth() === monthIndex &&
     now.getFullYear() === year
   ) {
-    const hour = date.getHours() > 9 ? date.getHours() : `0${date.getHours}`;
-    const minute = date.getMinutes()
-      ? date.getMinutes()
-      : `0${date.getMinutes}`;
+    const hour = date.getHours() > 9 ? date.getHours() : `0${date.getHours()}`;
+    const minute =
+      date.getMinutes() > 9 ? date.getMinutes() : `0${date.getMinutes()}`;
     return `${hour}:${minute} Today`;
   }
   if (now.getFullYear() === year) {

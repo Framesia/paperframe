@@ -20,7 +20,10 @@ const WrapContent = styled.div`
   }
 `;
 
-const Content = styled.div`padding: 20px 0;`;
+const Content = styled.div`
+  padding: 20px 0;
+  width: 100%;
+`;
 
 class UserPage extends Component {
   componentDidMount() {

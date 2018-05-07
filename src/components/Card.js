@@ -93,9 +93,7 @@ const Username = styled.div`
   font-weight: bold;
   opacity: 0.7;
 `;
-const Footer = styled.div`
-  display: flex;
-`;
+const Footer = styled.div`display: flex;`;
 const Votes = styled.div`
   display: flex;
   margin-right: 16px;
@@ -130,6 +128,14 @@ const Head = styled.div`
   display: flex;
   font-size: 12px;
   opacity: 0.5;
+`;
+const Repost = styled.div`
+  font-size: 12px;
+  opacity: 0.5;
+  margin-bottom: 10px;
+  a {
+    font-weight: bold;
+  }
 `;
 const Category = styled.div`
   letter-spacing: 0.1em;
@@ -175,9 +181,6 @@ const Action = styled.button`
 `;
 
 class Card extends Component {
-  state = {
-    voteText: "Voted"
-  };
   votePost = data => {
     PostStore.votePost({
       author: data.author,
@@ -212,10 +215,15 @@ class Card extends Component {
   //   return "";
   // }
   render() {
-    const { data } = this.props;
+    const { data, userFeed } = this.props;
     return (
       <Wrapper>
         <LeftCard>
+          {userFeed && userFeed !== data.author ? (
+            <Repost>
+              Reposted by <Link to={`/@${userFeed}`}>{userFeed}</Link>
+            </Repost>
+          ) : null}
           <Head>
             <Link to={`/tag/${data.category}`}>
               <Category>{data.category}</Category>
@@ -239,9 +247,9 @@ class Card extends Component {
               <Earning>${this.getDollars(data.pending_payout_value)}</Earning>
             </UserRight>
             <ActionWrapper
-              className={`action-wrapper ${
-                AuthStore.me.user ? "show" : "hide"
-              }`}
+              className={`action-wrapper ${AuthStore.me.user
+                ? "show"
+                : "hide"}`}
             >
               {data.isVoted ? (
                 <Action
