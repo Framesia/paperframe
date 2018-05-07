@@ -91,7 +91,10 @@ const renderToHTML = data => {
   );
 
   image.forEach((img, i) => {
-    const imageSize = imageSizes[i] || { w: 0, h: 0 };
+    const imageSize = imageSizes.find(item => item.img === img) || {
+      w: 0,
+      h: 0
+    };
     // console.log(imageSize);
     let width = imageSize.w;
     let height = imageSize.h;
@@ -117,8 +120,8 @@ const renderToHTML = data => {
     const imgElString = () => `<figure
         class="${isWide ? "is-wide" : ""}"
         style="
-          max-height:${height ? height + "px" : "auto"};
           max-width:${width ? width + "px" : "auto"};"
+          max-height:${height ? height + "px" : "auto"};
       >
         <div class="fill" style="padding-bottom:${aspectRatio !== 0
           ? aspectRatio * 100
