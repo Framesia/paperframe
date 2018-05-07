@@ -55,9 +55,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-const Slip = styled.div`
-  height: 60px;
-`;
+const Slip = styled.div`height: 60px;`;
 
 class Header extends Component {
   state = {
@@ -95,7 +93,9 @@ class Header extends Component {
         <a href={AuthStore.loginURL}>
           <Button>Login with STEEM</Button>
         </a>
-        <Button type="green">Sign up</Button>
+        <a href="https://signup.steemit.com/" target="_blank">
+          <Button type="green">Sign up</Button>
+        </a>
       </div>
     );
   }

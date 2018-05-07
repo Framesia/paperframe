@@ -79,7 +79,9 @@ class Landing extends Component {
               <br />
               <i>You might even get paid for it!</i>
             </p>
-            <Button type="red">Getting started</Button>
+            <a href="https://signup.steemit.com/" target="_blank">
+              <Button type="red">Getting started</Button>
+            </a>
             <Link to="/try-editor">
               <Button type="green">Try out the editor!</Button>
             </Link>
