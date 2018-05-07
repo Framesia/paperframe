@@ -41,7 +41,7 @@ const renderToHTML = data => {
   }
   links.forEach((link, i) => {
     value = value.replace(
-      new RegExp("href=('|\")" + escapeRegExp(link), "gi"),
+      new RegExp(escapeRegExp(link), "gi"),
       randomId + "-link-" + i + "-"
     );
   });
@@ -76,10 +76,7 @@ const renderToHTML = data => {
   // after markdown render
   // replace back 235-[type]-0 with the link, image, and user
   links.forEach((link, i) => {
-    value = value.replace(
-      new RegExp(randomId + "-link-" + i + "-", "g"),
-      "href=('|\")" + link
-    );
+    value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
   });
 
   users.forEach((user, i) => {
