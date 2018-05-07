@@ -72,6 +72,11 @@ const PostStore = store({
     }
     PostStore.loading[id] = true;
     steemApi.getContent({ author, permlink }).then(post => {
+      if (post.id === 0) {
+        PostStore.loading[id] = false
+        PostStore.entities[id] = post
+        return
+      }
       try {
         post.json_metadata = JSON.parse(post.json_metadata);
       } catch (e) {}
@@ -125,6 +130,9 @@ const PostStore = store({
             ...post
           };
         });
+    }).catch(err => {
+      PostStore.loading[id] = false;
+      return
     });
   },
 

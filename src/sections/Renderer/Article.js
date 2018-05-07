@@ -104,6 +104,11 @@ class Article extends Component {
     const loading = PostStore.selectLoading({ author, permlink });
 
     if (!post.id) {
+      if (post.id === 0) {
+        return <center>
+          <h2>Article not found</h2>
+        </center>
+      }
       return <Loader />;
     }
     // immutable
