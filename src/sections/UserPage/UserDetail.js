@@ -36,6 +36,11 @@ const Ava = styled.img`
   object-fit: cover;
   border-radius: 40px;
   margin: 10px auto;
+  opacity: 0;
+  transition: opacity 0.8s;
+  &.loaded {
+    opacity: 1;
+  }
 `;
 const About = styled.div`
   font-size: 14px;
@@ -46,6 +51,11 @@ const Cover = styled.img`
   height: 240px;
   width: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.8s;
+  &.loaded {
+    opacity: 1;
+  }
 `;
 const Content = styled.div`
   padding: 20px;
@@ -84,6 +94,7 @@ class UserDetail extends Component {
                 ""
               )
             }
+            onLoad={e => e.target.classList.add("loaded")}
           />
           <Content>
             <Ava
@@ -95,6 +106,7 @@ class UserDetail extends Component {
                   ""
                 )
               }
+              onLoad={e => e.target.classList.add("loaded")}
             />
             <Username>
               {profileMeta.name ? user.json_metadata.profile.name : username}
