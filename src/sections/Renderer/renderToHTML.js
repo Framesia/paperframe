@@ -85,7 +85,7 @@ const renderToHTML = data => {
   users.forEach((user, i) => {
     value = value.replace(
       new RegExp(randomId + "-user-" + i + "-", "g"),
-      `<a href="https://steemit.com/${user}">@${user}</a>`
+      `<a href="https://framesia.com/@${user}">@${user}</a>`
     );
   });
 
@@ -138,7 +138,7 @@ const renderToHTML = data => {
           class="original"
           src="https://steemitimages.com/${isGif ? 0 : width}x${isGif
       ? 0
-      : width}/${img}"
+      : height}/${img}"
           onload="this.classList.add('loaded')"
         />
       </figure>`;
