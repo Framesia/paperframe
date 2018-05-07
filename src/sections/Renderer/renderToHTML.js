@@ -41,7 +41,7 @@ const renderToHTML = data => {
   }
   links.forEach((link, i) => {
     value = value.replace(
-      new RegExp(escapeRegExp(link), "gi"),
+      new RegExp("href=('|\")" + escapeRegExp(link), "gi"),
       randomId + "-link-" + i + "-"
     );
   });
@@ -58,8 +58,8 @@ const renderToHTML = data => {
     );
   });
 
-  value = value.replace(/<center>/gi, "<center>");
-  value = value.replace(/<\/center>/gi, "</center>");
+  value = value.replace(/<([a-z+])>/gi, "<$1>");
+  value = value.replace(/<\/([a-z+])>/gi, "</$1>");
 
   // small caps
   value = value.replace(
@@ -76,7 +76,10 @@ const renderToHTML = data => {
   // after markdown render
   // replace back 235-[type]-0 with the link, image, and user
   links.forEach((link, i) => {
-    value = value.replace(new RegExp(randomId + "-link-" + i + "-", "g"), link);
+    value = value.replace(
+      new RegExp(randomId + "-link-" + i + "-", "g"),
+      "href=('|\")" + link
+    );
   });
 
   users.forEach((user, i) => {
