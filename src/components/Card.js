@@ -51,6 +51,7 @@ const RightCard = styled.div`
   width: 160px;
   display: flex;
   flex: 0 0 auto;
+  justify-content: center;
 
   @media only screen and (max-width: 480px) {
     width: 120px;
