@@ -24,6 +24,7 @@ import UserPage from "./pages/UserPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 import PostStore from "./stores/Post";
+import BookmarksPage from "./pages/BookmarksPage";
 
 class ScrollToTop extends Component {
   componentDidUpdate(prevProps) {
@@ -72,6 +73,8 @@ class App extends Component {
                   <Redirect to={`/tag/${props.match.params.tag}/hot`} />
                 )}
               />
+
+              <Route path="/me/bookmarks" component={BookmarksPage} />
 
               {/*<Route path="/me/topics" component={TagPage} />
               <Route path="/me/bookmarks" component={TagPage} />*/}
