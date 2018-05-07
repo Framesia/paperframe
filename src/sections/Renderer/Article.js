@@ -76,24 +76,21 @@ const Right = styled.div`
 class Article extends Component {
   state = {
     // value: ""
-    isShowTitleInHeader: false
+    showActions: true
   };
   componentDidMount() {
     const { author, permlink } = this.props.params;
 
     PostStore.getContent({ author, permlink });
-
+    let prevScrollY = 0;
     window.addEventListener("scroll", e => {
-      const scrollY = window.scrollY;
-      if (scrollY > 100) {
-        if (!this.state.isShowTitleInHeader) {
-          this.setState({ isShowTitleInHeader: true });
-        }
+      const { scrollY } = window;
+      if (prevScrollY >= scrollY || scrollY <= 60) {
+        this.setState({ showActions: true });
       } else {
-        if (this.state.isShowTitleInHeader) {
-          this.setState({ isShowTitleInHeader: false });
-        }
+        this.setState({ showActions: false });
       }
+      prevScrollY = scrollY;
     });
   }
 
@@ -105,9 +102,11 @@ class Article extends Component {
 
     if (!post.id) {
       if (post.id === 0) {
-        return <center>
-          <h2>Article not found</h2>
-        </center>
+        return (
+          <center>
+            <h2>Article not found</h2>
+          </center>
+        );
       }
       return <Loader />;
     }
@@ -172,7 +171,7 @@ class Article extends Component {
               <div className="article">
                 <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
               </div>
-              <ActionWrapper data={post} />
+              <ActionWrapper data={post} show={this.state.showActions} />
             </React.Fragment>
           )}
         </div>

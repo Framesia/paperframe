@@ -12,12 +12,14 @@ import Icon from "../../components/Icon";
 
 const Wrapper = styled.div`
   position: fixed;
-  right: calc(50% - 360px);
-  top: 100px;
+  right: ${({ show }) => (show ? "calc(50% - 360px)" : "-120px")};
+  transition: right 0.5s;
+
+  top: 80px;
   z-index: 7;
 
   @media only screen and (max-width: 760px) {
-    right: 20px;
+    right: ${({ show }) => (show ? "20px" : "-120px")};
   }
 `;
 const Action = styled.button`
@@ -33,6 +35,7 @@ const Action = styled.button`
   color: #999;
   font-size: 16px;
   margin: 5px;
+
   &:hover {
     background: #eee;
   }
@@ -73,9 +76,9 @@ class ActionWrapper extends Component {
     BookmarkStore.unBookmark({ author: data.author, permlink: data.permlink });
   };
   render() {
-    const { data } = this.props;
+    const { data, show } = this.props;
     return (
-      <Wrapper>
+      <Wrapper show={show}>
         {data.isVoted ? (
           <Action
             className={`love-active ${data.voteLoading && "loading"}`}
