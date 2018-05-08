@@ -51,6 +51,12 @@ class TagInfo extends Component {
     TagStore.getDefinition(this.props.tag);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.tag !== nextProps.tag) {
+      TagStore.getDefinition(nextProps.tag);
+    }
+  }
+
   render() {
     const { tag } = this.props;
     const relatedTags = TagStore.selectRelatedTags(tag);
