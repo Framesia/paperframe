@@ -36,6 +36,9 @@ const BookmarkStore = store({
   },
   unBookmark({ author, permlink }) {
     const id = `${author}/${permlink}`;
+    if (!PostStore.entities[id]) {
+      PostStore.entities[id] = {};
+    }
     if (
       AuthStore.me.user_metadata &&
       Array.isArray(AuthStore.me.user_metadata.bookmarks)

@@ -38,9 +38,7 @@ const Bookmark = styled.div`
   /* align-items: center; */
 `;
 
-const Title = styled.h2`
-  font-family: "Josefin Slab", serif;
-`;
+const Title = styled.h2`font-family: "Josefin Slab", serif;`;
 
 const Ava = styled.img`
   width: 36px;
@@ -55,9 +53,7 @@ const Username = styled.div`
   font-weight: bold;
   opacity: 0.7;
 `;
-const Content = styled.div`
-  flex: 1;
-`;
+const Content = styled.div`flex: 1;`;
 
 const ActionWrapper = styled.div`
   display: flex;
@@ -108,6 +104,14 @@ class BookmarksPage extends Component {
     return (
       <Wrapper>
         <Title>Bookmarked post</Title>
+        {bookmarks.length === 0 && (
+          <Bookmark>
+            <Content>
+              <Username>No bookmark</Username>
+              <p>You have not bookmark any post.</p>
+            </Content>
+          </Bookmark>
+        )}
         {bookmarks.map(bookmark => {
           const data = PostStore.selectPostById(bookmark);
           const [author, permlink] = bookmark.split("/");
@@ -126,15 +130,18 @@ class BookmarksPage extends Component {
                   <p>{sentenceCase(permlink)}</p>
                 </Content>
                 <ActionWrapper
-                  className={`action-wrapper ${
-                    AuthStore.me.user ? "show" : "hide"
-                  }`}
+                  className={`action-wrapper ${AuthStore.me.user
+                    ? "show"
+                    : "hide"}`}
                 >
                   <Action
                     className={`bookmark-active ${data.bookmarkLoading &&
                       "loading"}`}
                     disabled={data.bookmarkLoading}
-                    onClick={() => this.unBookmarkPost({ author, permlink })}
+                    onClick={e => {
+                      e.preventDefault();
+                      this.unBookmarkPost({ author, permlink });
+                    }}
                   >
                     <Icon type="bookmark" />
                   </Action>
