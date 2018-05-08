@@ -275,12 +275,12 @@ export default class EditorApp extends React.Component {
       imageDialogShow: true
     });
 
-    Axios.get(
-      "https://api.unsplash.com/search/photos?page=1&query=building&client_id=7fc8e95b1f9a8911972fd70d057e667f7a21882b820c4a7d9e495f04a349bac7"
-    ).then(val => {
-      // console.log(val.data.results);
-      this.setState({ imgUnsplash: val.data.results });
-    });
+    // Axios.get(
+    //   "https://api.unsplash.com/search/photos?page=1&query=building&client_id=7fc8e95b1f9a8911972fd70d057e667f7a21882b820c4a7d9e495f04a349bac7"
+    // ).then(val => {
+    //   // console.log(val.data.results);
+    //   this.setState({ imgUnsplash: val.data.results });
+    // });
   };
 
   onSubmitImage = data => {
@@ -433,8 +433,7 @@ export default class EditorApp extends React.Component {
           onClose={() =>
             this.setState({
               linkDialogShow: false
-            })
-          }
+            })}
           style={{ width: 400 }}
           mousePosition={this.state.mousePosition}
           destroyOnClose={true}
@@ -464,8 +463,7 @@ export default class EditorApp extends React.Component {
           onClose={() =>
             this.setState({
               imageDialogShow: false
-            })
-          }
+            })}
           style={{ width: 740 }}
           mousePosition={this.state.mousePosition}
           destroyOnClose={true}
@@ -479,13 +477,14 @@ export default class EditorApp extends React.Component {
             }}
           >
             <input
+              className="input"
               value={this.state.imageValue}
               onChange={e => this.setState({ imageValue: e.target.value })}
             />
             <input type="submit" style={{ visibility: "hidden" }} />
             <Button>Submit</Button>
           </form>
-          <div>
+          {/*<div>
             {this.state.imgUnsplash.map(item => (
               <img
                 style={{ margin: 10 }}
@@ -493,7 +492,7 @@ export default class EditorApp extends React.Component {
                 onClick={() => this.onSubmitImage(item.urls.small)}
               />
             ))}
-          </div>
+          </div>*/}
           <hr />
         </Dialog>
 
@@ -505,8 +504,7 @@ export default class EditorApp extends React.Component {
           onClose={() =>
             this.setState({
               publishDialogShow: false
-            })
-          }
+            })}
           style={{ width: 400 }}
           mousePosition={this.state.mousePosition}
           destroyOnClose={true}
