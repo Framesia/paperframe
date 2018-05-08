@@ -25,7 +25,9 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `;
-const Container = styled.div`padding: 70px 0;`;
+const Container = styled.div`
+  padding: 70px 0;
+`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
@@ -33,8 +35,12 @@ const Content = styled.div`
   background: #fff;
 `;
 
-const CuratedTags = styled.div`/* border: solid 1px #ddd; */`;
-const Tags = styled.div`padding: 10px 0;`;
+const CuratedTags = styled.div`
+  /* border: solid 1px #ddd; */
+`;
+const Tags = styled.div`
+  padding: 10px 0;
+`;
 const TagTitle = styled.h4`
   margin: 0;
   font-size: 14px;
@@ -59,24 +65,47 @@ class RecomendedTags extends Component {
   };
   render() {
     const recommendedTags = {
-      Knowledge: [
+      "Tech & Science": [
         "Science",
         "Technology",
-        "Steemstem",
+        "steemSTEM",
         "Astronomy",
         "Space",
-        "History"
+        "History",
+        "Philosophy"
       ],
-      Life: ["Parenting", "Travel", "Health", "Food", "Funny", "Life"],
+      Life: [
+        "Travel",
+        "Motivation",
+        "Life",
+        "Food",
+        "Health",
+        "Parenting",
+        "Funny",
+        "Meme",
+        "Nature"
+      ],
       "Arts & Entertainment": [
         "Art",
-        "Music",
         "Photography",
         "Entertainment",
-        "Film"
+        "Music",
+        "Movie",
+        "Anime",
+        "DTube",
+        "Gaming"
       ],
-      News: ["News", "Sports"],
-      Finance: ["Cryptocurrency"]
+      News: ["Politics", "News", "Sports", "Football"],
+      Cryptocurrency: [
+        "Bitcoin",
+        "Ethereum",
+        "steem",
+        "Economy",
+        "Investment",
+        "Cryptocurrency",
+        "Money",
+        "Market"
+      ]
     };
     // const recommendedTags = {};
     // const posts = PostStore.entities;
