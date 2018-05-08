@@ -16,6 +16,8 @@ import Loader from "../../components/Loader";
 
 import ActionWrapper from "./ActionWrapper";
 
+import sentenceCase from "sentence-case";
+
 const Header = styled.div`
   display: flex;
   padding: 0 20px;
@@ -72,6 +74,15 @@ const Right = styled.div`
   display: flex;
   align-items: center;
 `;
+const TagWrapper = styled.div`
+  padding: 10px;
+  padding-bottom: 30px;
+  padding-top: 20px;
+  border-top: solid 1px #ddd;
+`;
+const Tag = styled.button`
+  padding: 5px 10px;
+`;
 
 class Article extends Component {
   state = {
@@ -111,7 +122,7 @@ class Article extends Component {
       return <Loader />;
     }
     // immutable
-    let { image, links, users } = post.json_metadata;
+    let { image, links, users, tags } = post.json_metadata;
     const data = {
       body: post.body,
       json_metadata: {
@@ -175,6 +186,13 @@ class Article extends Component {
             </React.Fragment>
           )}
         </div>
+        <TagWrapper>
+          {tags.map(tag => (
+            <Link to={`/tag/${tag}/hot`}>
+              <Tag>{sentenceCase(tag)}</Tag>
+            </Link>
+          ))}
+        </TagWrapper>
       </div>
     );
   }

@@ -72,7 +72,9 @@ class RecomendedTags extends Component {
         "Astronomy",
         "Space",
         "History",
-        "Philosophy"
+        "Philosophy",
+        "JavaScript",
+        "Artificial Intelligence"
       ],
       Life: [
         "Travel",
@@ -150,7 +152,13 @@ class RecomendedTags extends Component {
                           prevTag => sentenceCase(prevTag) === tag
                         );
                         return (
-                          <Link to={`/tag/${tag.toLowerCase()}`} key={i}>
+                          <Link
+                            to={`/tag/${tag
+                              .toLowerCase()
+                              .split(" ")
+                              .join("-")}`}
+                            key={i}
+                          >
                             <Tag followed={isFollowed}>
                               {tag}
                               {isFollowed && " ✓"}
