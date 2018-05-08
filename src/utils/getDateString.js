@@ -27,6 +27,7 @@ const getDateString = date => {
   const day = date.getDate();
   const monthIndex = date.getMonth();
   const year = date.getFullYear();
+  console.log(date);
 
   const now = new Date();
   if (

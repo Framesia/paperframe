@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import styled from "styled-components";
 
+import { Link } from "react-router-dom";
 import { view } from "react-easy-state";
 import TagStore from "../../stores/Tags";
+import sentenceCase from "sentence-case";
 
 const Title = styled.h3`
   font-family: "Josefin Slab", serif;
@@ -19,15 +21,14 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `;
-const Container = styled.div`
-  padding: 70px 0;
-`;
+const Container = styled.div`padding: 70px 0;`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
   padding: 20px;
   background: #fff;
 `;
+const Tag = styled.button`padding: 5px 10px;`;
 
 class TagInfo extends Component {
   render() {
@@ -41,7 +42,11 @@ class TagInfo extends Component {
             const tagName = Object.keys(tag)[0];
             const tagCount = Object.values(tag)[0];
             if (tagCount > 1) {
-              return <button>{tagName}</button>;
+              return (
+                <Link to={`/tag/${tagName}/hot`}>
+                  <Tag>{sentenceCase(tagName)}</Tag>
+                </Link>
+              );
             } else {
               return null;
             }

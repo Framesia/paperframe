@@ -80,9 +80,7 @@ const TagWrapper = styled.div`
   padding-top: 20px;
   border-top: solid 1px #ddd;
 `;
-const Tag = styled.button`
-  padding: 5px 10px;
-`;
+const Tag = styled.button`padding: 5px 10px;`;
 
 class Article extends Component {
   state = {
@@ -188,7 +186,7 @@ class Article extends Component {
         </div>
         <TagWrapper>
           {tags.map(tag => (
-            <Link to={`/tag/${tag}/hot`}>
+            <Link to={`/tag/${tag}/hot`} key={tag}>
               <Tag>{sentenceCase(tag)}</Tag>
             </Link>
           ))}

@@ -213,7 +213,10 @@ class Feed extends Component {
                         dropdown={
                           <DropdownWrapper>
                             {["hot", "trending", "created"].map(item => (
-                              <Link to={`/tag/${this.props.tag}/${item}`}>
+                              <Link
+                                to={`/tag/${this.props.tag}/${item}`}
+                                key={item}
+                              >
                                 <DropItem>{sentenceCase(item)}</DropItem>
                               </Link>
                             ))}
