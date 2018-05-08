@@ -1,5 +1,14 @@
 const getDateString = date => {
   date = new Date(date);
+  date = new Date(
+    Date.UTC(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate(),
+      date.getHours(),
+      date.getMinutes()
+    )
+  );
   const monthNames = [
     "Jan",
     "Feb",
