@@ -131,6 +131,14 @@ pre {
   white-space: pre-wrap;
   border-radius: 2px;
   border: solid 1px #c0b6f2;
+  overflow-y: auto;
+}
+@media only screen and (max-width: 640px) {
+  pre {
+    width: calc(100% + 40px);
+    position: relative;
+    left: -20px;
+  }
 }
 
 blockquote {
@@ -169,13 +177,6 @@ option {
   margin: 0 5px 5px 0;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-img + sup,
-img + sub {
-  font-family: "Roboto", sans-serif;
-  font-size: 12px;
-  opacity: 0.8;
 }
 
 button code {
@@ -453,8 +454,6 @@ figure img.small {
     height: auto;
     margin-left: -20px;
   }
-}
-@media only screen and (max-width: 960px) {
 }
 
 figcaption {

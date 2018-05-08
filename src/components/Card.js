@@ -64,6 +64,8 @@ const Title = styled.h3`
   margin: 12px 0;
   font-size: 18px;
   letter-spacing: 0.01em;
+
+  width: ${({ hasImage }) => (!hasImage ? "calc(100% + 120px)" : "100%")};
   /* font-weight: normal; */
 `;
 const SubTitle = styled.div`
@@ -94,7 +96,9 @@ const Username = styled.div`
   font-weight: bold;
   opacity: 0.7;
 `;
-const Footer = styled.div`display: flex;`;
+const Footer = styled.div`
+  display: flex;
+`;
 const Votes = styled.div`
   display: flex;
   margin-right: 16px;
@@ -232,7 +236,9 @@ class Card extends Component {
             <Time>{getDateString(data.created)}</Time>
           </Head>
           <Link to={`/@${data.author}/${data.permlink}`}>
-            <Title>{data.title}</Title>
+            <Title hasImage={this.getCover(data.json_metadata)}>
+              {data.title}
+            </Title>
           </Link>
           <User>
             <Link to={`/@${data.author}`}>
@@ -248,9 +254,9 @@ class Card extends Component {
               <Earning>${this.getDollars(data.pending_payout_value)}</Earning>
             </UserRight>
             <ActionWrapper
-              className={`action-wrapper ${AuthStore.me.user
-                ? "show"
-                : "hide"}`}
+              className={`action-wrapper ${
+                AuthStore.me.user ? "show" : "hide"
+              }`}
             >
               {data.isVoted ? (
                 <Action
