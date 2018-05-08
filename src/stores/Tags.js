@@ -1,6 +1,7 @@
 import { store } from "react-easy-state";
 
 import AuthStore from "./Auth";
+import PostStore from "./Post";
 const TagStore = store({
   loading: {
     // tag: false
@@ -62,6 +63,36 @@ const TagStore = store({
   },
   selectLoading(tag) {
     return TagStore.loading[tag];
+  },
+  selectRelatedTags(tag) {
+    const result = {};
+    Object.keys(PostStore.entities).forEach(postId => {
+      const post = PostStore.entities[postId];
+      const tags = post.json_metadata.tags;
+      let hasTag = false;
+      tags.forEach(tagMeta => {
+        if (tagMeta === tag) {
+          hasTag = true;
+        }
+      });
+      tags.forEach(tagMeta => {
+        if (hasTag && tagMeta !== tag) {
+          if (!result[tagMeta]) {
+            result[tagMeta] = 1;
+          } else {
+            result[tagMeta] = result[tagMeta] + 1;
+          }
+        }
+      });
+    });
+
+    return Object.keys(result)
+      .sort((a, b) => {
+        return result[b] - result[a];
+      })
+      .map(item => ({
+        [item]: result[item]
+      }));
   }
 });
 window.TagStore = TagStore;

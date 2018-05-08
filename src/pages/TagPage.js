@@ -8,6 +8,7 @@ import AuthStore from "../stores/Auth";
 import Feed from "../sections/Feed/Feed";
 
 import sentenceCase from "sentence-case";
+import TagInfo from "../sections/TagPage/TagInfo";
 
 const WrapContent = styled.div`
   display: flex;
@@ -38,6 +39,7 @@ class TagPage extends Component {
           <Content>
             <Feed isLogin={AuthStore.isLogin} tag={tag} sortBy={sortBy} />
           </Content>
+          <TagInfo tag={tag} />
         </WrapContent>
       </div>
     );
