@@ -2,9 +2,14 @@ import { store } from "react-easy-state";
 
 import AuthStore from "./Auth";
 import PostStore from "./Post";
+
+import { getTagDefinition } from "../helpers/duckDuckGoApi";
 const TagStore = store({
   loading: {
     // tag: false
+  },
+  definitions: {
+    // tag: {}
   },
 
   followTag(tag) {
@@ -51,6 +56,14 @@ const TagStore = store({
       });
     }
   },
+  getDefinition(tag) {
+    if (!TagStore.definitions[tag]) {
+      getTagDefinition(tag).then(result => {
+        TagStore.definitions[tag] = result.data;
+      });
+    }
+  },
+
   selectFollowedTags() {
     if (
       AuthStore.me.user_metadata &&
@@ -63,6 +76,9 @@ const TagStore = store({
   },
   selectLoading(tag) {
     return TagStore.loading[tag];
+  },
+  selectDefinition(tag) {
+    return TagStore.definitions[tag];
   },
   selectRelatedTags(tag) {
     const result = {};

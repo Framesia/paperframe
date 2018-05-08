@@ -27,23 +27,54 @@ const Content = styled.div`
   border-top: none;
   padding: 20px;
   background: #fff;
+  abbr {
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-size: 0.8em;
+    letter-spacing: 0.1em;
+  }
+  p {
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+
+  .source {
+    font-size: 0.8em;
+    font-style: italic;
+  }
 `;
 const Tag = styled.button`padding: 5px 10px;`;
+const RelatedTagsTitle = styled.h4`font-size: 1em;`;
 
 class TagInfo extends Component {
+  componentDidMount() {
+    TagStore.getDefinition(this.props.tag);
+  }
+
   render() {
     const { tag } = this.props;
     const relatedTags = TagStore.selectRelatedTags(tag);
+    const definition = TagStore.selectDefinition(tag) || {};
+
     return (
       <Wrapper>
-        <Title>Related tags</Title>
+        <Title>{definition.Heading || sentenceCase(tag)}</Title>
         <Content>
+          {definition.Entity && <abbr>{definition.Entity}</abbr>}
+          {definition.AbstractText && <p>{definition.AbstractText}</p>}
+          {definition.AbstractSource && (
+            <a className="source" href={definition.AbstractURL} target="_blank">
+              Source: {definition.AbstractSource}
+            </a>
+          )}
+          <hr />
+          <RelatedTagsTitle>Related tags:</RelatedTagsTitle>
           {relatedTags.map(tag => {
             const tagName = Object.keys(tag)[0];
             const tagCount = Object.values(tag)[0];
             if (tagCount > 1) {
               return (
-                <Link to={`/tag/${tagName}/hot`}>
+                <Link to={`/tag/${tagName}/hot`} key={tagName}>
                   <Tag>{sentenceCase(tagName)}</Tag>
                 </Link>
               );
