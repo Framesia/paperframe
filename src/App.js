@@ -23,7 +23,7 @@ import TagPage from "./pages/TagPage";
 import UserPage from "./pages/UserPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
-import PostStore from "./stores/Post";
+// import PostStore from "./stores/Post";
 import BookmarksPage from "./pages/BookmarksPage";
 
 class ScrollToTop extends Component {

@@ -143,9 +143,11 @@ const Toolbar = ({
         <Tooltip placement="bottom" overlay={<span>Insert link</span>}>
           <button
             className={
-              value.inlines.some(inline => inline.type == "link")
-                ? "active"
-                : ""
+              value.inlines.some(inline => inline.type === "link") ? (
+                "active"
+              ) : (
+                ""
+              )
             }
             onMouseDown={onClickLink}
           >

@@ -123,6 +123,7 @@ const renderNode = props => {
       const src = data.get("src");
       return (
         <img
+          alt=""
           {...props.attributes}
           style={{ cursor: "pointer" }}
           src={`https://steemitimages.com/0x0/${src}`}
@@ -156,6 +157,8 @@ const renderNode = props => {
       return <tr {...props.attributes}>{props.children}</tr>;
     case "table-cell":
       return <td {...props.attributes}>{props.children}</td>;
+    default:
+      return "";
   }
 };
 
