@@ -12,6 +12,8 @@ import "rc-dropdown/assets/index.css";
 import "rc-dialog/assets/index.css";
 import "./App.css";
 
+import "babel-polyfill";
+
 import Header from "./sections/Header/Header";
 
 import HomePage from "./pages/HomePage";
