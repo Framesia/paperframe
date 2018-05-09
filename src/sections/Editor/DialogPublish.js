@@ -7,9 +7,14 @@ import Dialog from "rc-dialog";
 import Button from "../../components/Button";
 
 class DialogPublish extends Component {
+  state = {
+    tags: []
+  };
   componentDidMount() {}
   onSubmit(e) {
     e.preventDefault();
+    const title = window.localStorage.getItem("article-draft-title");
+    const body = window.localStorage.getItem("article-draft-body");
   }
   render() {
     return (
@@ -24,7 +29,10 @@ class DialogPublish extends Component {
       >
         <h3>Publish article</h3>
         <form onSubmit={this.onSubmit}>
-          <input />
+          <TagsInput
+            value={this.state.tags}
+            onChange={tags => this.setState({ tags })}
+          />
           <Button>Publish</Button>
         </form>
         <hr />

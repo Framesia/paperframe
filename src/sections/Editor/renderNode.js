@@ -12,9 +12,17 @@ const renderNode = props => {
   }
   switch (props.node.type) {
     case "code-block":
-      return <pre {...props.attributes}>{props.children}</pre>;
+      return (
+        <pre {...props.attributes}>
+          <code>{props.children}</code>
+        </pre>
+      );
     case "code-line":
-      return <div {...props.attributes}>{props.children}</div>;
+      return (
+        <div className="code-line" {...props.attributes}>
+          {props.children}
+        </div>
+      );
     case "pull-left":
       return (
         <div className="pull-left" {...props.attributes}>

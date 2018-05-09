@@ -133,6 +133,9 @@ pre {
   border: solid 1px #c0b6f2;
   overflow-y: auto;
 }
+pre code {
+  padding: 0 !important;
+}
 @media only screen and (max-width: 640px) {
   pre {
     width: calc(100% + 40px);

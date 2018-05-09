@@ -4,8 +4,8 @@ const md = new Remarkable({
   html: true,
   breaks: true,
   xhtmlOut: true,
-  linkify: true,
-  typographer: true,
+  // linkify: true,
+  // typographer: true,
   quotes: "“”‘’"
 });
 

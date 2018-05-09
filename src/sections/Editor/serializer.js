@@ -21,7 +21,7 @@ const BLOCK_TAGS = {
   table: "table",
   tr: "table-row",
   td: "table-cell",
-  div: "pull-left",
+  div: "div",
   center: "center"
 };
 // Add a dictionary of mark tags.
@@ -51,9 +51,15 @@ const deserializeNode = (el, next) => {
         src: el.src
       };
     }
-    if (type === "pull-left") {
+    if (type === "div") {
       if (el.classList.contains("pull-right")) {
         type = "pull-right";
+      } else if (el.classList.contains("pull-left")) {
+        type = "pull-left";
+      } else if (el.classList.contains("code-line")) {
+        type = "code-line";
+      } else {
+        type = "div";
       }
       data = {
         // pull
@@ -126,6 +132,8 @@ const serializeNode = (obj, children) => {
       case "pull-right":
         return <div className="pull-right">{children}</div>;
       case "code-line":
+        return <div className="code-line">{children}</div>;
+      case "div":
         return <div>{children}</div>;
     }
   }
