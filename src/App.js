@@ -26,6 +26,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 // import PostStore from "./stores/Post";
 import BookmarksPage from "./pages/BookmarksPage";
 import TestRenderPage from "./pages/TestRenderPage";
+import TestSlateRenderPage from "./pages/TestSlateRenderPage";
 
 class ScrollToTop extends Component {
   componentDidUpdate(prevProps) {
@@ -77,6 +78,10 @@ class App extends Component {
 
               <Route path="/me/bookmarks" component={BookmarksPage} />
               <Route path="/test-render" component={TestRenderPage} />
+              <Route
+                path="/test-render-slate"
+                component={TestSlateRenderPage}
+              />
 
               {/*<Route path="/me/topics" component={TagPage} />
               <Route path="/me/bookmarks" component={TagPage} />*/}
