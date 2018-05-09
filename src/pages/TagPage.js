@@ -16,8 +16,14 @@ const WrapContent = styled.div`
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px 0;
+  @media only screen and (max-width: 1000px) {
+    flex-direction: column-reverse;
+  }
 `;
-const Content = styled.div``;
+const Content = styled.div`
+  /* padding: 20px 0; */
+  width: 100%;
+`;
 
 class TagPage extends Component {
   componentWillMount() {

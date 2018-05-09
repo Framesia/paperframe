@@ -123,9 +123,9 @@ const renderToHTML = data => {
           max-width:${width ? width + "px" : "auto"};"
           max-height:${height ? height + "px" : "auto"};
       >
-        <div class="fill" style="padding-bottom:${aspectRatio !== 0
-          ? aspectRatio * 100
-          : 0}%"></div>
+        <div class="fill" style="padding-bottom:${
+          aspectRatio !== 0 ? aspectRatio * 100 : 0
+        }%"></div>
         <img
           class="small"
           src="https://steemitimages.com/20x20/${img}"
@@ -133,9 +133,9 @@ const renderToHTML = data => {
         />
         <img
           class="original"
-          src="https://steemitimages.com/${isGif ? 0 : width}x${isGif
-      ? 0
-      : height}/${img}"
+          src="https://steemitimages.com/${isGif ? 0 : width}x${
+      isGif ? 0 : height
+    }/${img}"
           onload="this.classList.add('loaded')"
         />
       </figure>`;
@@ -148,9 +148,19 @@ const renderToHTML = data => {
       new RegExp(randomId + "-img-" + i + "-", "g"),
       imgElString()
     );
-    value = value.replace(/(<img src=('|"))<figure/, "<figure");
-    value = value.replace(/(<\/figure>('|")>)/, "</figure>");
+    value = value.replace(/(<img src=('|"))<figure/g, "<figure");
+    value = value.replace(/(<\/figure>('|")>)/g, "</figure>");
   });
+
+  // Hanging quote
+  value = value.replace(
+    /<(p|h[1-6]|blockquote)>("|“)/g,
+    '<$1><span class="hanging-double"></span>“'
+  );
+  value = value.replace(
+    /<(p|h[1-6]|blockquote)>('|‘)/g,
+    "<$1><span class='hanging-single'></span>‘"
+  );
 
   return value;
 };

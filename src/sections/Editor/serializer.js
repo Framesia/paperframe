@@ -21,7 +21,7 @@ const BLOCK_TAGS = {
   table: "table",
   tr: "table-row",
   td: "table-cell",
-  div: "div",
+  div: "pull-left",
   center: "center"
 };
 // Add a dictionary of mark tags.
@@ -32,7 +32,9 @@ const MARK_TAGS = {
   b: "bold",
   u: "underline",
   code: "code",
-  abbr: "small-caps"
+  abbr: "small-caps",
+  sup: "sup",
+  sub: "sub"
 };
 
 const INLINE_TAGS = {
@@ -41,7 +43,7 @@ const INLINE_TAGS = {
 };
 
 const deserializeNode = (el, next) => {
-  const type = BLOCK_TAGS[el.tagName.toLowerCase()];
+  let type = BLOCK_TAGS[el.tagName.toLowerCase()];
   if (type) {
     let data = {};
     if (type === "image") {
@@ -49,15 +51,12 @@ const deserializeNode = (el, next) => {
         src: el.src
       };
     }
-    if (type === "div") {
-      let pull = null;
+    if (type === "pull-left") {
       if (el.classList.contains("pull-right")) {
-        pull = "right";
-      } else if (el.classList.contains("pull-left")) {
-        pull = "left";
+        type = "pull-right";
       }
       data = {
-        pull
+        // pull
       };
     }
     return {
@@ -105,7 +104,6 @@ const serializeNode = (obj, children) => {
       case "center":
         return <center>{children}</center>;
       case "image":
-        console.log(obj);
         return <img src={obj.data.get("src")} />;
       case "figure":
         return <figure>{children}</figure>;

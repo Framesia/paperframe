@@ -149,7 +149,7 @@ const renderNode = props => {
       return <center {...props.attributes}>{props.children}</center>;
     case "table":
       return (
-        <table>
+        <table {...props.attributes}>
           <tbody {...props.attributes}>{props.children}</tbody>
         </table>
       );

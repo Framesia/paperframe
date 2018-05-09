@@ -21,7 +21,9 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `;
-const Container = styled.div`padding: 70px 0;`;
+const Container = styled.div`
+  padding: 70px 0;
+`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
@@ -37,14 +39,29 @@ const Content = styled.div`
     margin-top: 10px;
     font-size: 0.9em;
   }
-
+  div {
+    max-width: 100%;
+  }
+  img {
+    opacity: 0;
+    transition: opacity 0.8s;
+    max-width: 100%;
+    height: auto;
+    &.loaded {
+      opacity: 1;
+    }
+  }
   .source {
     font-size: 0.8em;
     font-style: italic;
   }
 `;
-const Tag = styled.button`padding: 5px 10px;`;
-const RelatedTagsTitle = styled.h4`font-size: 1em;`;
+const Tag = styled.button`
+  padding: 5px 10px;
+`;
+const RelatedTagsTitle = styled.h4`
+  font-size: 1em;
+`;
 
 class TagInfo extends Component {
   componentDidMount() {
@@ -61,11 +78,23 @@ class TagInfo extends Component {
     const { tag } = this.props;
     const relatedTags = TagStore.selectRelatedTags(tag);
     const definition = TagStore.selectDefinition(tag) || {};
-
     return (
       <Wrapper>
         <Title>{definition.Heading || sentenceCase(tag)}</Title>
         <Content>
+          {definition.Image && (
+            <div
+              style={{
+                width: definition.ImageWidth,
+                height: definition.ImageHeight
+              }}
+            >
+              <img
+                src={definition.Image}
+                onLoad={e => e.target.classList.add("loaded")}
+              />
+            </div>
+          )}
           {definition.Entity && <abbr>{definition.Entity}</abbr>}
           {definition.AbstractText && <p>{definition.AbstractText}</p>}
           {definition.AbstractSource && (
