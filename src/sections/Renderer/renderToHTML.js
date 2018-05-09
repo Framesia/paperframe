@@ -162,6 +162,11 @@ const renderToHTML = data => {
     "<$1><span class='hanging-single'></span>‘"
   );
 
+  // value = value.replace(
+  //   /<pre><code>('|‘)/g,
+  //   "<$1><span class='hanging-single'></span>‘"
+  // );
+
   return value;
 };
 

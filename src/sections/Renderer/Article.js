@@ -80,7 +80,9 @@ const TagWrapper = styled.div`
   padding-top: 20px;
   border-top: solid 1px #ddd;
 `;
-const Tag = styled.button`padding: 5px 10px;`;
+const Tag = styled.button`
+  padding: 5px 10px;
+`;
 
 class Article extends Component {
   state = {
