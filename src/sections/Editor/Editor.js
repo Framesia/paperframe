@@ -45,6 +45,10 @@ import Axios from "axios";
 import PostStore from "../../stores/Post";
 import Button from "../../components/Button";
 
+import DialogPublish from "./DialogPublish";
+import DialogImage from "./DialogImage";
+import DialogLink from "./DialogLink";
+
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
   typeCell: "table-cell",
@@ -76,7 +80,11 @@ const prismPlugin = PluginPrism({
 
 export default class EditorApp extends React.Component {
   state = {
-    value: serializer.deserialize(""),
+    value: window.localStorage.getItem("article-draft-body")
+      ? serializer.deserialize(
+          window.localStorage.getItem("article-draft-body")
+        )
+      : serializer.deserialize(""),
 
     linkDialogShow: false,
     imageDialogShow: false,
@@ -94,7 +102,20 @@ export default class EditorApp extends React.Component {
     imgUnsplash: []
   };
 
-  componentDidMount() {}
+  componentDidMount() {
+    if (window.localStorage.getItem("article-draft-body")) {
+      this.setState({
+        value: serializer.deserialize(
+          window.localStorage.getItem("article-draft-body")
+        )
+      });
+    }
+    if (window.localStorage.getItem("article-draft-title")) {
+      this.setState({
+        title: window.localStorage.getItem("article-draft-title")
+      });
+    }
+  }
 
   hasMark = type => {
     const { value } = this.state;
@@ -160,6 +181,10 @@ export default class EditorApp extends React.Component {
           }
         });
       }
+      window.localStorage.setItem(
+        "article-draft-body",
+        serializer.serialize(value)
+      );
     });
 
     const change = value
@@ -410,6 +435,7 @@ export default class EditorApp extends React.Component {
           onChange={e => {
             const title = e.target.value.replace(/\n/g, "");
             this.setState({ title });
+            window.localStorage.setItem("article-draft-title", title);
           }}
         />
         <Editor
@@ -426,96 +452,30 @@ export default class EditorApp extends React.Component {
           schema={schema}
         />
         {/* link dialog */}
-        <Dialog
-          visible={this.state.linkDialogShow}
-          animation="zoom"
-          maskAnimation="fade"
-          onClose={() =>
-            this.setState({
-              linkDialogShow: false
-            })}
-          style={{ width: 400 }}
+        <DialogLink
+          linkDialogShow={this.state.linkDialogShow}
+          onSubmitLink={this.onSubmitLink}
+          onChangeLink={linkValue => this.setState({ linkValue })}
+          errorLink={this.state.errorLink}
+          onClose={() => this.setState({ linkDialogShow: false })}
           mousePosition={this.state.mousePosition}
-          destroyOnClose={true}
-        >
-          <h3>Enter link:</h3>
-          <form onSubmit={this.onSubmitLink}>
-            <input
-              className="input"
-              value={this.state.linkValue}
-              placeholder="eg: https://framesia.com/"
-              onChange={e => this.setState({ linkValue: e.target.value })}
-            />
-            <input type="submit" className="submit" />
-          </form>
-          <p
-            className="error"
-            dangerouslySetInnerHTML={{ __html: this.state.errorLink }}
-          />
-          <hr />
-        </Dialog>
+        />
 
         {/* image dialog */}
-        <Dialog
-          visible={this.state.imageDialogShow}
-          animation="zoom"
-          maskAnimation="fade"
-          onClose={() =>
-            this.setState({
-              imageDialogShow: false
-            })}
-          style={{ width: 740 }}
+        <DialogImage
+          imageDialogShow={this.state.imageDialogShow}
+          onSubmitImage={this.onSubmitImage}
+          onClose={() => this.setState({ imageDialogShow: false })}
           mousePosition={this.state.mousePosition}
-          destroyOnClose={true}
-        >
-          <h3>Enter img:</h3>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              this.onSubmitImage(this.state.imageValue);
-              this.setState({ imageValue: "" });
-            }}
-          >
-            <input
-              className="input"
-              value={this.state.imageValue}
-              onChange={e => this.setState({ imageValue: e.target.value })}
-            />
-            <input type="submit" style={{ visibility: "hidden" }} />
-            <Button>Submit</Button>
-          </form>
-          {/*<div>
-            {this.state.imgUnsplash.map(item => (
-              <img
-                style={{ margin: 10 }}
-                src={item.urls.thumb}
-                onClick={() => this.onSubmitImage(item.urls.small)}
-              />
-            ))}
-          </div>*/}
-          <hr />
-        </Dialog>
+        />
 
         {/* publish dialog */}
-        <Dialog
-          visible={this.state.publishDialogShow}
-          animation="zoom"
-          maskAnimation="fade"
-          onClose={() =>
-            this.setState({
-              publishDialogShow: false
-            })}
-          style={{ width: 400 }}
+        <DialogPublish
+          publishDialogShow={this.state.publishDialogShow}
+          onClose={() => this.setState({ publishDialogShow: false })}
           mousePosition={this.state.mousePosition}
-          destroyOnClose={true}
-        >
-          <h3>Publish article</h3>
-          <form>
-            <input />
-            <Button>Publish</Button>
-          </form>
-          <hr />
-        </Dialog>
+          dataBody={serializer.serialize(this.state.value)}
+        />
       </div>
     );
   }
