@@ -471,6 +471,7 @@ export default class EditorApp extends React.Component {
 
         {/* publish dialog */}
         <DialogPublish
+          valueBody={this.state.value}
           publishDialogShow={this.state.publishDialogShow}
           onClose={() => this.setState({ publishDialogShow: false })}
           mousePosition={this.state.mousePosition}

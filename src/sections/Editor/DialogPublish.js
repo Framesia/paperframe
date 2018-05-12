@@ -15,8 +15,12 @@ class DialogPublish extends Component {
     e.preventDefault();
     const title = window.localStorage.getItem("article-draft-title");
     const body = window.localStorage.getItem("article-draft-body");
+    console.log(title, body);
   }
   render() {
+    const tags = this.state.tags.filter((val, i, self) => {
+      return self.indexOf(val) === i;
+    });
     return (
       <Dialog
         visible={this.props.publishDialogShow}
@@ -30,8 +34,12 @@ class DialogPublish extends Component {
         <h3>Publish article</h3>
         <form onSubmit={this.onSubmit}>
           <TagsInput
-            value={this.state.tags}
-            onChange={tags => this.setState({ tags })}
+            value={tags}
+            onChange={tags => {
+              if (tags.length <= 5) {
+                this.setState({ tags });
+              }
+            }}
           />
           <Button>Publish</Button>
         </form>
