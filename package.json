@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "arslugify": "^1.0.1",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "immutable": "^3.8.2",
@@ -40,10 +41,6 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "postbuild": "react-snap"
-  },
-  "devDependencies": {
-    "react-snap": "^1.12.2"
+    "eject": "react-scripts eject"
   }
 }

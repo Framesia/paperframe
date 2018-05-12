@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import TagsInput from "react-tagsinput";
 import "react-tagsinput/react-tagsinput.css";
 
+import arslugify from "arslugify";
+
 import Dialog from "rc-dialog";
 import Button from "../../components/Button";
 
@@ -11,12 +13,16 @@ class DialogPublish extends Component {
     tags: []
   };
   componentDidMount() {}
-  onSubmit(e) {
+  onSubmit = e => {
     e.preventDefault();
     const title = window.localStorage.getItem("article-draft-title");
     const body = window.localStorage.getItem("article-draft-body");
-    console.log(title, body);
-  }
+    const permlink = arslugify(title);
+    const tags = this.state.tags.map(tag => {
+      return arslugify(tag);
+    });
+    console.log(title, body, permlink, tags);
+  };
   render() {
     const tags = this.state.tags.filter((val, i, self) => {
       return self.indexOf(val) === i;
