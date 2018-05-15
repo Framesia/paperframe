@@ -1,17 +1,17 @@
 import React from "react";
-// import ReactDOM from "react-dom";
-import { hydrate, render } from "react-dom";
+import ReactDOM from "react-dom";
+// import { hydrate, render } from "react-dom";
 import "./index.css";
 import "./sanitize.css";
 import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
+import registerServiceWorker, { unregister } from "./registerServiceWorker";
 
-const rootElement = document.getElementById("root");
-if (rootElement.hasChildNodes()) {
-  hydrate(<App />, rootElement);
-} else {
-  render(<App />, rootElement);
-}
+import { BrowserRouter } from "react-router-dom";
 
-// ReactDOM.render(<App />, document.getElementById("root"));
-registerServiceWorker();
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);
+unregister();

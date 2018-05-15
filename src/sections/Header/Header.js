@@ -11,7 +11,9 @@ import { view } from "react-easy-state";
 import AuthStore from "../../stores/Auth";
 
 import AfterLogin from "./AfterLogin";
-import FramesiaLogo from "./framesia-logo.png";
+// import FramesiaLogo from "./framesia-logo.png";
+
+import root from "window-or-global";
 
 const Wrapper = styled.div`
   padding: 0 20px;
@@ -63,8 +65,8 @@ class Header extends Component {
   };
   componentDidMount() {
     let prevScrollY = 0;
-    window.addEventListener("scroll", e => {
-      const { scrollY } = window;
+    root.addEventListener("scroll", e => {
+      const { scrollY } = root;
       if (prevScrollY >= scrollY || scrollY <= 60) {
         this.setState({ headerHide: false });
       } else {
@@ -76,7 +78,7 @@ class Header extends Component {
     AuthStore.getLoginURL();
     if (AuthStore.getAccessToken()) {
       AuthStore.getMe();
-      if (window.location.search.length > 1) {
+      if (root.location.search.length > 1) {
         this.props.history.push({
           pathname: "/",
           search: ""
@@ -106,7 +108,8 @@ class Header extends Component {
           <Container>
             <Logo>
               <Link to="/">
-                <LogoImg src={FramesiaLogo} />
+                {/*<LogoImg src={FramesiaLogo} />*/}
+                <LogoImg />
               </Link>
               <LogoText to="/">Framesia</LogoText>
             </Logo>

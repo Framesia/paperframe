@@ -12,6 +12,7 @@ import "prismjs/components/prism-go";
 import "prismjs/components/prism-php";
 
 import detectLang from "../utils/detectLang";
+import root from "window-or-global";
 
 var loadLanguages = require("prismjs/components/index.js");
 loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
@@ -19,26 +20,26 @@ loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
 class TestRenderPage extends Component {
   componentDidMount() {
     setTimeout(() => {
-      const pres = Array.from(document.querySelectorAll("pre code")).map(
-        code => {
-          const text = code.innerText;
-          let lang = detectLang(text).toLowerCase();
-          if (lang === "unknown") {
-            lang = "";
-          }
-          if (lang === "c++") {
-            lang = "cpp";
-          }
-          const html = Prism.highlight(text, Prism.languages[lang], lang);
-          code.innerHTML = html;
+      const pres = Array.from(
+        root.document.querySelectorAll("pre code")
+      ).map(code => {
+        const text = code.innerText;
+        let lang = detectLang(text).toLowerCase();
+        if (lang === "unknown") {
+          lang = "";
         }
-      );
+        if (lang === "c++") {
+          lang = "cpp";
+        }
+        const html = Prism.highlight(text, Prism.languages[lang], lang);
+        code.innerHTML = html;
+      });
     }, 10);
   }
 
   render() {
     const data = {
-      body: window.localStorage.getItem("article-draft-body"),
+      body: root.localStorage.getItem("article-draft-body"),
       json_metadata: {
         links: [],
         users: [],

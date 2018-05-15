@@ -4,6 +4,7 @@ import { store } from "react-easy-state";
 import steemconnect from "../helpers/steemconnect";
 
 import PostStore from "./Post";
+import root from "window-or-global";
 
 const AuthStore = store({
   isLogin: false,
@@ -76,5 +77,5 @@ const AuthStore = store({
   }
 });
 
-window.AuthStore = AuthStore;
+root.AuthStore = AuthStore;
 export default AuthStore;

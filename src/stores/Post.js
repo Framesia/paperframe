@@ -5,6 +5,7 @@ import axios from "axios";
 import steemconnect from "../helpers/steemconnect";
 import steemApi from "../helpers/steemApi";
 import AuthStore from "./Auth";
+import root from "window-or-global";
 
 const PostStore = store({
   ids: {
@@ -239,5 +240,5 @@ const PostStore = store({
   }
 });
 
-window.PostStore = PostStore;
+root.PostStore = PostStore;
 export default PostStore;

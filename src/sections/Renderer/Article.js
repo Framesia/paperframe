@@ -18,6 +18,8 @@ import ActionWrapper from "./ActionWrapper";
 
 import sentenceCase from "sentence-case";
 
+import root from "window-or-global";
+
 const Header = styled.div`
   display: flex;
   padding: 0 20px;
@@ -80,9 +82,7 @@ const TagWrapper = styled.div`
   padding-top: 20px;
   border-top: solid 1px #ddd;
 `;
-const Tag = styled.button`
-  padding: 5px 10px;
-`;
+const Tag = styled.button`padding: 5px 10px;`;
 
 class Article extends Component {
   state = {

@@ -2,10 +2,11 @@ import sc2 from "sc2-sdk";
 import Cookies from "js-cookie";
 
 import querystring from "querystring";
+import root from "window-or-global";
 
 let data = {
   app: "framesia.app",
-  callbackURL: window.location.origin,
+  callbackURL: root.location ? root.location.origin : "",
   scope: ["vote", "comment", "delete_comment", "comment_options", "custom_json"]
 };
 
@@ -14,7 +15,7 @@ const steemconnect = () => {
   if (accessToken) {
     data.accessToken = accessToken;
   } else {
-    const parsed = querystring.parse(window.location.search);
+    const parsed = querystring.parse(root.location.search);
     if (parsed) {
       const { username } = parsed;
       const access_token = parsed["?access_token"];

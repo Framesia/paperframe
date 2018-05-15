@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button";
 
-import IllustSrc from "./illust.png";
+// import IllustSrc from "./illust.png";
 
 const Wrapper = styled.div`
   background: #333;
@@ -86,10 +86,11 @@ class Landing extends Component {
               <Button type="green">Try out the editor!</Button>
             </Link>
           </div>
-          <Illust
+          {/*<Illust
             src={IllustSrc}
             onLoad={e => e.target.classList.add("loaded")}
-          />
+          />*/}
+          <Illust onLoad={e => e.target.classList.add("loaded")} />
         </Container>
       </Wrapper>
     );

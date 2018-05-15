@@ -3,6 +3,8 @@ import { store } from "react-easy-state";
 import AuthStore from "./Auth";
 import steemApi from "../helpers/steemApi";
 
+import root from "window-or-global";
+
 const UserStore = store({
   entities: {},
   loading: {},
@@ -37,6 +39,6 @@ const UserStore = store({
   }
 });
 
-window.UserStore = UserStore;
+root.UserStore = UserStore;
 
 export default UserStore;

@@ -2,6 +2,7 @@ import { store } from "react-easy-state";
 
 import AuthStore from "./Auth";
 import PostStore from "./Post";
+import root from "window-or-global";
 
 const BookmarkStore = store({
   // loading: {

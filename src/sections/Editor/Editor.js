@@ -49,6 +49,8 @@ import DialogPublish from "./DialogPublish";
 import DialogImage from "./DialogImage";
 import DialogLink from "./DialogLink";
 
+import root from "window-or-global";
+
 const tablePlugin = PluginEditTable({
   typeRow: "table-row",
   typeCell: "table-cell",
@@ -80,10 +82,8 @@ const prismPlugin = PluginPrism({
 
 export default class EditorApp extends React.Component {
   state = {
-    value: window.localStorage.getItem("article-draft-body")
-      ? serializer.deserialize(
-          window.localStorage.getItem("article-draft-body")
-        )
+    value: root.localStorage.getItem("article-draft-body")
+      ? serializer.deserialize(root.localStorage.getItem("article-draft-body"))
       : serializer.deserialize(""),
 
     linkDialogShow: false,
@@ -103,16 +103,16 @@ export default class EditorApp extends React.Component {
   };
 
   componentDidMount() {
-    if (window.localStorage.getItem("article-draft-body")) {
+    if (root.localStorage.getItem("article-draft-body")) {
       this.setState({
         value: serializer.deserialize(
-          window.localStorage.getItem("article-draft-body")
+          root.localStorage.getItem("article-draft-body")
         )
       });
     }
-    if (window.localStorage.getItem("article-draft-title")) {
+    if (root.localStorage.getItem("article-draft-title")) {
       this.setState({
-        title: window.localStorage.getItem("article-draft-title")
+        title: root.localStorage.getItem("article-draft-title")
       });
     }
   }
@@ -182,7 +182,7 @@ export default class EditorApp extends React.Component {
           }
         });
       }
-      window.localStorage.setItem(
+      root.localStorage.setItem(
         "article-draft-body",
         serializer.serialize(value)
       );
@@ -436,7 +436,7 @@ export default class EditorApp extends React.Component {
           onChange={e => {
             const title = e.target.value.replace(/\n/g, "");
             this.setState({ title });
-            window.localStorage.setItem("article-draft-title", title);
+            root.localStorage.setItem("article-draft-title", title);
           }}
         />
         <Editor

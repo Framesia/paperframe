@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import {
   BrowserRouter,
+  StaticRouter,
   Switch,
   Route,
   withRouter,
@@ -30,10 +31,12 @@ import BookmarksPage from "./pages/BookmarksPage";
 import TestRenderPage from "./pages/TestRenderPage";
 import TestSlateRenderPage from "./pages/TestSlateRenderPage";
 
+import root from "window-or-global";
+
 class ScrollToTop extends Component {
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
+      root.scrollTo(0, 0);
     }
   }
 
@@ -44,53 +47,44 @@ class ScrollToTop extends Component {
 const ScrollTop = withRouter(ScrollToTop);
 
 class App extends Component {
-  componentDidUpdate() {
-    console.log(window.location);
-  }
+  componentDidUpdate() {}
   render() {
     return (
       <div>
-        <BrowserRouter>
-          <div>
-            <Helmet>
-              <title>Framesia - Frame your thought and get rewards.</title>
-              <meta
-                name="description"
-                content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!"
-              />
-            </Helmet>
-            <ScrollTop />
-            <Header />
-            <Switch>
-              <Route exact path="/" component={HomePage} />
-              <Route path="/try-editor" component={TryEditorPage} />
-              <Route path="/write" component={WritePage} />
+        <Helmet>
+          <title>Framesia - Frame your thought and get rewards.</title>
+          <meta
+            name="description"
+            content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!"
+          />
+        </Helmet>
+        <ScrollTop />
+        <Header />
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/try-editor" component={TryEditorPage} />
+          <Route path="/write" component={WritePage} />
 
-              <Route path="/@:author/:permlink" component={ArticlePage} />
-              <Route path="/@:username/" component={UserPage} />
+          <Route path="/@:author/:permlink" component={ArticlePage} />
+          <Route path="/@:username/" component={UserPage} />
 
-              <Route path="/tag/:tag/:sortBy" component={TagPage} />
-              <Route
-                exact
-                path="/tag/:tag"
-                render={props => (
-                  <Redirect to={`/tag/${props.match.params.tag}/hot`} />
-                )}
-              />
+          <Route path="/tag/:tag/:sortBy" component={TagPage} />
+          <Route
+            exact
+            path="/tag/:tag"
+            render={props => (
+              <Redirect to={`/tag/${props.match.params.tag}/hot`} />
+            )}
+          />
 
-              <Route path="/me/bookmarks" component={BookmarksPage} />
-              <Route path="/test-render" component={TestRenderPage} />
-              <Route
-                path="/test-render-slate"
-                component={TestSlateRenderPage}
-              />
+          <Route path="/me/bookmarks" component={BookmarksPage} />
+          <Route path="/test-render" component={TestRenderPage} />
+          <Route path="/test-render-slate" component={TestSlateRenderPage} />
 
-              {/*<Route path="/me/topics" component={TagPage} />
+          {/*<Route path="/me/topics" component={TagPage} />
               <Route path="/me/bookmarks" component={TagPage} />*/}
-              <Route component={NotFoundPage} />
-            </Switch>
-          </div>
-        </BrowserRouter>
+          <Route component={NotFoundPage} />
+        </Switch>
       </div>
     );
   }

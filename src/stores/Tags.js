@@ -2,6 +2,7 @@ import { store } from "react-easy-state";
 
 import AuthStore from "./Auth";
 import PostStore from "./Post";
+import root from "window-or-global";
 
 import { getTagDefinition } from "../helpers/duckDuckGoApi";
 const TagStore = store({
@@ -111,5 +112,5 @@ const TagStore = store({
       }));
   }
 });
-window.TagStore = TagStore;
+root.TagStore = TagStore;
 export default TagStore;
