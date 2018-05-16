@@ -21,7 +21,9 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `;
-const Container = styled.div`padding: 70px 0;`;
+const Container = styled.div`
+  padding: 70px 0;
+`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
@@ -54,8 +56,12 @@ const Content = styled.div`
     font-style: italic;
   }
 `;
-const Tag = styled.button`padding: 5px 10px;`;
-const RelatedTagsTitle = styled.h4`font-size: 1em;`;
+const Tag = styled.button`
+  padding: 5px 10px;
+`;
+const RelatedTagsTitle = styled.h4`
+  font-size: 1em;
+`;
 
 class TagInfo extends Component {
   componentDidMount() {
@@ -77,11 +83,18 @@ class TagInfo extends Component {
   }
 
   render() {
-    console.log(root.STATE.tags.definitions);
     const { tag } = this.props;
+    let tagState = {};
+    if (
+      root.STATE &&
+      root.STATE.tags &&
+      root.STATE.definitions &&
+      root.STATE.tags.definitions[tag]
+    ) {
+      tagState = root.STATE.tags.definitions[tag];
+    }
     const relatedTags = TagStore.selectRelatedTags(tag);
-    const definition =
-      TagStore.selectDefinition(tag) || root.STATE.tags.definitions[tag];
+    const definition = TagStore.selectDefinition(tag) || tagState;
     return (
       <Wrapper>
         <Title>{definition.Heading || sentenceCase(tag)}</Title>

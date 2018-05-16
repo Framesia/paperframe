@@ -11,7 +11,6 @@ import { view } from "react-easy-state";
 import AuthStore from "../../stores/Auth";
 
 import AfterLogin from "./AfterLogin";
-// import FramesiaLogo from "./framesia-logo.png";
 
 import root from "window-or-global";
 
@@ -57,7 +56,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-const Slip = styled.div`height: 60px;`;
+const Slip = styled.div`
+  height: 60px;
+`;
 
 class Header extends Component {
   state = {
@@ -108,8 +109,7 @@ class Header extends Component {
           <Container>
             <Logo>
               <Link to="/">
-                {/*<LogoImg src={FramesiaLogo} />*/}
-                <LogoImg />
+                <LogoImg src="/framesia-logo-small.png" />
               </Link>
               <LogoText to="/">Framesia</LogoText>
             </Logo>

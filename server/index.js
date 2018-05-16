@@ -1,6 +1,6 @@
 const app = require("./app");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3001;
 
 // Why don't I need http createServer
 app.listen(PORT, () => {

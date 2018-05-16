@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // Setup logger
 app.use(morgan("combined"));
 
+app.use(fetchData({ type: null }));
 app.use("/tag/:tag/:sortBy", fetchData({ type: "tag" }));
 
 app.use("/", index);

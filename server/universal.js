@@ -14,8 +14,7 @@ const { default: App } = require("../src/App");
 import Helmet from "react-helmet";
 
 module.exports = function universalLoader(req, res) {
-  const filePath = path.resolve(__dirname, "..", "build", "index.html");
-
+  const filePath = path.resolve(__dirname, "..", "build", "index.server.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
       console.error("read err", err);

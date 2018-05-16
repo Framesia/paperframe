@@ -31,22 +31,26 @@ class HomePage extends Component {
   render() {
     return (
       <div>
+        <Landing />
+        {/* this still rendered in server */}
         {!AuthStore.getAccessToken(false) && <Landing />}
         <WrapContent>
           <Content>
-            {AuthStore.getAccessToken(false) ? AuthStore.me.user_metadata &&
-            AuthStore.me.user_metadata.follow_tags &&
-            Array.isArray(AuthStore.me.user_metadata.follow_tags) &&
-            AuthStore.me.user_metadata.follow_tags.length > 0 ? (
-              AuthStore.me.user_metadata.follow_tags.map((tag, i) => (
-                <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />
-              ))
-            ) : AuthStore.me.user_metadata &&
-            (!AuthStore.me.user_metadata.follow_tags ||
-              Array.isArray(AuthStore.me.user_metadata.follow_tags)) ? (
-              <FirstTimeLogin />
-            ) : (
-              <Loader />
+            {AuthStore.getAccessToken(false) ? (
+              AuthStore.me.user_metadata &&
+              AuthStore.me.user_metadata.follow_tags &&
+              Array.isArray(AuthStore.me.user_metadata.follow_tags) &&
+              AuthStore.me.user_metadata.follow_tags.length > 0 ? (
+                AuthStore.me.user_metadata.follow_tags.map((tag, i) => (
+                  <Feed isLogin={AuthStore.isLogin} tag={tag} key={i} />
+                ))
+              ) : AuthStore.me.user_metadata &&
+              (!AuthStore.me.user_metadata.follow_tags ||
+                Array.isArray(AuthStore.me.user_metadata.follow_tags)) ? (
+                <FirstTimeLogin />
+              ) : (
+                <Loader />
+              )
             ) : (
               <React.Fragment>
                 <Feed isLogin={false} tag="science" />
