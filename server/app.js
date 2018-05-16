@@ -18,6 +18,8 @@ const universalLoader = require("./universal");
 
 const app = express();
 
+const fetchData = require("./routes/fetchData");
+
 // Support Gzip
 app.use(compression());
 
@@ -27,6 +29,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Setup logger
 app.use(morgan("combined"));
+
+app.use("/tag/:tag/:sortBy", fetchData({ type: "tag" }));
 
 app.use("/", index);
 

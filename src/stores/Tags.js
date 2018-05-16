@@ -5,13 +5,18 @@ import PostStore from "./Post";
 import root from "window-or-global";
 
 import { getTagDefinition } from "../helpers/duckDuckGoApi";
+const TAGS_STATE = root.STATE
+  ? root.STATE.tags
+  : { loading: {}, definitions: {} };
+
 const TagStore = store({
-  loading: {
-    // tag: false
-  },
-  definitions: {
-    // tag: {}
-  },
+  ...TAGS_STATE,
+  // loading: {
+  //   // tag: false
+  // },
+  // definitions: {
+  //   // tag: {}
+  // },
 
   followTag(tag) {
     const prevMetadata = AuthStore.me.user_metadata;

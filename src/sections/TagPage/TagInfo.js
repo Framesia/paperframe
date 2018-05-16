@@ -21,9 +21,7 @@ const Wrapper = styled.div`
   padding: 0 20px;
   margin: 0 auto;
 `;
-const Container = styled.div`
-  padding: 70px 0;
-`;
+const Container = styled.div`padding: 70px 0;`;
 const Content = styled.div`
   border: solid 1px #eee;
   border-top: none;
@@ -56,28 +54,34 @@ const Content = styled.div`
     font-style: italic;
   }
 `;
-const Tag = styled.button`
-  padding: 5px 10px;
-`;
-const RelatedTagsTitle = styled.h4`
-  font-size: 1em;
-`;
+const Tag = styled.button`padding: 5px 10px;`;
+const RelatedTagsTitle = styled.h4`font-size: 1em;`;
 
 class TagInfo extends Component {
   componentDidMount() {
-    TagStore.getDefinition(this.props.tag);
+    const { tag } = this.props;
+    const definition = TagStore.selectDefinition(tag);
+    if (!definition) {
+      TagStore.getDefinition(this.props.tag);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.tag !== nextProps.tag) {
-      TagStore.getDefinition(nextProps.tag);
+      const { tag } = nextProps;
+      const definition = TagStore.selectDefinition(tag);
+      if (!definition) {
+        TagStore.getDefinition(nextProps.tag);
+      }
     }
   }
 
   render() {
+    console.log(root.STATE.tags.definitions);
     const { tag } = this.props;
     const relatedTags = TagStore.selectRelatedTags(tag);
-    const definition = TagStore.selectDefinition(tag) || {};
+    const definition =
+      TagStore.selectDefinition(tag) || root.STATE.tags.definitions[tag];
     return (
       <Wrapper>
         <Title>{definition.Heading || sentenceCase(tag)}</Title>

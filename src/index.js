@@ -8,7 +8,7 @@ import registerServiceWorker, { unregister } from "./registerServiceWorker";
 
 import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <BrowserRouter>
     <App />
   </BrowserRouter>,

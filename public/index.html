@@ -11,10 +11,7 @@
   <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest">
   <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#5bbad5">
   <meta name="msapplication-TileColor" content="#2b5797">
-  <meta name="theme-color" content="#ffffff">
-  {{HELMET-TITLE}}
-  {{HELMET-META}}
-  {{HELMET-LINK}}
+  <meta name="theme-color" content="#ffffff"> {{HELMET-TITLE}} {{HELMET-META}} {{HELMET-LINK}}
   <meta name="description" content="Framesia is a platform where users are rewarded for sharing their voice. It is free to post, comment, & vote on content. You might even get paid for it!"
   />
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
@@ -28,8 +25,7 @@
       }
     });
   </script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css">
-  {{STYLED}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css"> {{STYLED}}
 </head>
 
 <body {{body-attr}}>
@@ -37,8 +33,7 @@
     You need to enable JavaScript to run this app.
   </noscript>
   <div id="root">{{SSR}}</div>
-  <script>
-    window.STATE = {{STATE}}
+  {{STATE}}
   </script>
 </body>
 

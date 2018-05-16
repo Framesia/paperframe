@@ -5,13 +5,13 @@ const React = require("react");
 const { renderToString } = require("react-dom/server");
 const { StaticRouter } = require("react-router-dom");
 
-import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
+import { ServerStyleSheet, StyleSheetManager } from "styled-components";
 
-const sheet = new ServerStyleSheet()
+const sheet = new ServerStyleSheet();
 
 const { default: App } = require("../src/App");
 
-import Helmet from 'react-helmet'
+import Helmet from "react-helmet";
 
 module.exports = function universalLoader(req, res) {
   const filePath = path.resolve(__dirname, "..", "build", "index.html");
@@ -46,6 +46,10 @@ module.exports = function universalLoader(req, res) {
         .replace("{{HELMET-LINK}}", helmet.link.toString())
         .replace("{{html-attr}}", helmet.htmlAttributes.toString())
         .replace("{{body-attr}}", helmet.bodyAttributes.toString())
+        .replace(
+          "{{STATE}}",
+          `<script>window.STATE = ${JSON.stringify(req.state)}</script>`
+        );
       res.send(RenderedApp);
     }
   });
