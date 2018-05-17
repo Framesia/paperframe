@@ -31,7 +31,6 @@ class HomePage extends Component {
   render() {
     return (
       <div>
-        <Landing />
         {/* this still rendered in server */}
         {!AuthStore.getAccessToken(false) && <Landing />}
         <WrapContent>
