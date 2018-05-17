@@ -7,6 +7,8 @@ import steemApi from "../helpers/steemApi";
 import AuthStore from "./Auth";
 import root from "window-or-global";
 
+import arslugify from "arslugify";
+
 const PostStore = store({
   ids: {
     // trending: { tag: { author/permlink: true }}
@@ -22,6 +24,7 @@ const PostStore = store({
   create: {
     error: false,
     loading: false,
+    success: false,
     data: {}
   },
 
@@ -165,10 +168,25 @@ const PostStore = store({
     }
   },
 
-  createPost({ title, permlink, body, category, tags, links, image }) {
+  createPost({ title, body, tags }) {
     const api = steemconnect();
     const author = AuthStore.me.name;
     const operations = [];
+
+    const permlink = arslugify(title);
+    tags = tags.map(tag => arslugify(tag));
+    const category = tags[0];
+    // extract images from img src
+    let image = body.match(/<img[^>]+src="([^">]+)"/g);
+    if (image && image.length) {
+      image = image.map(img => img.replace(/<img[^>]+src="([^">]+)"/, "$1"));
+    }
+    // extract links from a href
+    let links = body.match(/<a[^>]+href="([^">]+)"/g);
+    if (links && links.length) {
+      links = links.map(link => link.replace(/<a[^>]+href="([^">]+)"/, "$1"));
+    }
+
     const commentOp = [
       "comment",
       {
@@ -201,13 +219,26 @@ const PostStore = store({
     };
     operations.push(["comment_options", commentOptionsConfig]);
 
-    // PostStore.create.loading = true;
+    PostStore.create.loading = true;
+    PostStore.create.data = {};
+    PostStore.create.error = false;
+    PostStore.create.success = false;
+    // setTimeout(() => {
+    //   PostStore.create.loading = false;
+    // }, 5000);
     api.broadcast(operations, (err, res) => {
+      console.log(err, res);
       if (err) {
+        PostStore.create.error = true;
+        PostStore.create.loading = false;
+      } else {
+        PostStore.create.data = res;
+        PostStore.create.loading = false;
+        PostStore.create.success = true;
+        root.localStorage.removeItem("article-draft-title");
+        root.localStorage.removeItem("article-draft-body");
+        root.localStorage.removeItem("article-draft-tags");
       }
-      console.log(res);
-      // PostStore.create.data = res
-      // PostStore.create.loading = false;
     });
   },
 
