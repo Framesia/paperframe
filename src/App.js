@@ -65,6 +65,17 @@ class App extends Component {
           <Route path="/try-editor" component={TryEditorPage} />
           <Route path="/write" component={WritePage} />
 
+          <Route
+            exact
+            path="/:category/@:author/:permlink"
+            render={props => (
+              <Redirect
+                to={`/@${props.match.params.author}/${
+                  props.match.params.permlink
+                }`}
+              />
+            )}
+          />
           <Route path="/@:author/:permlink" component={ArticlePage} />
           <Route path="/@:username/" component={UserPage} />
 

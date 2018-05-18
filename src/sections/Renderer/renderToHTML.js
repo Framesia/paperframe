@@ -162,6 +162,12 @@ const renderToHTML = data => {
     "<$1><span class='hanging-single'></span>‘"
   );
 
+  // links to this
+  value = value.replace(
+    /https?:\/\/(steemit\.com|busy\.org)/g,
+    "https://framesia.com"
+  );
+
   // value = value.replace(
   //   /<pre><code>('|‘)/g,
   //   "<$1><span class='hanging-single'></span>‘"
