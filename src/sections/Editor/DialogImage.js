@@ -25,7 +25,8 @@ class DialogImage extends Component {
           }}
         >
           <input
-            className="input"
+            className="input image"
+            placeholder="Add image URL"
             value={this.state.imageValue}
             onChange={e => this.setState({ imageValue: e.target.value })}
           />

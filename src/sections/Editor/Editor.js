@@ -312,15 +312,17 @@ export default class EditorApp extends React.Component {
   onSubmitImage = data => {
     const { value } = this.state;
     const change = value.change();
-    change.insertInline({
-      type: "image",
-      isVoid: true,
-      data: {
-        src: data
-      }
-    });
-    this.setState({ imageDialogShow: false });
-    this.onChange(change);
+    if (isUrl(data)) {
+      change.insertInline({
+        type: "image",
+        isVoid: true,
+        data: {
+          src: data
+        }
+      });
+      this.setState({ imageDialogShow: false });
+      this.onChange(change);
+    }
   };
 
   onInsertTable = e => {

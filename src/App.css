@@ -346,6 +346,11 @@ table p {
   border-right: none;
   /* font-family: "Crimson Text", serif; */
 }
+.rc-dialog-content .image {
+  width: 300px;
+  border-right: solid 1px #ddd;
+  /* font-family: "Crimson Text", serif; */
+}
 .rc-dialog-content .submit {
   padding: 6px 10px;
   background: #fff;
