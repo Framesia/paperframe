@@ -13,7 +13,7 @@ const BLOCK_TAGS = {
   blockquote: "block-quote",
   ol: "numbered-list",
   ul: "bulleted-list",
-  li: "bulleted-item",
+  li: "list-item",
   figure: "figure",
   img: "image",
   figcaption: "figcaption",
@@ -103,9 +103,7 @@ const serializeNode = (obj, children) => {
         return <ol>{children}</ol>;
       case "bulleted-list":
         return <ul>{children}</ul>;
-      case "bulleted-item":
-        return <li>{children}</li>;
-      case "numbered-item":
+      case "list-item":
         return <li>{children}</li>;
       case "center":
         return <center>{children}</center>;
