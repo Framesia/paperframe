@@ -67,6 +67,7 @@ const Title = styled.h3`
 
   width: ${({ hasImage }) => (!hasImage ? "calc(100% + 120px)" : "100%")};
   /* font-weight: normal; */
+  letter-spacing: -0.02em;
 `;
 const SubTitle = styled.div`
   font-size: 14px;

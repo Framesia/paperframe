@@ -20,6 +20,20 @@ import sentenceCase from "sentence-case";
 
 import root from "window-or-global";
 
+import Prism from "prismjs";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-go";
+import "prismjs/components/prism-php";
+
+import detectLang from "../../utils/detectLang";
+
+var loadLanguages = require("prismjs/components/index.js");
+loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
+
 const Header = styled.div`
   display: flex;
   padding: 0 20px;
@@ -82,12 +96,15 @@ const TagWrapper = styled.div`
   padding-top: 20px;
   border-top: solid 1px #ddd;
 `;
-const Tag = styled.button`padding: 5px 10px;`;
+const Tag = styled.button`
+  padding: 5px 10px;
+`;
 
 class Article extends Component {
   state = {
     // value: ""
-    showActions: true
+    showActions: true,
+    codeHasBeenRendered: false
   };
   componentDidMount() {
     const { author, permlink } = this.props.params;
@@ -103,6 +120,26 @@ class Article extends Component {
       }
       prevScrollY = scrollY;
     });
+  }
+
+  highlightCode() {
+    setTimeout(() => {
+      const pres = Array.from(root.document.querySelectorAll("pre code")).map(
+        code => {
+          const text = code.innerText;
+          let lang = detectLang(text).toLowerCase();
+          if (lang === "unknown") {
+            lang = "";
+          }
+          if (lang === "c++") {
+            lang = "cpp";
+          }
+          const html = Prism.highlight(text, Prism.languages[lang], lang);
+          code.innerHTML = html;
+        }
+      );
+      this.setState({ codeHasBeenRendered: true });
+    }, 50);
   }
 
   render() {
@@ -133,6 +170,10 @@ class Article extends Component {
       imageSizes: post.imageSizes ? [...post.imageSizes] : []
     };
     const description = removeMd(post.body).slice(0, 150);
+
+    if (data.body && !this.state.codeHasBeenRendered) {
+      this.highlightCode();
+    }
 
     return (
       <div>

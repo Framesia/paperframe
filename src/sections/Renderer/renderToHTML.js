@@ -62,10 +62,10 @@ const renderToHTML = data => {
   value = value.replace(/<\/([a-z+])>/gi, "</$1>");
 
   // small caps
-  value = value.replace(
-    /([^a-zA-Z0-9])([A-Z\.]{2,})([^a-zA-Z0-9])/g,
-    "$1<abbr>$2</abbr>$3"
-  );
+  // value = value.replace(
+  //   /([^a-zA-Z0-9])([A-Z\.]{2,})([^a-zA-Z0-9])/g,
+  //   "$1<abbr>$2</abbr>$3"
+  // );
 
   // remarkable markdown render
   value = md.render(value);

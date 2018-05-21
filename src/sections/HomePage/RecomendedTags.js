@@ -53,7 +53,7 @@ const Tag = styled.div`
   background: ${({ followed }) => (!followed ? "#f6f6f6" : "#fffae5")};
   border: solid 1px ${({ followed }) => (!followed ? "#eee" : "#fff0b2")};
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
 `;
 
 class RecomendedTags extends Component {

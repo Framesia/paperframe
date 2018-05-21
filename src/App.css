@@ -1,10 +1,13 @@
 body,
 html {
   font-size: 16px;
-  font-family: "Roboto", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   /* color: #172b4d; */
   color: #333;
   word-wrap: break-word;
+  font-kerning: normal;
+  font-feature-settings: "kern", "liga", "clig", "calt";
+  letter-spacing: -0.01em;
 }
 a {
   text-decoration: none;
@@ -14,7 +17,7 @@ a {
   padding-bottom: 30px;
   cursor: text;
   font-size: 20px;
-  font-family: "Crimson Text", serif;
+  font-family: "Spectral", serif;
   /* color: #172b4d; */
   color: #333;
 }
@@ -24,12 +27,13 @@ h3,
 h4,
 h5,
 h5 {
-  font-family: "Roboto", sans-serif;
-  clear: both;
+  font-family: "IBM Plex Sans", sans-serif;
+  /* clear: both; */
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .title {
-  font-family: "Roboto", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
   padding: 0 10px;
   margin-top: 50px;
   font-size: 40px;
@@ -62,24 +66,27 @@ h5 {
   padding: 0 10px;
 }
 button {
-  font-family: "Roboto", sans-serif;
+  font-family: "IBM Plex Sans", sans-serif;
+}
+.article {
+  letter-spacing: -0.03em;
 }
 p,
 li {
   font-size: 20px;
-  font-family: "Crimson Text", serif;
-  line-height: 1.35;
+  font-family: "Spectral", serif;
+  line-height: 1.4;
   font-weight: 300;
-  /* letter-spacing: -.02em; */
+  letter-spacing: -0.03em;
 }
 li p {
 }
 p abbr,
 li abbr {
   /* font-family: "Alegreya SC", serif; */
-  text-transform: uppercase;
+  /* text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 18px;
+  font-size: 18px; */
   /* text-shadow: -0.05px 0 #333, 0 0.05px #333, 0.05px 0 #333, 0 -0.05px #333; */
   /* margin: 0 2px; */
 }
@@ -105,6 +112,7 @@ code {
   padding: 3px 5px;
   background: #eae6ff;
   font-family: monospace !important;
+  letter-spacing: 0;
 }
 
 h1 code {
@@ -201,13 +209,13 @@ h2 {
   font-weight: normal;
   font-size: 28px;
   margin-bottom: 10px;
-  opacity: 0.7;
+  /* opacity: 0.7; */
 }
 h3,
 h4,
 h5,
 h6 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
@@ -264,7 +272,7 @@ table * {
 }
 table p {
   /* font-size: 16px; */
-  /* font-family: "Roboto", sans-serif; */
+  /* font-family: "IBM Plex Sans", sans-serif; */
 }
 
 .dropdown {
@@ -299,7 +307,7 @@ table p {
 }
 
 .dropdown .paragraph {
-  font-family: "Crimson Text", serif;
+  font-family: "Spectral", serif;
 }
 .dropdown .heading-one {
   font-size: 20px;
@@ -344,19 +352,19 @@ table p {
   border: solid 1px #ddd;
   font-size: 14px;
   border-right: none;
-  /* font-family: "Crimson Text", serif; */
+  /* font-family: "Spectral", serif; */
 }
 .rc-dialog-content .image {
   width: 300px;
   border-right: solid 1px #ddd;
-  /* font-family: "Crimson Text", serif; */
+  /* font-family: "Spectral", serif; */
 }
 .rc-dialog-content .submit {
   padding: 6px 10px;
   background: #fff;
   font-size: 14px;
   border: solid 1px #ddd;
-  /* font-family: "Crimson Text", sans-serif; */
+  /* font-family: "Spectral", sans-serif; */
   /* text-transform: lowercase; */
 }
 .rc-dialog-close {
@@ -373,7 +381,7 @@ ul {
   padding-left: 22px;
 }
 .hanging-double {
-  margin-left: -0.3em;
+  margin-left: -0.4em;
 }
 h1 .hanging-double,
 h2 .hanging-double,
@@ -381,7 +389,7 @@ h3 .hanging-double,
 h4 .hanging-double,
 h5 .hanging-double,
 h6 .hanging-double {
-  margin-left: -0.36em;
+  margin-left: -0.5em;
 }
 
 blockquote .hanging-double {
@@ -397,7 +405,7 @@ h3 .hanging-single,
 h4 .hanging-single,
 h5 .hanging-single,
 h6 .hanging-single {
-  margin-left: -0.18em;
+  margin-left: -0.25em;
 }
 
 blockquote .hanging-single {
