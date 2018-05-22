@@ -171,7 +171,7 @@ class Article extends Component {
     };
     const description = removeMd(post.body).slice(0, 150);
 
-    if (data.body && !this.state.codeHasBeenRendered) {
+    if (data.body.length > 2 && !this.state.codeHasBeenRendered) {
       this.highlightCode();
     }
 
