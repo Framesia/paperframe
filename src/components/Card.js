@@ -216,6 +216,13 @@ class Card extends Component {
   getDollars(sbd) {
     return parseFloat(sbd.split(" ")[0]).toFixed(2);
   }
+  typograph(text) {
+    return text
+      .replace(/'(\w)/g, "‘$1")
+      .replace(/'/g, "’")
+      .replace(/"(\w)/g, "“$1")
+      .replace(/"/g, "”");
+  }
   // getSubtitle(body) {
   //   console.log(removeMd(body));
   //   return "";
@@ -238,7 +245,7 @@ class Card extends Component {
           </Head>
           <Link to={`/@${data.author}/${data.permlink}`}>
             <Title hasImage={this.getCover(data.json_metadata)}>
-              {data.title}
+              {this.typograph(data.title)}
             </Title>
           </Link>
           <User>
