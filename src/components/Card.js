@@ -13,6 +13,8 @@ import getDateString from "../utils/getDateString";
 
 import Icon from "./Icon";
 
+import getDollars from "../utils/getDollars";
+
 const Wrapper = styled.div`
   padding: 12px 0;
   border-bottom: solid 1px #eee;
@@ -213,16 +215,6 @@ class Card extends Component {
     }
     return "";
   }
-  getDollars(data) {
-    const pendingPayout = data.pending_payout_value.split(" ")[0] * 1;
-    if (pendingPayout) {
-      return parseFloat(pendingPayout).toFixed(2);
-    } else {
-      const authorPayout = data.total_payout_value.split(" ")[0] * 1;
-      const curatorPayout = data.curator_payout_value.split(" ")[0] * 1;
-      return parseFloat(authorPayout + curatorPayout).toFixed(2);
-    }
-  }
   typograph(text) {
     return text
       .replace(/'(\w)/g, "‘$1")
@@ -266,7 +258,7 @@ class Card extends Component {
               <Link to={`/@${data.author}`}>
                 <Username>{data.author}</Username>
               </Link>
-              <Earning>${this.getDollars(data)}</Earning>
+              <Earning>${getDollars(data)}</Earning>
             </UserRight>
             <ActionWrapper
               className={`action-wrapper ${

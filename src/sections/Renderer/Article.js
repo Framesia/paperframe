@@ -30,6 +30,7 @@ import "prismjs/components/prism-go";
 import "prismjs/components/prism-php";
 
 import detectLang from "../../utils/detectLang";
+import getDollars from "../../utils/getDollars";
 
 var loadLanguages = require("prismjs/components/index.js");
 loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
@@ -99,6 +100,7 @@ const TagWrapper = styled.div`
 const Tag = styled.button`
   padding: 5px 10px;
 `;
+const Footer = styled.div``;
 
 class Article extends Component {
   state = {
@@ -195,15 +197,12 @@ class Article extends Component {
             <Link to={`/@${post.author}`}>
               <Ava
                 src={`https://steemitimages.com/u/${post.author}/avatar/small`}
+                onLoad={e => e.target.classList.add("loaded")}
               />
             </Link>
             <Username>
               <Link to={`/@${post.author}`}>{post.author}</Link>
-              <Earning>
-                ${parseFloat(post.pending_payout_value.split(" ")[0]).toFixed(
-                  2
-                )}
-              </Earning>
+              <Earning>${getDollars(post)}</Earning>
             </Username>
           </User>
 
@@ -234,6 +233,7 @@ class Article extends Component {
             </Link>
           ))}
         </TagWrapper>
+        <Footer />
       </div>
     );
   }
