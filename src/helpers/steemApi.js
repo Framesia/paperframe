@@ -41,6 +41,12 @@ const api = {
       type: "get_accounts",
       data: [[username]]
     });
+  },
+  getComments({ category, author, permlink }) {
+    return fetchSteemit({
+      type: "get_state",
+      data: [`/${category}/@${author}/${permlink}`]
+    });
   }
 };
 
