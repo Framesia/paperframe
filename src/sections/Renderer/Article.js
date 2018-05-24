@@ -31,6 +31,7 @@ import "prismjs/components/prism-php";
 
 import detectLang from "../../utils/detectLang";
 import getDollars from "../../utils/getDollars";
+import typograph from "../../utils/typograph";
 
 var loadLanguages = require("prismjs/components/index.js");
 loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
@@ -214,7 +215,7 @@ class Article extends Component {
           </Right>
         </Header>
         <div>
-          <h1 className="title">{post.title}</h1>
+          <h1 className="title">{typograph(post.title)}</h1>
           {loading ? (
             <Loader />
           ) : (

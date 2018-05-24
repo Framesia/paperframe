@@ -14,6 +14,7 @@ import getDateString from "../utils/getDateString";
 import Icon from "./Icon";
 
 import getDollars from "../utils/getDollars";
+import typograph from "../utils/typograph";
 
 const Wrapper = styled.div`
   padding: 12px 0;
@@ -215,13 +216,6 @@ class Card extends Component {
     }
     return "";
   }
-  typograph(text) {
-    return text
-      .replace(/'(\w)/g, "‘$1")
-      .replace(/'/g, "’")
-      .replace(/"(\w)/g, "“$1")
-      .replace(/"/g, "”");
-  }
   // getSubtitle(body) {
   //   console.log(removeMd(body));
   //   return "";
@@ -244,7 +238,7 @@ class Card extends Component {
           </Head>
           <Link to={`/@${data.author}/${data.permlink}`}>
             <Title hasImage={this.getCover(data.json_metadata)}>
-              {this.typograph(data.title)}
+              {typograph(data.title)}
             </Title>
           </Link>
           <User>
