@@ -160,7 +160,6 @@ export default class EditorApp extends React.Component {
 
     texts.forEach(node => {
       const { key, text } = node;
-      console.log(isUrl(text));
       const parts = text.split(regex);
       let offset = 0;
       const matches = text.match(regex);
@@ -182,10 +181,10 @@ export default class EditorApp extends React.Component {
           }
         });
       }
-      root.localStorage.setItem(
-        "article-draft-body",
-        serializer.serialize(value)
-      );
+      // root.localStorage.setItem(
+      //   "article-draft-body",
+      //   serializer.serialize(value)
+      // );
     });
 
     const change = value

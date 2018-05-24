@@ -122,7 +122,7 @@ const PostStore = store({
           }
         });
         axios
-          .get("https://image-size-api.glitch.me/", {
+          .get("https://frms-image-size.herokuapp.com/", {
             params: {
               image
             }
@@ -130,17 +130,11 @@ const PostStore = store({
           .then(({ data }) => {
             PostStore.loading[id] = false;
             post.imageSizes = data.result;
-            PostStore.entities[id] = {
-              ...PostStore.entities[id],
-              ...post
-            };
+            PostStore.entities[id] = { ...PostStore.entities[id], ...post };
           })
           .catch(err => {
             PostStore.loading[id] = false;
-            PostStore.entities[id] = {
-              ...PostStore.entities[id],
-              ...post
-            };
+            PostStore.entities[id] = { ...PostStore.entities[id], ...post };
           });
       })
       .catch(err => {

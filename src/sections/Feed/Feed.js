@@ -17,7 +17,9 @@ import Dropdown from "../../components/Dropdown";
 import Icon from "../../components/Icon";
 import FeedLoading from "./FeedLoading";
 
-const Wrapper = styled.div`margin-bottom: 40px;`;
+const Wrapper = styled.div`
+  margin-bottom: 40px;
+`;
 const Container = styled.div`
   width: 600px;
   margin: 0 auto;
@@ -53,7 +55,7 @@ const LoadMoreWrapper = styled.div`
   text-align: center;
 `;
 const FollowButton = styled(Button)`
-  width: 100px;
+  width: 110px;
   height: 35px;
   font-size: 14px;
   display: flex;
@@ -80,6 +82,7 @@ const DropItem = styled.div`
   color: #777;
   font-weight: bold;
   cursor: pointer;
+  letter-spacing: 0;
   &:hover {
     background: #deebff;
     color: #333;
@@ -197,15 +200,15 @@ class Feed extends Component {
                             onClick={this.onClickUnfollow}
                             disabled={followLoading}
                             onMouseEnter={e =>
-                              this.setState({ followText: "Unfollow?" })}
+                              this.setState({ followText: "Unfollow?" })
+                            }
                             onMouseLeave={e =>
-                              this.setState({ followText: "Followed ✓" })}
+                              this.setState({ followText: "Followed ✓" })
+                            }
                           >
-                            {followLoading ? (
-                              "Loading..."
-                            ) : (
-                              this.state.followText
-                            )}
+                            {followLoading
+                              ? "Loading..."
+                              : this.state.followText}
                           </FollowButton>
                         ))}
                       <Dropdown

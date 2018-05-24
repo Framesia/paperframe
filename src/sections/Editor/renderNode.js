@@ -10,6 +10,7 @@ const renderNode = props => {
   if (firstChar === "'" || firstChar === "‘") {
     HangingSingle = <span className="hanging-single" />;
   }
+  console.log(props.node.type);
   switch (props.node.type) {
     case "code-block":
       return (
@@ -152,7 +153,7 @@ const renderNode = props => {
     //   return <figcaption {...props.attributes}>{props.children}</figcaption>;
     // }
     case "divider":
-      return <hr />;
+      return <hr {...props.attributes} />;
     case "center":
       return <center {...props.attributes}>{props.children}</center>;
     case "table":
@@ -166,7 +167,7 @@ const renderNode = props => {
     case "table-cell":
       return <td {...props.attributes}>{props.children}</td>;
     default:
-      return "";
+      return <span {...props.attributes} />;
   }
 };
 
