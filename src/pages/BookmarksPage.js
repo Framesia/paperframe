@@ -38,7 +38,9 @@ const Bookmark = styled.div`
   /* align-items: center; */
 `;
 
-const Title = styled.h2`font-family: "Josefin Slab", serif;`;
+const Title = styled.h2`
+  font-family: "Josefin Slab", serif;
+`;
 
 const Ava = styled.img`
   width: 36px;
@@ -53,7 +55,9 @@ const Username = styled.div`
   font-weight: bold;
   opacity: 0.7;
 `;
-const Content = styled.div`flex: 1;`;
+const Content = styled.div`
+  flex: 1;
+`;
 
 const ActionWrapper = styled.div`
   display: flex;
@@ -112,14 +116,14 @@ class BookmarksPage extends Component {
             </Content>
           </Bookmark>
         )}
-        {bookmarks.map(bookmark => {
+        {bookmarks.map((bookmark, i) => {
           const data = PostStore.selectPostById(bookmark);
           const [author, permlink] = bookmark.split("/");
           if (!bookmark) {
             return null;
           }
           return (
-            <Link to={`/@${author}/${permlink}`}>
+            <Link to={`/@${author}/${permlink}`} key={i}>
               <Bookmark>
                 <Ava
                   src={`https://steemitimages.com/u/${author}/avatar/small`}
@@ -130,9 +134,9 @@ class BookmarksPage extends Component {
                   <p>{sentenceCase(permlink)}</p>
                 </Content>
                 <ActionWrapper
-                  className={`action-wrapper ${AuthStore.me.user
-                    ? "show"
-                    : "hide"}`}
+                  className={`action-wrapper ${
+                    AuthStore.me.user ? "show" : "hide"
+                  }`}
                 >
                   <Action
                     className={`bookmark-active ${data.bookmarkLoading &&

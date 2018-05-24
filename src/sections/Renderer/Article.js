@@ -107,22 +107,30 @@ class Article extends Component {
   state = {
     // value: ""
     showActions: true,
-    codeHasBeenRendered: false
+    codeHasBeenRendered: false,
+    prevScrollY: 0
+  };
+  prevScrollY = 0;
+  scrollHandler = () => {
+    const { scrollY } = window;
+    if (this.prevScrollY >= scrollY || scrollY <= 60) {
+      this.setState({ showActions: true });
+    } else {
+      this.setState({ showActions: false });
+    }
+    this.prevScrollY = scrollY;
   };
   componentDidMount() {
     const { author, permlink } = this.props.params;
 
     PostStore.getContent({ author, permlink });
-    let prevScrollY = 0;
-    window.addEventListener("scroll", e => {
-      const { scrollY } = window;
-      if (prevScrollY >= scrollY || scrollY <= 60) {
-        this.setState({ showActions: true });
-      } else {
-        this.setState({ showActions: false });
-      }
-      prevScrollY = scrollY;
-    });
+    this.prevScrollY = 0;
+    window.addEventListener("scroll", this.scrollHandler);
+  }
+
+  componentWillUnmount() {
+    console.log("will unmount");
+    window.removeEventListener("scroll", this.scrollHandler);
   }
 
   highlightCode() {
