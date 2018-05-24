@@ -22,6 +22,20 @@ const Wrapper = styled.div`
     right: ${({ show }) => (show ? "20px" : "-120px")};
   }
 `;
+const ArticleFooter = styled.div`
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+`;
+const ActionWrap = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+`;
+const Count = styled.div`
+  color: #999;
+  cursor: pointer;
+`;
 const Action = styled.button`
   cursor: pointer;
   width: 40px;
@@ -76,7 +90,71 @@ class ActionWrapper extends Component {
     BookmarkStore.unBookmark({ author: data.author, permlink: data.permlink });
   };
   render() {
-    const { data, show } = this.props;
+    const { data, show, type } = this.props;
+    if (type === "article-footer") {
+      return (
+        <ArticleFooter>
+          <ActionWrap>
+            {data.isVoted ? (
+              <React.Fragment>
+                <Action
+                  className={`love-active ${data.voteLoading && "loading"}`}
+                  disabled={data.voteLoading}
+                  onClick={() => this.unvotePost(data)}
+                >
+                  <Icon type="love" />
+                </Action>
+                <Count
+                  disabled={data.voteLoading}
+                  onClick={() => this.unvotePost(data)}
+                >
+                  {data.net_votes}
+                </Count>
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Action
+                  className={`${data.voteLoading && "loading"}`}
+                  disabled={data.voteLoading}
+                  onClick={() => this.votePost(data)}
+                >
+                  <Icon type="love-border" />
+                </Action>
+                <Count
+                  onClick={() => this.votePost(data)}
+                  disabled={data.voteLoading}
+                >
+                  {data.net_votes}
+                </Count>
+              </React.Fragment>
+            )}
+          </ActionWrap>
+          <ActionWrap>
+            <Action>
+              <Icon type="comment-border" />
+            </Action>
+            <Count>{data.children}</Count>
+          </ActionWrap>
+          {data.isBookmarked ? (
+            <Action
+              className={`bookmark-active ${data.bookmarkLoading && "loading"}`}
+              disabled={data.bookmarkLoading}
+              onClick={() => this.unBookmarkPost(data)}
+            >
+              <Icon type="bookmark" />
+            </Action>
+          ) : (
+            <Action
+              className={`${data.bookmarkLoading && "loading"}`}
+              disabled={data.bookmarkLoading}
+              onClick={() => this.bookmarkPost(data)}
+            >
+              <Icon type="bookmark-border" />
+            </Action>
+          )}
+        </ArticleFooter>
+      );
+    }
     return (
       <Wrapper show={show}>
         {data.isVoted ? (

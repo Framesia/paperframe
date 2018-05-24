@@ -29,6 +29,8 @@ import "prismjs/components/prism-ruby";
 import "prismjs/components/prism-go";
 import "prismjs/components/prism-php";
 
+import Icon from "../../components/Icon";
+
 import detectLang from "../../utils/detectLang";
 import getDollars from "../../utils/getDollars";
 import typograph from "../../utils/typograph";
@@ -38,7 +40,7 @@ loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
 
 const Header = styled.div`
   display: flex;
-  padding: 0 20px;
+  padding: 0 10px;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -93,15 +95,22 @@ const Right = styled.div`
   align-items: center;
 `;
 const TagWrapper = styled.div`
-  padding: 10px;
-  padding-bottom: 30px;
-  padding-top: 20px;
-  border-top: solid 1px #ddd;
+  padding: 20px 10px;
+  border-bottom: solid 1px #ddd;
+  margin-bottom: 20px;
 `;
 const Tag = styled.button`
   padding: 5px 10px;
 `;
-const Footer = styled.div``;
+const Footer = styled.div`
+  border-top: solid 1px #ddd;
+  display: flex;
+  padding: 20px 10px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: #fff;
+`;
 
 class Article extends Component {
   state = {
@@ -235,6 +244,31 @@ class Article extends Component {
             </React.Fragment>
           )}
         </div>
+
+        <ActionWrapper type="article-footer" data={post} />
+
+        <Footer>
+          <User>
+            <Link to={`/@${post.author}`}>
+              <Ava
+                src={`https://steemitimages.com/u/${post.author}/avatar/small`}
+                onLoad={e => e.target.classList.add("loaded")}
+              />
+            </Link>
+            <Username>
+              <Link to={`/@${post.author}`}>{post.author}</Link>
+              <Earning>${getDollars(post)}</Earning>
+            </Username>
+          </User>
+
+          <Right>
+            <Time>{getDateString(post.created)}</Time>
+            <Link to={`/tag/${post.category}`}>
+              <Category>{post.category}</Category>
+            </Link>
+          </Right>
+        </Footer>
+
         <TagWrapper>
           {tags.map(tag => (
             <Link to={`/tag/${tag}/hot`} key={tag}>
@@ -242,7 +276,6 @@ class Article extends Component {
             </Link>
           ))}
         </TagWrapper>
-        <Footer />
       </div>
     );
   }

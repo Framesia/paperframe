@@ -151,8 +151,10 @@ const PostStore = store({
       PostStore.entities[id].voteLoading = true;
       if (weight > 0) {
         PostStore.entities[id].isVoted = true;
+        PostStore.entities[id].net_votes++;
       } else {
         PostStore.entities[id].isVoted = false;
+        PostStore.entities[id].net_votes--;
       }
       api.vote(voter, author, permlink, weight, (err, res) => {
         if (!err) {
