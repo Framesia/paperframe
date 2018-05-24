@@ -19,11 +19,22 @@ const CommentStore = store({
       const comments = data.content;
       const users = data.account;
       Object.keys(comments).forEach(commentId => {
+        const comment = comments[commentId];
         if (commentId !== postId) {
-          CommentStore.data[postId][commentId] = comments[commentId];
+          const parentId = `${comment.parent_author}/${
+            comment.parent_permlink
+          }`;
+          if (!CommentStore.data[parentId]) {
+            CommentStore.data[parentId] = {};
+          }
+          CommentStore.data[parentId][commentId] = comment;
         }
       });
     });
+  },
+  selectComments({ author, permlink, sortBy }) {
+    const postId = `${author}/${permlink}`;
+    return CommentStore.data[postId] || [];
   }
 });
 

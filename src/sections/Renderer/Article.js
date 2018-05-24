@@ -34,7 +34,7 @@ import Icon from "../../components/Icon";
 import detectLang from "../../utils/detectLang";
 import getDollars from "../../utils/getDollars";
 import typograph from "../../utils/typograph";
-import Comments from "./Comments";
+import ArticleComments from "./ArticleComments";
 
 var loadLanguages = require("prismjs/components/index.js");
 loadLanguages(["c", "cpp", "python", "java", "ruby", "go", "php"]);
@@ -277,7 +277,7 @@ class Article extends Component {
             </Link>
           ))}
         </TagWrapper>
-        <Comments post={post} />
+        <ArticleComments post={post} />
       </div>
     );
   }
