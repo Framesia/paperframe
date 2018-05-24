@@ -213,8 +213,15 @@ class Card extends Component {
     }
     return "";
   }
-  getDollars(sbd) {
-    return parseFloat(sbd.split(" ")[0]).toFixed(2);
+  getDollars(data) {
+    const pendingPayout = data.pending_payout_value.split(" ")[0] * 1;
+    if (pendingPayout) {
+      return parseFloat(pendingPayout).toFixed(2);
+    } else {
+      const authorPayout = data.total_payout_value.split(" ")[0] * 1;
+      const curatorPayout = data.curator_payout_value.split(" ")[0] * 1;
+      return parseFloat(authorPayout + curatorPayout).toFixed(2);
+    }
   }
   typograph(text) {
     return text
@@ -259,7 +266,7 @@ class Card extends Component {
               <Link to={`/@${data.author}`}>
                 <Username>{data.author}</Username>
               </Link>
-              <Earning>${this.getDollars(data.pending_payout_value)}</Earning>
+              <Earning>${this.getDollars(data)}</Earning>
             </UserRight>
             <ActionWrapper
               className={`action-wrapper ${
