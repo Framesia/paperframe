@@ -18,9 +18,7 @@ const CommentWrapper = styled.div`
     padding: 0;
   }
 `;
-const Head = styled.div`
-  padding: 10px 15px;
-`;
+const Head = styled.div`padding: 10px 15px;`;
 const Content = styled.div`
   padding: 0 15px;
   p {
@@ -79,22 +77,33 @@ class Comments extends Component {
   }
 
   scrollEvent = e => {
-    const { category, author, permlink, children } = this.props.post;
+    const { category, author, permlink, children, body } = this.props.post;
     var d = document.documentElement;
     var offset = d.scrollTop + window.innerHeight;
     var height = d.offsetHeight;
 
-    if (offset >= height - 100) {
+    if (offset >= height - 100 && body.length > 2) {
       if (!this.state.commentsHasBeenLoaded) {
-        CommentStore.getComments({ category, author, permlink });
-        this.setState({ commentsHasBeenLoaded: true });
+        const comments = CommentStore.selectComments({ author, permlink });
+        if (!comments.length) {
+          CommentStore.getComments({ category, author, permlink });
+          this.setState({ commentsHasBeenLoaded: true });
+        }
       }
     }
   };
 
   renderCommentLists = (comments, root) => {
     if (comments.length === 0) {
-      return null;
+      return (
+        <CommentWrapper root>
+          <center>
+            <div style={{ padding: 20 }}>
+              There's no comment, be first to comment
+            </div>
+          </center>
+        </CommentWrapper>
+      );
     }
     return comments.map(comment => {
       if (!comment) {
@@ -118,9 +127,7 @@ class Comments extends Component {
             <User>
               <Link to={`/@${comment.author}`}>
                 <Ava
-                  src={`https://steemitimages.com/u/${
-                    comment.author
-                  }/avatar/small`}
+                  src={`https://steemitimages.com/u/${comment.author}/avatar/small`}
                   onLoad={e => e.target.classList.add("loaded")}
                 />
               </Link>
@@ -156,11 +163,11 @@ class Comments extends Component {
     const rootComments = CommentStore.selectComments({ author, permlink });
     const loading = CommentStore.selectLoading({ author, permlink });
 
-    if (loading) {
-      return <Loader />;
-    }
-
-    return <div>{this.renderCommentLists(rootComments, true)}</div>;
+    return (
+      <div>
+        {loading ? <Loader /> : this.renderCommentLists(rootComments, true)}
+      </div>
+    );
   }
 }
 
