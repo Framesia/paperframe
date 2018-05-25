@@ -8,33 +8,102 @@ import AuthStore from "./Auth";
 import root from "window-or-global";
 
 const CommentStore = store({
-  data: {},
+  tree: {},
+
+  entities: {},
+
+  loading: {},
 
   getComments({ category, author, permlink }) {
     const postId = `${author}/${permlink}`;
-    if (!CommentStore.data[postId]) {
-      CommentStore.data[postId] = {};
+    if (!CommentStore.tree[postId]) {
+      CommentStore.tree[postId] = [];
     }
+    CommentStore.loading[postId] = true;
     steemApi.getComments({ category, author, permlink }).then(data => {
       const comments = data.content;
       const users = data.account;
+
+      let allImageInComments = {};
+
       Object.keys(comments).forEach(commentId => {
         const comment = comments[commentId];
+        try {
+          comment.json_metadata = JSON.parse(comment.json_metadata);
+        } catch (e) {}
+
         if (commentId !== postId) {
+          // get all images
+          const imageRegex = /https?:\/\/(?:[-a-zA-Z0-9._]*[-a-zA-Z0-9])(?::\d{2,5})?(?:[/?#](?:[^\s"'<>\][()]*[^\s"'<>\][().,])?(?:(?:\.(?:tiff?|jpe?g|gif|png|svg|ico)|ipfs\/[a-z\d]{40,})))(\?[-a-zA-Z0-9=&]+)?/gi;
+          allImageInComments[commentId] = [];
+
+          comment.body.replace(imageRegex, img => {
+            allImageInComments[commentId].push(img);
+            // comment.imageSizes = [...img];
+          });
+
           const parentId = `${comment.parent_author}/${
             comment.parent_permlink
           }`;
-          if (!CommentStore.data[parentId]) {
-            CommentStore.data[parentId] = {};
+
+          if (!CommentStore.tree[parentId]) {
+            CommentStore.tree[parentId] = [];
           }
-          CommentStore.data[parentId][commentId] = comment;
+          CommentStore.tree[parentId].push(commentId);
+          CommentStore.entities[commentId] = comment;
         }
       });
+
+      // flatten
+      let image = [];
+      Object.keys(allImageInComments).forEach(id => {
+        const imgs = allImageInComments[id];
+        imgs.forEach(img => image.push(img));
+      });
+      if (image.length) {
+        axios
+          .get("https://frms-image-size.herokuapp.com/", {
+            params: {
+              image
+            }
+          })
+          .then(({ data }) => {
+            if (data.result) {
+              data.result.forEach(res => {
+                Object.keys(allImageInComments).forEach(id => {
+                  // CommentStore.data[id].imageSizes = [];
+                  const imgs = allImageInComments[id];
+                  imgs.forEach(img => {
+                    if (res.img === img) {
+                      if (!CommentStore.entities[id].imageSizes) {
+                        CommentStore.entities[id].imageSizes = [];
+                      }
+                      CommentStore.entities[id].imageSizes.push(res);
+                      CommentStore.loading[postId] = false;
+                    }
+                  });
+                });
+              });
+            }
+          })
+          .catch(e => {
+            CommentStore.loading[postId] = false;
+          });
+      } else {
+        CommentStore.loading[postId] = false;
+      }
     });
   },
+
   selectComments({ author, permlink, sortBy }) {
     const postId = `${author}/${permlink}`;
-    return CommentStore.data[postId] || [];
+
+    const tree = CommentStore.tree[postId] || [];
+    return tree.map(id => CommentStore.entities[id]);
+  },
+  selectLoading({ author, permlink }) {
+    const postId = `${author}/${permlink}`;
+    return CommentStore.loading[postId];
   }
 });
 

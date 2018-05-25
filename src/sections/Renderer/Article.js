@@ -139,27 +139,28 @@ class Article extends Component {
   }
 
   componentWillUnmount() {
-    console.log("will unmount");
     window.removeEventListener("scroll", this.scrollHandler);
   }
 
   highlightCode() {
     setTimeout(() => {
-      const pres = Array.from(root.document.querySelectorAll("pre code")).map(
-        code => {
-          const text = code.innerText;
-          let lang = detectLang(text).toLowerCase();
-          if (lang === "unknown") {
-            lang = "";
+      try {
+        const pres = Array.from(root.document.querySelectorAll("pre code")).map(
+          code => {
+            const text = code.innerText;
+            let lang = detectLang(text).toLowerCase();
+            if (lang === "unknown") {
+              lang = "";
+            }
+            if (lang === "c++") {
+              lang = "cpp";
+            }
+            const html = Prism.highlight(text, Prism.languages[lang], lang);
+            code.innerHTML = html;
           }
-          if (lang === "c++") {
-            lang = "cpp";
-          }
-          const html = Prism.highlight(text, Prism.languages[lang], lang);
-          code.innerHTML = html;
-        }
-      );
-      this.setState({ codeHasBeenRendered: true });
+        );
+        this.setState({ codeHasBeenRendered: true });
+      } catch (e) {}
     }, 50);
   }
 

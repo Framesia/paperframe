@@ -121,21 +121,26 @@ const PostStore = store({
             image.push(img);
           }
         });
-        axios
-          .get("https://frms-image-size.herokuapp.com/", {
-            params: {
-              image
-            }
-          })
-          .then(({ data }) => {
-            PostStore.loading[id] = false;
-            post.imageSizes = data.result;
-            PostStore.entities[id] = { ...PostStore.entities[id], ...post };
-          })
-          .catch(err => {
-            PostStore.loading[id] = false;
-            PostStore.entities[id] = { ...PostStore.entities[id], ...post };
-          });
+        if (image.length) {
+          axios
+            .get("https://frms-image-size.herokuapp.com/", {
+              params: {
+                image
+              }
+            })
+            .then(({ data }) => {
+              PostStore.loading[id] = false;
+              post.imageSizes = data.result;
+              PostStore.entities[id] = { ...PostStore.entities[id], ...post };
+            })
+            .catch(err => {
+              PostStore.loading[id] = false;
+              PostStore.entities[id] = { ...PostStore.entities[id], ...post };
+            });
+        } else {
+          PostStore.loading[id] = false;
+          PostStore.entities[id] = { ...PostStore.entities[id], ...post };
+        }
       })
       .catch(err => {
         PostStore.loading[id] = false;

@@ -120,11 +120,11 @@ const renderToHTML = data => {
     const imgElString = () => `<figure
         class="${isWide ? "is-wide" : ""}"
         style="
-          max-width:${width ? width + "px" : "auto"};"
-          max-height:${height ? height + "px" : "auto"};
+          max-width:${width ? width + "px" : "100%"};"
+          max-height:${height ? height + "px" : "300px"};
       >
         <div class="fill" style="padding-bottom:${
-          aspectRatio !== 0 ? aspectRatio * 100 : 0
+          aspectRatio !== 0 ? aspectRatio * 100 : 50
         }%"></div>
         <img
           class="small"
