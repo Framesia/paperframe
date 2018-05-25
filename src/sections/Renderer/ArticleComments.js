@@ -7,7 +7,11 @@ import renderToHTML from "../Renderer/renderToHTML";
 import { Link } from "react-router-dom";
 
 import getDollars from "../../utils/getDollars";
+import getDateString from "../../utils/getDateString";
+
 import Loader from "../../components/Loader";
+
+import ActionWrapper from "./ActionWrapper";
 
 const CommentWrapper = styled.div`
   border: solid ${({ root }) => (root ? 1 : 0)}px #ddd;
@@ -18,7 +22,12 @@ const CommentWrapper = styled.div`
     padding: 0;
   }
 `;
-const Head = styled.div`padding: 10px 15px;`;
+const Head = styled.div`
+  padding: 10px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 const Content = styled.div`
   padding: 0 15px;
   p {
@@ -26,6 +35,11 @@ const Content = styled.div`
   }
   blockquote p {
     font-size: 24px;
+  }
+  figure.is-wide {
+    width: auto;
+    max-width: auto;
+    margin-left: 0;
   }
 `;
 const Ava = styled.img`
@@ -59,6 +73,11 @@ const Earning = styled.div`
   opacity: 0.7;
   font-style: italic;
   padding-top: 1px;
+`;
+const Time = styled.div`
+  margin-right: 10px;
+  font-size: 12px;
+  font-style: italic;
 `;
 class Comments extends Component {
   state = {
@@ -138,11 +157,13 @@ class Comments extends Component {
                 <Earning>${getDollars(comment)}</Earning>
               </UserRight>
             </User>
+            <Time>{getDateString(comment.created)}</Time>
           </Head>
           <Content>
             <div className="article">
               <div dangerouslySetInnerHTML={{ __html: renderToHTML(data) }} />
             </div>
+            <ActionWrapper type="comment-footer" data={comment} />
           </Content>
           {hasSubcomment && (
             <div>
@@ -166,6 +187,7 @@ class Comments extends Component {
     return (
       <div>
         {loading ? <Loader /> : this.renderCommentLists(rootComments, true)}
+        <hr />
       </div>
     );
   }

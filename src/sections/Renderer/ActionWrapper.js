@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import PostStore from "../../stores/Post";
+import CommentStore from "../../stores/Comment";
 import BookmarkStore from "../../stores/Bookmark";
 
 import Icon from "../../components/Icon";
@@ -38,8 +39,8 @@ const Count = styled.div`
 `;
 const Action = styled.button`
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: ${({ small }) => (small ? 32 : 40)}px;
+  height: ${({ small }) => (small ? 32 : 40)}px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,7 +48,7 @@ const Action = styled.button`
   background: #fff;
   border: solid 1px #eee;
   color: #999;
-  font-size: 16px;
+  font-size: ${({ small }) => (small ? 14 : 16)}px;
   margin: 5px;
 
   &:hover {
@@ -69,19 +70,35 @@ const Action = styled.button`
 `;
 
 class ActionWrapper extends Component {
-  votePost = data => {
-    PostStore.votePost({
-      author: data.author,
-      permlink: data.permlink,
-      weight: 10000
-    });
+  votePost = (data, isComment) => {
+    if (isComment) {
+      CommentStore.votePost({
+        author: data.author,
+        permlink: data.permlink,
+        weight: 10000
+      });
+    } else {
+      PostStore.votePost({
+        author: data.author,
+        permlink: data.permlink,
+        weight: 10000
+      });
+    }
   };
-  unvotePost = data => {
-    PostStore.votePost({
-      author: data.author,
-      permlink: data.permlink,
-      weight: 0
-    });
+  unvotePost = (data, isComment) => {
+    if (isComment) {
+      CommentStore.votePost({
+        author: data.author,
+        permlink: data.permlink,
+        weight: 0
+      });
+    } else {
+      PostStore.votePost({
+        author: data.author,
+        permlink: data.permlink,
+        weight: 0
+      });
+    }
   };
   bookmarkPost = data => {
     BookmarkStore.bookmark({ author: data.author, permlink: data.permlink });
@@ -91,6 +108,47 @@ class ActionWrapper extends Component {
   };
   render() {
     const { data, show, type } = this.props;
+    if (type === "comment-footer") {
+      return (
+        <ArticleFooter>
+          {data.isVoted ? (
+            <React.Fragment>
+              <Action
+                className={`love-active ${data.voteLoading && "loading"}`}
+                disabled={data.voteLoading}
+                small
+                onClick={() => this.unvotePost(data, true)}
+              >
+                <Icon type="love" />
+              </Action>
+              <Count
+                disabled={data.voteLoading}
+                onClick={() => this.unvotePost(data, true)}
+              >
+                {data.net_votes}
+              </Count>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Action
+                className={`${data.voteLoading && "loading"}`}
+                disabled={data.voteLoading}
+                small
+                onClick={() => this.votePost(data, true)}
+              >
+                <Icon type="love-border" />
+              </Action>
+              <Count
+                onClick={() => this.votePost(data, true)}
+                disabled={data.voteLoading}
+              >
+                {data.net_votes}
+              </Count>
+            </React.Fragment>
+          )}
+        </ArticleFooter>
+      );
+    }
     if (type === "article-footer") {
       return (
         <ArticleFooter>

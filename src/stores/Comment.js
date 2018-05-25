@@ -44,6 +44,14 @@ const CommentStore = store({
 
           const parentId = `${comment.parent_author}/${comment.parent_permlink}`;
 
+          if (AuthStore.isLogin) {
+            comment.active_votes.forEach(vote => {
+              if (vote.voter === AuthStore.me.user && vote.percent > 0) {
+                comment.isVoted = true;
+              }
+            });
+          }
+
           if (!CommentStore.tree[parentId]) {
             CommentStore.tree[parentId] = [];
           }
@@ -91,6 +99,27 @@ const CommentStore = store({
         CommentStore.loading[postId] = false;
       }
     });
+  },
+
+  votePost({ author, permlink, weight = 10000 }) {
+    const api = steemconnect();
+    const voter = AuthStore.me.user;
+    if (AuthStore.isLogin) {
+      const id = `${author}/${permlink}`;
+      CommentStore.entities[id].voteLoading = true;
+      if (weight > 0) {
+        CommentStore.entities[id].isVoted = true;
+        CommentStore.entities[id].net_votes++;
+      } else {
+        CommentStore.entities[id].isVoted = false;
+        CommentStore.entities[id].net_votes--;
+      }
+      api.vote(voter, author, permlink, weight, (err, res) => {
+        if (!err) {
+          CommentStore.entities[id].voteLoading = false;
+        }
+      });
+    }
   },
 
   selectComments({ author, permlink, sortBy }) {
