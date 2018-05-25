@@ -42,9 +42,7 @@ const CommentStore = store({
             // comment.imageSizes = [...img];
           });
 
-          const parentId = `${comment.parent_author}/${
-            comment.parent_permlink
-          }`;
+          const parentId = `${comment.parent_author}/${comment.parent_permlink}`;
 
           if (!CommentStore.tree[parentId]) {
             CommentStore.tree[parentId] = [];
@@ -62,7 +60,7 @@ const CommentStore = store({
       });
       if (image.length) {
         axios
-          .get("https://frms-image-size.herokuapp.com/", {
+          .get("https://image-size-api.glitch.me/", {
             params: {
               image
             }

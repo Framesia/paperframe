@@ -123,7 +123,7 @@ const PostStore = store({
         });
         if (image.length) {
           axios
-            .get("https://frms-image-size.herokuapp.com/", {
+            .get("https://image-size-api.glitch.me/", {
               params: {
                 image
               }
