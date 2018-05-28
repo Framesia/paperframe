@@ -154,44 +154,43 @@ export default class EditorApp extends React.Component {
   };
   onChange = ({ value }) => {
     // const { value } = this.state;
-    const regex = /[A-Z]{2,}/g;
-    const texts = value.document.getTexts();
-    const decorations = [];
+    // const regex = /[A-Z]{2,}/g;
+    // const texts = value.document.getTexts();
+    // const decorations = [];
 
-    texts.forEach(node => {
-      const { key, text } = node;
-      const parts = text.split(regex);
-      let offset = 0;
-      const matches = text.match(regex);
-      // console.log(matches);
-      if (matches) {
-        parts.forEach((part, i) => {
-          // console.log(parts, matches);
-          if (i != 0) {
-            decorations.push({
-              anchorKey: key,
-              anchorOffset: offset,
-              focusKey: key,
-              focusOffset: offset + matches[i - 1].length,
-              marks: [{ type: "small-caps" }]
-            });
-            offset = offset + part.length + matches[i - 1].length;
-          } else {
-            offset = offset + part.length;
-          }
-        });
-      }
-      // root.localStorage.setItem(
-      //   "article-draft-body",
-      //   serializer.serialize(value)
-      // );
-    });
+    // texts.forEach(node => {
+    //   const { key, text } = node;
+    //   const parts = text.split(regex);
+    //   let offset = 0;
+    //   const matches = text.match(regex);
+    //   // console.log(matches);
+    //   if (matches) {
+    //     parts.forEach((part, i) => {
+    //       // console.log(parts, matches);
+    //       if (i != 0) {
+    //         decorations.push({
+    //           anchorKey: key,
+    //           anchorOffset: offset,
+    //           focusKey: key,
+    //           focusOffset: offset + matches[i - 1].length,
+    //           marks: [{ type: "small-caps" }]
+    //         });
+    //         offset = offset + part.length + matches[i - 1].length;
+    //       } else {
+    //         offset = offset + part.length;
+    //       }
+    //     });
+    //   }
+    // });
+    root.localStorage.setItem(
+      "article-draft-body",
+      serializer.serialize(value)
+    );
 
-    const change = value
-      .change()
-      .setOperationFlag("save", false)
-      .setValue({ decorations })
-      .setOperationFlag("save", true);
+    const change = value.change();
+    //   .setOperationFlag("save", false)
+    //   .setValue({ decorations })
+    //   .setOperationFlag("save", true);
 
     this.setState({ value: change.value });
   };
